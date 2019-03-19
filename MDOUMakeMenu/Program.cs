@@ -16,7 +16,7 @@ namespace MDOUMakeMenu
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Menu());
+            Application.Run(new LoginIn(new System.Drawing.Point(0,0)));
         }
     }
 }

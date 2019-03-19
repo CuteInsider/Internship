@@ -92,6 +92,7 @@
             this.linkChildren.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.linkChildren.AutoSize = true;
             this.linkChildren.DisabledLinkColor = System.Drawing.Color.Gray;
+            this.linkChildren.Enabled = false;
             this.linkChildren.ForeColor = System.Drawing.Color.White;
             this.linkChildren.LinkColor = System.Drawing.Color.White;
             this.linkChildren.Location = new System.Drawing.Point(522, 26);
@@ -107,12 +108,13 @@
             this.btnEnter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEnter.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEnter.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnEnter.Location = new System.Drawing.Point(722, 20);
+            this.btnEnter.Location = new System.Drawing.Point(687, 20);
             this.btnEnter.Name = "btnEnter";
-            this.btnEnter.Size = new System.Drawing.Size(100, 35);
+            this.btnEnter.Size = new System.Drawing.Size(135, 35);
             this.btnEnter.TabIndex = 0;
-            this.btnEnter.Text = "Войти";
+            this.btnEnter.Text = "Настройки";
             this.btnEnter.UseVisualStyleBackColor = true;
+            this.btnEnter.Click += new System.EventHandler(this.btnEnter_Click);
             // 
             // panel2
             // 

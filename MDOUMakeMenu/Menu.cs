@@ -20,16 +20,15 @@ namespace MDOUMakeMenu
 
         private void btnEnter_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            LoginIn lForm = new LoginIn(Location);
-            lForm.Show();
+            Close();
+            Application.OpenForms[0].Show();
         }
 
         private void linkIngredients_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Close();
-            Menu CForm = new Menu(Location);
-            CForm.Show();
+            Dish DForm = new Dish(Location);
+            DForm.Show();
         }
 
         private void linkChildren_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

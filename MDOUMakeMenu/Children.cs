@@ -16,7 +16,6 @@ namespace MDOUMakeMenu
         {
             InitializeComponent();
             this.Location = Location;
-
         }
 
         private void linkMenu_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -29,8 +28,14 @@ namespace MDOUMakeMenu
         private void linkIngredients_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Close();
-            Dish CForm = new Dish(Location);
-            CForm.Show();
+            Dish DForm = new Dish(Location);
+            DForm.Show();
+        }
+
+        private void btnEnter_Click(object sender, EventArgs e)
+        {
+            Close();
+            Application.OpenForms[0].Show();
         }
     }
 }

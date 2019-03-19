@@ -76,6 +76,7 @@
             this.linkMenu.TabStop = true;
             this.linkMenu.Text = "Меню";
             this.linkMenu.VisitedLinkColor = System.Drawing.Color.White;
+            this.linkMenu.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkMenu_LinkClicked);
             // 
             // linkIngredients
             // 
@@ -93,6 +94,7 @@
             this.linkIngredients.TabStop = true;
             this.linkIngredients.Text = "Блюда";
             this.linkIngredients.VisitedLinkColor = System.Drawing.Color.White;
+            this.linkIngredients.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkIngredients_LinkClicked);
             // 
             // linkChildren
             // 
@@ -109,6 +111,7 @@
             this.linkChildren.TabStop = true;
             this.linkChildren.Text = "Дети";
             this.linkChildren.VisitedLinkColor = System.Drawing.Color.White;
+            this.linkChildren.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkChildren_LinkClicked);
             // 
             // btnBack
             // 
@@ -121,6 +124,7 @@
             this.btnBack.TabIndex = 0;
             this.btnBack.Text = "Выход";
             this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // panel2
             // 
@@ -136,7 +140,7 @@
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(0, 78);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(0);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -148,7 +152,7 @@
             this.splitContainer1.Panel1.Controls.Add(this.lblLogin);
             this.splitContainer1.Panel1.Controls.Add(this.btnLoginIn);
             this.splitContainer1.Size = new System.Drawing.Size(834, 384);
-            this.splitContainer1.SplitterDistance = 412;
+            this.splitContainer1.SplitterDistance = 411;
             this.splitContainer1.SplitterWidth = 1;
             this.splitContainer1.TabIndex = 2;
             // 
@@ -156,7 +160,7 @@
             // 
             this.button1.Dock = System.Windows.Forms.DockStyle.Right;
             this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.Location = new System.Drawing.Point(392, 0);
+            this.button1.Location = new System.Drawing.Point(391, 0);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(20, 384);
             this.button1.TabIndex = 3;
@@ -169,14 +173,14 @@
             this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPassword.Location = new System.Drawing.Point(117, 209);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(160, 31);
+            this.txtPassword.Size = new System.Drawing.Size(159, 31);
             this.txtPassword.TabIndex = 2;
             // 
             // lblPassword
             // 
             this.lblPassword.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(119, 183);
+            this.lblPassword.Location = new System.Drawing.Point(118, 183);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(166, 23);
             this.lblPassword.TabIndex = 1;
@@ -187,14 +191,14 @@
             this.txtLogin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLogin.Location = new System.Drawing.Point(117, 92);
             this.txtLogin.Name = "txtLogin";
-            this.txtLogin.Size = new System.Drawing.Size(160, 31);
+            this.txtLogin.Size = new System.Drawing.Size(159, 31);
             this.txtLogin.TabIndex = 2;
             // 
             // lblLogin
             // 
             this.lblLogin.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblLogin.AutoSize = true;
-            this.lblLogin.Location = new System.Drawing.Point(119, 66);
+            this.lblLogin.Location = new System.Drawing.Point(118, 66);
             this.lblLogin.Name = "lblLogin";
             this.lblLogin.Size = new System.Drawing.Size(153, 23);
             this.lblLogin.TabIndex = 1;
@@ -203,7 +207,7 @@
             // btnLoginIn
             // 
             this.btnLoginIn.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnLoginIn.Location = new System.Drawing.Point(143, 299);
+            this.btnLoginIn.Location = new System.Drawing.Point(142, 299);
             this.btnLoginIn.Name = "btnLoginIn";
             this.btnLoginIn.Size = new System.Drawing.Size(100, 35);
             this.btnLoginIn.TabIndex = 0;
@@ -225,6 +229,7 @@
             this.Name = "LoginIn";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Меню";
+            this.Activated += new System.EventHandler(this.LoginIn_Activated);
             this.Load += new System.EventHandler(this.LoginIn_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

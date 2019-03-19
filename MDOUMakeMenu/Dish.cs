@@ -31,5 +31,11 @@ namespace MDOUMakeMenu
             Children CForm = new Children(Location);
             CForm.Show();
         }
+
+        private void btnEnter_Click(object sender, EventArgs e)
+        {
+            Close();
+            Application.OpenForms[0].Show();
+        }
     }
 }

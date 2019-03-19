@@ -33,7 +33,7 @@
             this.linkMenu = new System.Windows.Forms.LinkLabel();
             this.linkIngredients = new System.Windows.Forms.LinkLabel();
             this.linkChildren = new System.Windows.Forms.LinkLabel();
-            this.btnEnter = new System.Windows.Forms.Button();
+            this.btnSetup = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -44,7 +44,7 @@
             this.panel1.Controls.Add(this.linkMenu);
             this.panel1.Controls.Add(this.linkIngredients);
             this.panel1.Controls.Add(this.linkChildren);
-            this.panel1.Controls.Add(this.btnEnter);
+            this.panel1.Controls.Add(this.btnSetup);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
@@ -103,18 +103,18 @@
             this.linkChildren.VisitedLinkColor = System.Drawing.Color.White;
             this.linkChildren.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkChildren_LinkClicked);
             // 
-            // btnEnter
+            // btnSetup
             // 
-            this.btnEnter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEnter.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEnter.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnEnter.Location = new System.Drawing.Point(722, 20);
-            this.btnEnter.Name = "btnEnter";
-            this.btnEnter.Size = new System.Drawing.Size(100, 35);
-            this.btnEnter.TabIndex = 0;
-            this.btnEnter.Text = "Войти";
-            this.btnEnter.UseVisualStyleBackColor = true;
-            this.btnEnter.Click += new System.EventHandler(this.btnEnter_Click);
+            this.btnSetup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSetup.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSetup.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnSetup.Location = new System.Drawing.Point(688, 20);
+            this.btnSetup.Name = "btnSetup";
+            this.btnSetup.Size = new System.Drawing.Size(135, 35);
+            this.btnSetup.TabIndex = 0;
+            this.btnSetup.Text = "Настройки";
+            this.btnSetup.UseVisualStyleBackColor = true;
+            this.btnSetup.Click += new System.EventHandler(this.btnEnter_Click);
             // 
             // panel2
             // 
@@ -148,7 +148,7 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button btnEnter;
+        private System.Windows.Forms.Button btnSetup;
         private System.Windows.Forms.LinkLabel linkMenu;
         private System.Windows.Forms.LinkLabel linkIngredients;
         private System.Windows.Forms.LinkLabel linkChildren;
