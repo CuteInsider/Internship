@@ -1,6 +1,6 @@
 ﻿namespace MDOUMakeMenu
 {
-    partial class Menu
+    partial class Dish
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Menu));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dish));
             this.panel1 = new System.Windows.Forms.Panel();
             this.linkMenu = new System.Windows.Forms.LinkLabel();
             this.linkIngredients = new System.Windows.Forms.LinkLabel();
@@ -56,7 +56,6 @@
             this.linkMenu.ActiveLinkColor = System.Drawing.Color.White;
             this.linkMenu.AutoSize = true;
             this.linkMenu.DisabledLinkColor = System.Drawing.Color.Gray;
-            this.linkMenu.Enabled = false;
             this.linkMenu.ForeColor = System.Drawing.Color.White;
             this.linkMenu.LinkBehavior = System.Windows.Forms.LinkBehavior.AlwaysUnderline;
             this.linkMenu.LinkColor = System.Drawing.Color.White;
@@ -67,6 +66,7 @@
             this.linkMenu.TabStop = true;
             this.linkMenu.Text = "Меню";
             this.linkMenu.VisitedLinkColor = System.Drawing.Color.White;
+            this.linkMenu.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkMenu_LinkClicked);
             // 
             // linkIngredients
             // 
@@ -74,6 +74,7 @@
             this.linkIngredients.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.linkIngredients.AutoSize = true;
             this.linkIngredients.DisabledLinkColor = System.Drawing.Color.Gray;
+            this.linkIngredients.Enabled = false;
             this.linkIngredients.ForeColor = System.Drawing.Color.White;
             this.linkIngredients.LinkBehavior = System.Windows.Forms.LinkBehavior.AlwaysUnderline;
             this.linkIngredients.LinkColor = System.Drawing.Color.White;
@@ -84,7 +85,6 @@
             this.linkIngredients.TabStop = true;
             this.linkIngredients.Text = "Блюда";
             this.linkIngredients.VisitedLinkColor = System.Drawing.Color.White;
-            this.linkIngredients.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkIngredients_LinkClicked);
             // 
             // linkChildren
             // 
@@ -92,6 +92,7 @@
             this.linkChildren.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.linkChildren.AutoSize = true;
             this.linkChildren.DisabledLinkColor = System.Drawing.Color.Gray;
+            this.linkChildren.Enabled = false;
             this.linkChildren.ForeColor = System.Drawing.Color.White;
             this.linkChildren.LinkColor = System.Drawing.Color.White;
             this.linkChildren.Location = new System.Drawing.Point(522, 26);
@@ -114,7 +115,6 @@
             this.btnEnter.TabIndex = 0;
             this.btnEnter.Text = "Войти";
             this.btnEnter.UseVisualStyleBackColor = true;
-            this.btnEnter.Click += new System.EventHandler(this.btnEnter_Click);
             // 
             // panel2
             // 
@@ -125,7 +125,7 @@
             this.panel2.Size = new System.Drawing.Size(834, 3);
             this.panel2.TabIndex = 1;
             // 
-            // Menu
+            // Dish
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
@@ -136,7 +136,7 @@
             this.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(475, 500);
-            this.Name = "Menu";
+            this.Name = "Dish";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Меню";
             this.panel1.ResumeLayout(false);

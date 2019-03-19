@@ -1,6 +1,6 @@
 ﻿namespace MDOUMakeMenu
 {
-    partial class Menu
+    partial class Children
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Menu));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Children));
             this.panel1 = new System.Windows.Forms.Panel();
             this.linkMenu = new System.Windows.Forms.LinkLabel();
             this.linkIngredients = new System.Windows.Forms.LinkLabel();
@@ -56,7 +56,6 @@
             this.linkMenu.ActiveLinkColor = System.Drawing.Color.White;
             this.linkMenu.AutoSize = true;
             this.linkMenu.DisabledLinkColor = System.Drawing.Color.Gray;
-            this.linkMenu.Enabled = false;
             this.linkMenu.ForeColor = System.Drawing.Color.White;
             this.linkMenu.LinkBehavior = System.Windows.Forms.LinkBehavior.AlwaysUnderline;
             this.linkMenu.LinkColor = System.Drawing.Color.White;
@@ -67,6 +66,7 @@
             this.linkMenu.TabStop = true;
             this.linkMenu.Text = "Меню";
             this.linkMenu.VisitedLinkColor = System.Drawing.Color.White;
+            this.linkMenu.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkMenu_LinkClicked);
             // 
             // linkIngredients
             // 
@@ -101,7 +101,6 @@
             this.linkChildren.TabStop = true;
             this.linkChildren.Text = "Дети";
             this.linkChildren.VisitedLinkColor = System.Drawing.Color.White;
-            this.linkChildren.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkChildren_LinkClicked);
             // 
             // btnEnter
             // 
@@ -114,7 +113,6 @@
             this.btnEnter.TabIndex = 0;
             this.btnEnter.Text = "Войти";
             this.btnEnter.UseVisualStyleBackColor = true;
-            this.btnEnter.Click += new System.EventHandler(this.btnEnter_Click);
             // 
             // panel2
             // 
@@ -125,7 +123,7 @@
             this.panel2.Size = new System.Drawing.Size(834, 3);
             this.panel2.TabIndex = 1;
             // 
-            // Menu
+            // Children
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
@@ -136,7 +134,7 @@
             this.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(475, 500);
-            this.Name = "Menu";
+            this.Name = "Children";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Меню";
             this.panel1.ResumeLayout(false);
