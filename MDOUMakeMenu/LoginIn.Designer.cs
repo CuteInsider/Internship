@@ -213,6 +213,7 @@
             this.btnLoginIn.TabIndex = 0;
             this.btnLoginIn.Text = "Войти";
             this.btnLoginIn.UseVisualStyleBackColor = true;
+            this.btnLoginIn.Click += new System.EventHandler(this.btnLoginIn_Click);
             // 
             // LoginIn
             // 

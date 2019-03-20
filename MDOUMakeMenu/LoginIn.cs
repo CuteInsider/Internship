@@ -69,5 +69,12 @@ namespace MDOUMakeMenu
             this.Close();
         }
 
+        private void btnLoginIn_Click(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrWhiteSpace(txtLogin.Text) && !String.IsNullOrWhiteSpace(txtPassword.Text))
+            {
+
+            }
+        }
     }
 }
