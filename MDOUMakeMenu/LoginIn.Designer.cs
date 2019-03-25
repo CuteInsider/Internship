@@ -36,7 +36,9 @@
             this.btnBack = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.button1 = new System.Windows.Forms.Button();
+            this.lblErr = new System.Windows.Forms.Label();
+            this.lblHello = new System.Windows.Forms.Label();
+            this.btnSetup = new System.Windows.Forms.Button();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.lblPassword = new System.Windows.Forms.Label();
             this.txtLogin = new System.Windows.Forms.TextBox();
@@ -66,6 +68,7 @@
             this.linkMenu.ActiveLinkColor = System.Drawing.Color.White;
             this.linkMenu.AutoSize = true;
             this.linkMenu.DisabledLinkColor = System.Drawing.Color.Gray;
+            this.linkMenu.Enabled = false;
             this.linkMenu.ForeColor = System.Drawing.Color.White;
             this.linkMenu.LinkBehavior = System.Windows.Forms.LinkBehavior.AlwaysUnderline;
             this.linkMenu.LinkColor = System.Drawing.Color.White;
@@ -84,6 +87,7 @@
             this.linkIngredients.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.linkIngredients.AutoSize = true;
             this.linkIngredients.DisabledLinkColor = System.Drawing.Color.Gray;
+            this.linkIngredients.Enabled = false;
             this.linkIngredients.ForeColor = System.Drawing.Color.White;
             this.linkIngredients.LinkBehavior = System.Windows.Forms.LinkBehavior.AlwaysUnderline;
             this.linkIngredients.LinkColor = System.Drawing.Color.White;
@@ -102,6 +106,7 @@
             this.linkChildren.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.linkChildren.AutoSize = true;
             this.linkChildren.DisabledLinkColor = System.Drawing.Color.Gray;
+            this.linkChildren.Enabled = false;
             this.linkChildren.ForeColor = System.Drawing.Color.White;
             this.linkChildren.LinkColor = System.Drawing.Color.White;
             this.linkChildren.Location = new System.Drawing.Point(522, 26);
@@ -145,7 +150,9 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.button1);
+            this.splitContainer1.Panel1.Controls.Add(this.lblErr);
+            this.splitContainer1.Panel1.Controls.Add(this.lblHello);
+            this.splitContainer1.Panel1.Controls.Add(this.btnSetup);
             this.splitContainer1.Panel1.Controls.Add(this.txtPassword);
             this.splitContainer1.Panel1.Controls.Add(this.lblPassword);
             this.splitContainer1.Panel1.Controls.Add(this.txtLogin);
@@ -156,22 +163,48 @@
             this.splitContainer1.SplitterWidth = 1;
             this.splitContainer1.TabIndex = 2;
             // 
-            // button1
+            // lblErr
             // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.Location = new System.Drawing.Point(391, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(20, 384);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "<Настройки<";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.lblErr.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblErr.ForeColor = System.Drawing.Color.DarkRed;
+            this.lblErr.Location = new System.Drawing.Point(0, 351);
+            this.lblErr.Margin = new System.Windows.Forms.Padding(0);
+            this.lblErr.Name = "lblErr";
+            this.lblErr.Size = new System.Drawing.Size(391, 33);
+            this.lblErr.TabIndex = 5;
+            this.lblErr.Text = "-";
+            this.lblErr.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblErr.Visible = false;
+            // 
+            // lblHello
+            // 
+            this.lblHello.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblHello.Location = new System.Drawing.Point(0, 0);
+            this.lblHello.Margin = new System.Windows.Forms.Padding(0);
+            this.lblHello.Name = "lblHello";
+            this.lblHello.Size = new System.Drawing.Size(391, 23);
+            this.lblHello.TabIndex = 4;
+            this.lblHello.Text = "-";
+            this.lblHello.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lblHello.Visible = false;
+            // 
+            // btnSetup
+            // 
+            this.btnSetup.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnSetup.Enabled = false;
+            this.btnSetup.FlatAppearance.BorderSize = 0;
+            this.btnSetup.Location = new System.Drawing.Point(391, 0);
+            this.btnSetup.Name = "btnSetup";
+            this.btnSetup.Size = new System.Drawing.Size(20, 384);
+            this.btnSetup.TabIndex = 3;
+            this.btnSetup.Text = "<Настройки<";
+            this.btnSetup.UseVisualStyleBackColor = true;
+            this.btnSetup.Click += new System.EventHandler(this.btnSetup_Click);
             // 
             // txtPassword
             // 
             this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPassword.Location = new System.Drawing.Point(117, 209);
+            this.txtPassword.Location = new System.Drawing.Point(117, 196);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(159, 31);
             this.txtPassword.TabIndex = 2;
@@ -180,7 +213,7 @@
             // 
             this.lblPassword.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(118, 183);
+            this.lblPassword.Location = new System.Drawing.Point(118, 170);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(166, 23);
             this.lblPassword.TabIndex = 1;
@@ -207,7 +240,7 @@
             // btnLoginIn
             // 
             this.btnLoginIn.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnLoginIn.Location = new System.Drawing.Point(142, 299);
+            this.btnLoginIn.Location = new System.Drawing.Point(142, 291);
             this.btnLoginIn.Name = "btnLoginIn";
             this.btnLoginIn.Size = new System.Drawing.Size(100, 35);
             this.btnLoginIn.TabIndex = 0;
@@ -256,7 +289,9 @@
         private System.Windows.Forms.TextBox txtLogin;
         private System.Windows.Forms.Label lblLogin;
         private System.Windows.Forms.Button btnLoginIn;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnSetup;
+        private System.Windows.Forms.Label lblHello;
+        private System.Windows.Forms.Label lblErr;
     }
 }
 

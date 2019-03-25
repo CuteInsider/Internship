@@ -12,8 +12,8 @@ namespace MDOUMakeMenu
 {
     public partial class LoginIn : Form
     {
-        Table test = new Table();
-
+        object Role = null;
+        Table login = new Table();
         public LoginIn(Point location)
         {
             InitializeComponent();
@@ -23,46 +23,65 @@ namespace MDOUMakeMenu
         private void LoginIn_Load(object sender, EventArgs e)
         {
             splitContainer1.Panel2Collapsed = true;
+            if (DataBase.Connect())
+            {
+                object result = login.Query("SELECT Role FROM users WHERE state = 'YES'");
+                DataBase.Close();
+                if (result != null)
+                {
+                    Role = result.ToString();
+                    switch (Role)
+                    {
+                        case "A":
+                            linkMenu.Enabled = true;
+                            linkIngredients.Enabled = true;
+                            linkChildren.Enabled = true;
+                            lblHello.Text = "Добро пожаловать Администратор";
+                            break;
+
+                        case "T":
+                            linkMenu.Enabled = false;
+                            linkIngredients.Enabled = false;
+                            linkChildren.Enabled = true;
+                            lblHello.Text = "Добро пожаловать Воспитатель";
+                            break;
+
+                        case "M":
+                            linkMenu.Enabled = true;
+                            linkIngredients.Enabled = true;
+                            linkChildren.Enabled = false;
+                            lblHello.Text = "Добро пожаловать Человек-меню";
+                            break;
+                    }
+                    lblLogin.Enabled = false;
+                    lblPassword.Enabled = false;
+                    txtLogin.Text = String.Empty;
+                    txtLogin.Enabled = false;
+                    txtPassword.Text = String.Empty;
+                    txtPassword.Enabled = false;
+                    lblHello.Visible = true;
+                    btnLoginIn.Text = "Выйти";
+                }
+            }
         }
 
         private void LoginIn_Activated(object sender, EventArgs e)
         {
-           //Location = 
+            //Location = 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnSetup_Click(object sender, EventArgs e)
         {
             if (splitContainer1.Panel2Collapsed == true)
             {
-                button1.Text = ">Настройки>";
+                btnSetup.Text = ">Настройки>";
                 splitContainer1.Panel2Collapsed = false;
             }
             else
             {
-                button1.Text = "<Настройки<";
+                btnSetup.Text = "<Настройки<";
                 splitContainer1.Panel2Collapsed = true;
             }
-        }
-
-        private void linkMenu_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Hide();
-            Menu MForm = new Menu(Location);
-            MForm.Show();
-        }
-
-        private void linkIngredients_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Hide();
-            Dish CForm = new Dish(Location);
-            CForm.Show();
-        }
-
-        private void linkChildren_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Hide();
-            Children CForm = new Children(Location);
-            CForm.Show();
         }
 
         private void btnBack_Click(object sender, EventArgs e)
@@ -72,24 +91,99 @@ namespace MDOUMakeMenu
 
         private void btnLoginIn_Click(object sender, EventArgs e)
         {
-            if (!String.IsNullOrWhiteSpace(txtLogin.Text) && !String.IsNullOrWhiteSpace(txtPassword.Text))
+            if (DataBase.Connect())
             {
-                if (DataBase.Connect())
+                if (btnLoginIn.Text == "Войти")
                 {
-                    //string[][] Fields = new string[3][];
-                    //Fields[0] = new string[1] { "Role" };
-                    //Fields[1] = new string[1] { "users" };
-                    //Fields[2] = new string[2] { "Login =  '"+txtLogin.Text+"'", "Password = '"+txtPassword.Text+"'" };
-                    string[][] Fields = new string[5][];
-                    Fields[0] = new string[2] { "Role", "Digit" };
-                    Fields[1] = new string[1] { "users" };
-                    Fields[2] = new string[2] { "Value" , "233"};
-                    Fields[4] = new string[2] { "Login =  '" + txtLogin.Text + "'", "Password = '" + txtPassword.Text + "'" };
-                    test.Query("INSERT", Fields);
+                    if (!String.IsNullOrWhiteSpace(txtLogin.Text) && !String.IsNullOrWhiteSpace(txtPassword.Text))
+                    {
+                        Role = login.Query("SELECT role FROM users WHERE Login = '" + txtLogin.Text + "' AND Password = '" + txtPassword.Text + "'");
+                        login.Query("UPDATE users SET state = 'YES' WHERE Login = '" + txtLogin.Text + "'");
+                        switch (Role)
+                        {
+                            case "A":
+                                linkMenu.Enabled = true;
+                                linkIngredients.Enabled = true;
+                                linkChildren.Enabled = true;
+                                lblHello.Text = "Добро пожаловать Администратор";
+                                break;
+
+                            case "T":
+                                linkMenu.Enabled = false;
+                                linkIngredients.Enabled = false;
+                                linkChildren.Enabled = true;
+                                lblHello.Text = "Добро пожаловать Воспитатель";
+                                break;
+
+                            case "M":
+                                linkMenu.Enabled = true;
+                                linkIngredients.Enabled = true;
+                                linkChildren.Enabled = false;
+                                lblHello.Text = "Добро пожаловать Человек-меню";
+                                break;
+
+                            default:
+                                linkMenu.Enabled = false;
+                                linkIngredients.Enabled = false;
+                                linkChildren.Enabled = false;
+                                lblHello.Visible = false;
+                                lblErr.Text = "Неверный логин или пароль";
+                                lblErr.Visible = true;
+                                DataBase.Close();
+                                return;
+                        }
+                        lblLogin.Enabled = false;
+                        lblPassword.Enabled = false;
+                        txtLogin.Text = String.Empty;
+                        txtLogin.Enabled = false;
+                        txtPassword.Text = String.Empty;
+                        txtPassword.Enabled = false;
+                        lblHello.Visible = true;
+                        btnLoginIn.Text = "Выйти";
+                    }
                 }
                 else
-                    MessageBox.Show("Проверте поодключение к базе данных","Ошибка");
+                {
+                    login.Query("UPDATE users SET state = 'NO' WHERE Login = '" + txtLogin.Text + "'");
+                    linkMenu.Enabled = false;
+                    linkIngredients.Enabled = false;
+                    linkChildren.Enabled = false;
+                    lblHello.Visible = false;
+
+                    lblLogin.Enabled = true;
+                    lblPassword.Enabled = true;
+                    txtLogin.Enabled = true;
+                    txtPassword.Enabled = true;
+                    btnLoginIn.Text = "Войти";
+                }
+                DataBase.Close();
             }
+            else
+            {
+                lblErr.Text = "Проверте поодключение к базе данных";
+                lblErr.Visible = true;
+            }
+        }
+
+        private void linkMenu_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Hide();
+            Menu MForm = new Menu(Location, Role);
+            MForm.Show();
+        }
+
+        private void linkIngredients_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Hide();
+            Dish CForm = new Dish(Location, Role);
+            CForm.Show();
+        }
+
+        private void linkChildren_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Hide();
+            Children CForm = new Children(Location, Role);
+            CForm.Show();
         }
     }
 }

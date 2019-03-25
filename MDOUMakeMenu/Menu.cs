@@ -12,10 +12,32 @@ namespace MDOUMakeMenu
 {
     public partial class Menu : Form
     {
-        public Menu(Point Location)
+        object Role;
+        public Menu(Point Location, object Role)
         {
             InitializeComponent();
             this.Location = Location;
+            this.Role = Role;
+            switch (Role)
+            {
+                case "A":
+                    linkMenu.Enabled = false;
+                    linkIngredients.Enabled = true;
+                    linkChildren.Enabled = true;
+                    break;
+
+                case "T":
+                    linkMenu.Enabled = false;
+                    linkIngredients.Enabled = false;
+                    linkChildren.Enabled = true;
+                    break;
+
+                case "M":
+                    linkMenu.Enabled = false;
+                    linkIngredients.Enabled = true;
+                    linkChildren.Enabled = false;
+                    break;
+            }
         }
 
         private void btnEnter_Click(object sender, EventArgs e)
@@ -27,14 +49,14 @@ namespace MDOUMakeMenu
         private void linkIngredients_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Close();
-            Dish DForm = new Dish(Location);
+            Dish DForm = new Dish(Location, Role);
             DForm.Show();
         }
 
         private void linkChildren_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Close();
-            Children CForm = new Children(Location);
+            Children CForm = new Children(Location, Role);
             CForm.Show();
         }
     }
