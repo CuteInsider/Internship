@@ -50,14 +50,16 @@ DROP TABLE IF EXISTS `attendance`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `attendance` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `Date` date NOT NULL,
+  `DateID` int(11) DEFAULT NULL,
   `GroupID` int(11) NOT NULL,
   `ActuallyChildrenAmount` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `TC_idx` (`GroupID`),
-  CONSTRAINT `Group` FOREIGN KEY (`GroupID`) REFERENCES `groups` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  KEY `Date_idx` (`DateID`),
+  KEY `DID_idx` (`DateID`),
+  CONSTRAINT `DID` FOREIGN KEY (`DateID`) REFERENCES `date` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `TC` FOREIGN KEY (`GroupID`) REFERENCES `totalchildren` (`GroupID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +68,7 @@ CREATE TABLE `attendance` (
 
 LOCK TABLES `attendance` WRITE;
 /*!40000 ALTER TABLE `attendance` DISABLE KEYS */;
-INSERT INTO `attendance` VALUES (1,'2019-03-25',2,25);
+INSERT INTO `attendance` VALUES (1,2,1,25),(2,2,2,22),(3,2,3,23),(4,2,4,33),(5,2,5,30),(6,2,6,NULL),(7,2,7,NULL),(8,2,8,NULL),(9,2,9,NULL),(10,2,10,NULL),(11,5,1,NULL),(12,5,2,NULL),(13,5,3,NULL),(14,5,4,NULL),(15,5,5,NULL),(16,5,6,NULL),(17,5,7,NULL),(18,5,8,NULL),(19,5,9,NULL),(20,5,10,NULL),(21,6,1,NULL),(22,6,2,NULL),(23,6,3,NULL),(24,6,4,NULL),(25,6,5,NULL),(26,6,6,NULL),(27,6,7,NULL),(28,6,8,NULL),(29,6,9,NULL),(30,6,10,NULL),(31,7,1,NULL),(32,7,2,NULL),(33,7,3,NULL),(34,7,4,NULL),(35,7,5,NULL),(36,7,6,NULL),(37,7,7,NULL),(38,7,8,NULL),(39,7,9,NULL),(40,7,10,NULL),(41,8,1,NULL),(42,8,2,NULL),(43,8,3,NULL),(44,8,4,NULL),(45,8,5,NULL),(46,8,6,NULL),(47,8,7,NULL),(48,8,8,NULL),(49,8,9,NULL),(50,8,10,NULL),(51,9,1,NULL),(52,9,2,NULL),(53,9,3,NULL),(54,9,4,NULL),(55,9,5,NULL),(56,9,6,NULL),(57,9,7,NULL),(58,9,8,NULL),(59,9,9,NULL),(60,9,10,NULL),(61,10,1,NULL),(62,10,2,NULL),(63,10,3,NULL),(64,10,4,NULL),(65,10,5,NULL),(66,10,6,NULL),(67,10,7,NULL),(68,10,8,NULL),(69,10,9,NULL),(70,10,10,NULL),(71,11,1,NULL),(72,11,2,NULL),(73,11,3,NULL),(74,11,4,NULL),(75,11,5,NULL),(76,11,6,NULL),(77,11,7,NULL),(78,11,8,NULL),(79,11,9,NULL),(80,11,10,NULL);
 /*!40000 ALTER TABLE `attendance` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -86,7 +88,9 @@ CREATE TABLE `childrens` (
   `FatherName` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `CAG_idx` (`IDAgeGroup`),
-  CONSTRAINT `CAG` FOREIGN KEY (`IDAgeGroup`) REFERENCES `agegroup` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `CGrouup_idx` (`IDGroup`),
+  CONSTRAINT `CAG` FOREIGN KEY (`IDAgeGroup`) REFERENCES `agegroup` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `CGroups` FOREIGN KEY (`IDGroup`) REFERENCES `groups` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -96,7 +100,7 @@ CREATE TABLE `childrens` (
 
 LOCK TABLES `childrens` WRITE;
 /*!40000 ALTER TABLE `childrens` DISABLE KEYS */;
-INSERT INTO `childrens` VALUES (1,2,1,'Александров','Вася',NULL);
+INSERT INTO `childrens` VALUES (1,1,1,'Александров','Вася',NULL);
 /*!40000 ALTER TABLE `childrens` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,7 +120,7 @@ CREATE TABLE `composition` (
   KEY `IID_idx` (`IngredientID`),
   CONSTRAINT `DID2` FOREIGN KEY (`DishID`) REFERENCES `dishs` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `IID` FOREIGN KEY (`IngredientID`) REFERENCES `ingredients` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +129,32 @@ CREATE TABLE `composition` (
 
 LOCK TABLES `composition` WRITE;
 /*!40000 ALTER TABLE `composition` DISABLE KEYS */;
+INSERT INTO `composition` VALUES (2,1,2),(3,1,3);
 /*!40000 ALTER TABLE `composition` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `date`
+--
+
+DROP TABLE IF EXISTS `date`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `date` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Date` date NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `date`
+--
+
+LOCK TABLES `date` WRITE;
+/*!40000 ALTER TABLE `date` DISABLE KEYS */;
+INSERT INTO `date` VALUES (1,'2019-03-28'),(2,'2019-03-29'),(5,'2019-03-30'),(6,'2019-03-31'),(7,'2019-04-01'),(8,'2019-04-02'),(9,'2019-04-03'),(10,'2019-04-04'),(11,'2019-04-05');
+/*!40000 ALTER TABLE `date` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -137,9 +166,9 @@ DROP TABLE IF EXISTS `dinnertype`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dinnertype` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `Type` varchar(45) DEFAULT NULL,
+  `Type` varchar(45) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -148,6 +177,7 @@ CREATE TABLE `dinnertype` (
 
 LOCK TABLES `dinnertype` WRITE;
 /*!40000 ALTER TABLE `dinnertype` DISABLE KEYS */;
+INSERT INTO `dinnertype` VALUES (1,'Завтрак'),(2,'Обед'),(3,'Ужин');
 /*!40000 ALTER TABLE `dinnertype` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,7 +195,7 @@ CREATE TABLE `dishs` (
   PRIMARY KEY (`ID`),
   KEY `DID_idx` (`DinnerType`),
   CONSTRAINT `DTID` FOREIGN KEY (`DinnerType`) REFERENCES `dinnertype` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -174,6 +204,7 @@ CREATE TABLE `dishs` (
 
 LOCK TABLES `dishs` WRITE;
 /*!40000 ALTER TABLE `dishs` DISABLE KEYS */;
+INSERT INTO `dishs` VALUES (1,1,'Каша'),(2,1,'Компот'),(3,2,'Суп'),(4,2,'Чай'),(5,3,'Картошка с Котлетами'),(6,3,'Чай');
 /*!40000 ALTER TABLE `dishs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -185,10 +216,10 @@ DROP TABLE IF EXISTS `groups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `groups` (
-  `ID` int(11) NOT NULL,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `GroupName` varchar(45) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -197,7 +228,7 @@ CREATE TABLE `groups` (
 
 LOCK TABLES `groups` WRITE;
 /*!40000 ALTER TABLE `groups` DISABLE KEYS */;
-INSERT INTO `groups` VALUES (2,'№2 \"Кроха\"'),(3,'№3 \"Цыплята\"'),(5,'№5 \"Звездочки\"'),(6,'№6 \"Радуга\"'),(7,'№7 \"Капелька\"'),(9,'№9 \"Цветик-семицветик\"'),(10,'№10 \"Кораблик\"'),(12,'№12 \"Солнышко\"'),(13,'№13 \"Цветные карандаши\"'),(14,'№14 \"Пчелки\"');
+INSERT INTO `groups` VALUES (1,'№2 \"Кроха\"'),(2,'№3 \"Цыплята\"'),(3,'№5 \"Звездочки\"'),(4,'№6 \"Радуга\"'),(5,'№7 \"Капелька\"'),(6,'№9 \"Цветик-семицветик\"'),(7,'№10 \"Кораблик\"'),(8,'№12 \"Солнышко\"'),(9,'№13 \"Цветные карандаши\"'),(10,'№14 \"Пчелки\"');
 /*!40000 ALTER TABLE `groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -212,7 +243,7 @@ CREATE TABLE `ingredients` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Ingredient` varchar(45) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -221,6 +252,7 @@ CREATE TABLE `ingredients` (
 
 LOCK TABLES `ingredients` WRITE;
 /*!40000 ALTER TABLE `ingredients` DISABLE KEYS */;
+INSERT INTO `ingredients` VALUES (2,'Крупа'),(3,'Молоко');
 /*!40000 ALTER TABLE `ingredients` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -268,6 +300,8 @@ CREATE TABLE `menu` (
   `DishId` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `DIT_idx` (`DishId`),
+  KEY `AID_idx` (`attendanceID`),
+  CONSTRAINT `AID` FOREIGN KEY (`attendanceID`) REFERENCES `attendance` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `DIT` FOREIGN KEY (`DishId`) REFERENCES `dishs` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -332,7 +366,7 @@ CREATE TABLE `totalchildren` (
 
 LOCK TABLES `totalchildren` WRITE;
 /*!40000 ALTER TABLE `totalchildren` DISABLE KEYS */;
-INSERT INTO `totalchildren` VALUES (2,30),(3,30),(5,30),(6,30),(7,30),(9,30),(10,30),(12,30),(13,30),(14,30);
+INSERT INTO `totalchildren` VALUES (1,30),(2,30),(3,30),(4,30),(5,30),(6,30),(7,30),(8,30),(9,30),(10,30);
 /*!40000 ALTER TABLE `totalchildren` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -371,4 +405,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-26  1:10:10
+-- Dump completed on 2019-04-05 15:04:12

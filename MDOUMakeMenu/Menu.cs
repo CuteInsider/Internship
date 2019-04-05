@@ -13,10 +13,11 @@ namespace MDOUMakeMenu
     public partial class Menu : Form
     {
         object Role;
-        public Menu(Point Location, object Role)
+        public Menu(Point Location, FormWindowState state, object Role)
         {
             InitializeComponent();
             this.Location = Location;
+            this.WindowState = state;
             this.Role = Role;
             switch (Role)
             {
@@ -49,14 +50,14 @@ namespace MDOUMakeMenu
         private void linkIngredients_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Close();
-            Dish DForm = new Dish(Location, Role);
+            Dish DForm = new Dish(Location, this.WindowState, Role);
             DForm.Show();
         }
 
         private void linkChildren_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Close();
-            Children CForm = new Children(Location, Role);
+            Children CForm = new Children(Location, this.WindowState, Role);
             CForm.Show();
         }
     }

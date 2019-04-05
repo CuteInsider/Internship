@@ -56,11 +56,14 @@ namespace MDOUMakeMenu
             return Table;
         }
 
-        public object Query(string Query)
+        public object Query(string Query/*, string QueryType = null*/)
         {
             msCommand.CommandText = Query;
             if (Query.StartsWith("SELECT"))
-                return msCommand.ExecuteScalar();
+                //if (QueryType == null)
+                    return msCommand.ExecuteScalar();
+                //else
+                //    return msCommand.ExecuteNonQuery();
             if (Query.StartsWith("INSERT"))
                 msCommand.ExecuteNonQuery();
             if (Query.StartsWith("UPDATE"))

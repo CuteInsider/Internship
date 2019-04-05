@@ -12,12 +12,14 @@ namespace MDOUMakeMenu
 {
     public partial class Children : Form
     {
+        Table attendance = new Table();
         object Role;
-        public Children(Point Location, object Role)
+        public Children(Point Location, FormWindowState state, object Role)
         {
             InitializeComponent();
-            Table attendance = new Table();
+            Table date = new Table();
             this.Location = Location;
+            this.WindowState = state;
             this.Role = Role;
             switch (Role)
             {
@@ -39,36 +41,94 @@ namespace MDOUMakeMenu
                     linkChildren.Enabled = false;
                     break;
             }
+            if (DataBase.Connect())
+            {
+                object result = date.Query("SELECT date FROM date ORDER BY date DESC");
+                DateTime LastDate = Convert.ToDateTime(result);
+                DateTime NowDate = DateTime.Now.Date;
+                if (LastDate != NowDate)
+                {
+                    date.Query("INSERT INTO date (Date) VALUES ('" + DateTime.Now.Date.ToString("yyyy-MM-dd") + "')");
+                    int dateId = Convert.ToInt32(date.Query("SELECT ID FROM date ORDER BY date DESC"));
+                    int colRows = Convert.ToInt32(date.Query("SELECT count(*) FROM groups"));
+                    for (int i = 1; i <= colRows; i++)
+                        date.Query("INSERT INTO attendance (DateID, GroupID) VALUES (" + dateId + ", " + i + ")");
+                }
+                dateView.DataSource = date.newTable("SELECT * FROM date ORDER BY ID");
+                DataBase.Close();
+                dateView.ValueMember = "ID";
+                dateView.DisplayMember = "Date";
+            }
+            else
+                MessageBox.Show("Проверте подключение к базе данных", "Ошибка Подключения", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            splitContainer3.Panel1Collapsed = true;
+            splitContainer3.Panel2Collapsed = true;
+            splitContainer2.Panel2Collapsed = true;
+        }
 
-            dtAttendance.DataSource = attendance.newTable("SELECT groups.ID, attendance.Date, groups.GroupName, totalchildren.TotalChildren, attendance.ActuallyChildrenAmount " +
+        private void dateView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            dtAttendance.DataSource = attendance.newTable("SELECT attendance.Id, groups.ID, groups.GroupName, totalchildren.TotalChildren, attendance.ActuallyChildrenAmount " +
                 "FROM attendance " +
                 "INNER JOIN totalchildren ON attendance.GroupId = totalchildren.GroupID " +
-                "INNER JOIN groups ON totalchildren.GroupID = groups.ID");
+                "INNER JOIN groups ON totalchildren.GroupID = groups.ID " +
+                "WHERE DateID = '" + dateView.SelectedValue + "'");
         }
-        private void dtAttendance_Click(object sender, EventArgs e)
-        {
-            dtChildren.DataSource = selectChildren(dtAttendance.CurrentRow.Cells[0].Value.ToString());
-        }
-        private object selectChildren(string group)
+
+        private void dtAttendance_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             Table children = new Table();
-            return children.newTable("SELECT agegroup.AgeGroup, childrens.SecondName, childrens.FistName, childrens.FatherName " +
+            dtChildren.DataSource = children.newTable("SELECT agegroup.AgeGroup, childrens.SecondName, childrens.FistName, childrens.FatherName " +
                 "FROM childrens " +
                 "INNER JOIN agegroup ON childrens.IDAgeGroup = agegroup.ID " +
-                "WHERE childrens.IDGroup = '" + group + "'");
+                "WHERE childrens.IDGroup = '" + dtAttendance.CurrentRow.Cells[1].Value + "'");
+        }
+
+        private void dtAttendance_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (DataBase.Connect())
+            {
+                if (!String.IsNullOrEmpty(dtAttendance.CurrentRow.Cells[4].Value.ToString()))
+                {
+                    int maxChildren = Convert.ToInt32(attendance.Query("SELECT TotalChildren " +
+                        "FROM totalchildren " +
+                        "INNER JOIN attendance ON totalchildren.GroupID = attendance.GroupID " +
+                        "WHERE attendance.ID = " + dtAttendance.CurrentRow.Cells[0].Value + ""));
+                    if (maxChildren >= Convert.ToInt32(dtAttendance.CurrentRow.Cells[4].Value))
+                        attendance.Query("UPDATE attendance SET ActuallyChildrenAmount = " + Convert.ToInt32(dtAttendance.CurrentRow.Cells[4].Value) + " WHERE ID = " + Convert.ToInt32(dtAttendance.CurrentRow.Cells[0].Value) + "");
+                    else
+                    {
+                        dtAttendance.CurrentRow.Cells[4].Value = DBNull.Value;
+                        MessageBox.Show("Введеное число превышает колтчество детей в группе", "Ошибка Подключения", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                    attendance.Query("UPDATE attendance SET ActuallyChildrenAmount = NULL WHERE ID = " + Convert.ToInt32(dtAttendance.CurrentRow.Cells[0].Value));
+                DataBase.Close();
+            }
+            else
+                MessageBox.Show("Проверте подключение к базе данных", "Ошибка Подключения", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void btnComposition_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void btnNone2_Click(object sender, EventArgs e)
+        {
         }
 
         private void linkMenu_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Close();
-            Menu MForm = new Menu(Location, Role);
+            Menu MForm = new Menu(Location, this.WindowState, Role);
             MForm.Show();
         }
 
         private void linkIngredients_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Close();
-            Dish DForm = new Dish(Location, Role);
+            Dish DForm = new Dish(Location, this.WindowState, Role);
             DForm.Show();
         }
 
@@ -77,5 +137,37 @@ namespace MDOUMakeMenu
             Close();
             Application.OpenForms[0].Show();
         }
+
+        private void dtAttendance_DataError(object sender, DataGridViewDataErrorEventArgs anError)
+        {
+            MessageBox.Show("Ошибка ввода информации " + anError.Context.ToString(), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            if (anError.Context == DataGridViewDataErrorContexts.Commit)
+            {
+                MessageBox.Show("Commit error");
+            }
+            if (anError.Context == DataGridViewDataErrorContexts.CurrentCellChange)
+            {
+                MessageBox.Show("Cell change");
+            }
+            if (anError.Context == DataGridViewDataErrorContexts.Parsing)
+            {
+                MessageBox.Show("parsing error");
+            }
+            if (anError.Context == DataGridViewDataErrorContexts.LeaveControl)
+            {
+                MessageBox.Show("leave control error");
+            }
+
+            if ((anError.Exception) is ConstraintException)
+            {
+                DataGridView view = (DataGridView)sender;
+                view.Rows[anError.RowIndex].ErrorText = "an error";
+                view.Rows[anError.RowIndex].Cells[anError.ColumnIndex].ErrorText = "an error";
+            }
+            anError.ThrowException = false;
+
+        }
+
     }
 }

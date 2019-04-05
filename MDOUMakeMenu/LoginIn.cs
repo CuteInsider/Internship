@@ -168,21 +168,21 @@ namespace MDOUMakeMenu
         private void linkMenu_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Hide();
-            Menu MForm = new Menu(Location, Role);
+            Menu MForm = new Menu(Location, this.WindowState, Role);
             MForm.Show();
         }
 
         private void linkIngredients_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Hide();
-            Dish CForm = new Dish(Location, Role);
+            Dish CForm = new Dish(Location, this.WindowState, Role);
             CForm.Show();
         }
 
         private void linkChildren_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Hide();
-            Children CForm = new Children(Location, Role);
+            Children CForm = new Children(Location, this.WindowState, Role);
             CForm.Show();
         }
     }
