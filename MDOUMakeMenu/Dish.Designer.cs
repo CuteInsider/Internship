@@ -301,6 +301,7 @@
             this.dtIngredientsComposition.Location = new System.Drawing.Point(0, 0);
             this.dtIngredientsComposition.Margin = new System.Windows.Forms.Padding(0);
             this.dtIngredientsComposition.Name = "dtIngredientsComposition";
+            this.dtIngredientsComposition.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dtIngredientsComposition.Size = new System.Drawing.Size(1034, 239);
             this.dtIngredientsComposition.TabIndex = 0;
             this.dtIngredientsComposition.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtIngredientsComposition_CellClick);

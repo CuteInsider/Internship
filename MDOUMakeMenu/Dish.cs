@@ -232,22 +232,28 @@ namespace MDOUMakeMenu
             }
             if (DataBase.Connect())
             {
-                if (!String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value.ToString()))
+                if (newRowIC == true)
+                    CompositionIngredients.Query("INSERT INTO ingredients_composition (ingredientID, `" + ((DataGridView)sender).Columns[e.ColumnIndex].DataPropertyName + "`) VALUES (" + 
+                        dtIngredient.CurrentRow.Cells[0].Value + ", " + ((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value + ");");
+                else if (!String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value.ToString()))
                 {
-                    if (newRowIC == true)
-                        CompositionIngredients.Query("INSERT INTO ingredients_composition (ingredientID, `" + ((DataGridView)sender).Columns[e.ColumnIndex].DataPropertyName + "`) VALUES (" + dtIngredient.CurrentRow.Cells[0].Value + ", " + ((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value + ");");
-                    else
-                        CompositionIngredients.Query("UPDATE ingredients_composition SET `" + ((DataGridView)sender).Columns[e.ColumnIndex].DataPropertyName + "` = " + ((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value + " WHERE ID = " + ((DataGridView)sender).CurrentRow.Cells[0].Value);
+                    CompositionIngredients.Query("UPDATE ingredients_composition SET `" + ((DataGridView)sender).Columns[e.ColumnIndex].DataPropertyName + "` = '" +
+                        ((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value + "' WHERE ID = " + ((DataGridView)sender).CurrentRow.Cells[0].Value);
                 }
-                else if (((DataGridView)sender).CurrentRow.Cells[2].Value == null && ((DataGridView)sender).CurrentRow.Cells[3].Value == null &&
-                    ((DataGridView)sender).CurrentRow.Cells[4].Value == null && ((DataGridView)sender).CurrentRow.Cells[5].Value == null &&
-                    ((DataGridView)sender).CurrentRow.Cells[6].Value == null && ((DataGridView)sender).CurrentRow.Cells[7].Value == null)
-                    CompositionIngredients.Query("DELETE FROM ingredients_composition WHERE ID = " + dtIngredient.CurrentRow.Cells[0].Value);
+                else
+                {
+                    CompositionIngredients.Query("UPDATE ingredients_composition SET `" + ((DataGridView)sender).Columns[e.ColumnIndex].DataPropertyName + "` = NULL WHERE ID = " +
+                        ((DataGridView)sender).CurrentRow.Cells[0].Value);
+                }
+                if (String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[2].Value.ToString()) && String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[3].Value.ToString()) &&
+                    String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[4].Value.ToString()) && String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[5].Value.ToString()) &&
+                    String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[6].Value.ToString()) && String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[7].Value.ToString()) && newRowIC == false)
+                    CompositionIngredients.Query("DELETE FROM ingredients_composition WHERE ID = " + ((DataGridView)sender).CurrentRow.Cells[0].Value);
                 this.BeginInvoke(new MethodInvoker(() =>
                 {
-                    dtIngredient.DataSource = composition.newTable("SELECT composition.ID, ingredients.Ingredient FROM composition " +
-                    "INNER JOIN ingredients ON ingredients.Id = composition.IngredientID " +
-                    "WHERE DishID = " + dtDish.CurrentRow.Cells[0].Value);
+                    dtIngredientsComposition.DataSource = 
+                    ingredients.newTable("SELECT * FROM ingredients_composition WHERE ingredientID = " 
+                    + dtIngredient.CurrentRow.Cells[0].Value);
                 }));
                 DataBase.Close();
             }
