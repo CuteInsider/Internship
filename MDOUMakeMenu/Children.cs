@@ -13,7 +13,11 @@ namespace MDOUMakeMenu
     public partial class Children : Form
     {
         Table attendance = new Table();
+        Table children = new Table();
+
         object Role;
+        bool newRowC = false;
+
         public Children(Point Location, FormWindowState state, object Role)
         {
             InitializeComponent();
@@ -46,11 +50,16 @@ namespace MDOUMakeMenu
                 object result = date.Query("SELECT date FROM date ORDER BY date DESC");
                 DateTime LastDate = Convert.ToDateTime(result);
                 DateTime NowDate = DateTime.Now.Date;
-                if (NowDate > LastDate)
+
+                for (; LastDate.Day < NowDate.Day;)
                 {
-                    date.Query("INSERT INTO date (Date) VALUES ('" + DateTime.Now.Date.ToString("yyyy-MM-dd") + "')");
+                    int colRows = 0;
+                    if (colRows == 0)
+                        colRows = Convert.ToInt32(date.Query("SELECT count(*) FROM groups"));
+
+                    LastDate = LastDate.AddDays(1);
+                    date.Query("INSERT INTO date (Date) VALUES ('" + LastDate.ToString("yyyy-MM-dd") + "')");
                     int dateId = Convert.ToInt32(date.Query("SELECT ID FROM date ORDER BY date DESC"));
-                    int colRows = Convert.ToInt32(date.Query("SELECT count(*) FROM groups"));
                     for (int i = 1; i <= colRows; i++)
                         date.Query("INSERT INTO attendance (DateID, GroupID, ActuallyChildrenAmount) VALUES (" + dateId + ", " + i + ", " + 0 + ")");
                 }
@@ -97,12 +106,21 @@ namespace MDOUMakeMenu
                 "WHERE DateID = '" + dateView.SelectedValue + "'");
         }
 
+        //====== РАБОТА С ПОСЕЩАЙМОСТТЬЮ ======
+        private void dtAttendance_DoubleClick(object sender, EventArgs e)
+        {
+            ((DataGridView)sender).BeginEdit(false);
+        }
+
         private void dtAttendance_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            Table children = new Table();
-            dtChildren.DataSource = children.newTable("SELECT agegroup.AgeGroup, childrens.SecondName, childrens.FistName, childrens.FatherName " +
+            dtChildren.AllowUserToAddRows = true;
+            AgeGroup.DataSource = children.newTable("SELECT * FROM agegroup");
+            AgeGroup.ValueMember = "ID";
+            AgeGroup.DisplayMember = "agegroup";
+
+            dtChildren.DataSource = children.newTable("SELECT childrens.ID, childrens.IDAgeGroup, childrens.SecondName, childrens.FistName, childrens.FatherName " +
                 "FROM childrens " +
-                "INNER JOIN agegroup ON childrens.IDAgeGroup = agegroup.ID " +
                 "WHERE childrens.IDGroup = '" + dtAttendance.CurrentRow.Cells[1].Value + "'");
         }
 
@@ -131,12 +149,26 @@ namespace MDOUMakeMenu
             if (!String.IsNullOrEmpty(dtAttendance.CurrentRow.Cells[3].Value.ToString()))
             {
                 if (Convert.ToInt32(dtAttendance.CurrentRow.Cells[3].Value) >= Convert.ToInt32(dtAttendance.CurrentRow.Cells[4].Value))
-                    attendance.Query("UPDATE totalchildren SET TotalChildren = " + Convert.ToInt32(dtAttendance.CurrentRow.Cells[3].Value) + " WHERE GroupID = " + Convert.ToInt32(dtAttendance.CurrentRow.Cells[1].Value) + "");
+                {
+                    int colRows = Convert.ToInt32(attendance.Query("SELECT count(*) " +
+                        "FROM childrens WHERE IDGroup = " + dtAttendance.CurrentRow.Cells[0].Value + ""));
+                    if (colRows > Convert.ToInt32(dtAttendance.CurrentRow.Cells[3].Value))
+                    {
+                        dtAttendance.CancelEdit();
+                        MessageBox.Show(
+                            "Количество детей в группе блольше чем максимальное число",
+                            "Ошибка",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
+                }
                 else
                 {
                     dtAttendance.CurrentRow.Cells[3].Value = dtAttendance.CurrentRow.Cells[4].Value;
-                    attendance.Query("UPDATE totalchildren SET TotalChildren = " + Convert.ToInt32(dtAttendance.CurrentRow.Cells[3].Value) + " WHERE GroupID = " + Convert.ToInt32(dtAttendance.CurrentRow.Cells[1].Value) + "");
                 }
+                attendance.Query("UPDATE totalchildren SET TotalChildren = " + Convert.ToInt32(dtAttendance.CurrentRow.Cells[3].Value) +
+                " WHERE GroupID = " + Convert.ToInt32(dtAttendance.CurrentRow.Cells[1].Value) + "");
+
             }
             else
                 dtAttendance.CancelEdit();
@@ -147,16 +179,98 @@ namespace MDOUMakeMenu
         {
             if (!String.IsNullOrEmpty(dtAttendance.CurrentRow.Cells[4].Value.ToString()))
             {
-                if (Convert.ToInt32(dtAttendance.CurrentRow.Cells[3].Value) >= Convert.ToInt32(dtAttendance.CurrentRow.Cells[4].Value) && Convert.ToInt32(dtAttendance.CurrentRow.Cells[4].Value) > 0)
+                if (Convert.ToInt32(dtAttendance.CurrentRow.Cells[3].Value) >= Convert.ToInt32(dtAttendance.CurrentRow.Cells[4].Value) && Convert.ToInt32(dtAttendance.CurrentRow.Cells[4].Value) >= 0)
                     attendance.Query("UPDATE attendance SET ActuallyChildrenAmount = " + Convert.ToInt32(dtAttendance.CurrentRow.Cells[4].Value) + " WHERE attendance.ID = " + Convert.ToInt32(dtAttendance.CurrentRow.Cells[0].Value) + "");
                 else
                 {
                     dtAttendance.CurrentRow.Cells[4].Value = 0;
-                    MessageBox.Show("Введеное число превышает колтчество детей в группе", "Ошибка Подключения", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(
+                        "Введеное число превышает колтчество детей в группе", 
+                        "Ошибка Подключения", 
+                        MessageBoxButtons.OK, 
+                        MessageBoxIcon.Error);
                 }
             }
             else
                 attendance.Query("UPDATE attendance SET ActuallyChildrenAmount = 0 WHERE attendance.ID = " + Convert.ToInt32(dtAttendance.CurrentRow.Cells[0].Value));
+        }
+
+        //====== РАБОТА С ДЕТЬМИ ======
+        private void dtChildren_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (!((DataGridView)sender).CurrentRow.IsNewRow)
+            {
+                newRowC = false;
+            }
+            else
+            {
+                newRowC = true;
+            }
+        }
+
+        private void dtChildren_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            ((DataGridView)sender).BeginEdit(false);
+        }
+
+        private void dtChildren_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (newRowC == true && string.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value.ToString()))
+            {
+                return;
+            }
+            if (DataBase.Connect())
+            {
+                if (newRowC == true)
+                {
+                    int colRows = Convert.ToInt32(children.Query("SELECT count(*) FROM childrens WHERE IDGroup = " + dtAttendance.CurrentRow.Cells[1].Value + ""));
+                    if (Convert.ToInt32(dtAttendance.CurrentRow.Cells[3].Value) > colRows)
+                    {
+                        children.Query("INSERT INTO childrens (IDGroup,`" + ((DataGridView)sender).Columns[e.ColumnIndex].DataPropertyName + "`) " +
+                            "VALUES (" + dtAttendance.CurrentRow.Cells[1].Value + ", '" + ((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value + "');");
+                    }
+                    else
+                    {
+                        ((DataGridView)sender).Rows.RemoveAt(e.RowIndex);
+                        MessageBox.Show(
+                            "Превышено максимальное число детей в группе",
+                            "Ошибка",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+                else if (!String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value.ToString()))
+                {
+                    children.Query("UPDATE childrens SET `" + ((DataGridView)sender).Columns[e.ColumnIndex].DataPropertyName + "` = '" + 
+                        ((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value + "' WHERE ID = " + ((DataGridView)sender).CurrentRow.Cells[0].Value);
+                }
+                else
+                {
+                    children.Query("UPDATE childrens SET `" + ((DataGridView)sender).Columns[e.ColumnIndex].DataPropertyName + "` = NULL WHERE ID = " + 
+                        ((DataGridView)sender).CurrentRow.Cells[0].Value);
+                }
+                if (String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[2].Value.ToString()) &&
+                String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[3].Value.ToString()) &&
+                String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[4].Value.ToString()) && newRowC == false)
+                {
+                    children.Query("DELETE FROM childrens WHERE ID = " + ((DataGridView)sender).CurrentRow.Cells[0].Value);
+                }
+                this.BeginInvoke(new MethodInvoker(() =>
+                {
+                    ((DataGridView)sender).DataSource = children.newTable(
+                        "SELECT childrens.ID, childrens.IDAgeGroup, childrens.SecondName, childrens.FistName, childrens.FatherName " +
+                        "FROM childrens " +
+                        "WHERE childrens.IDGroup = '" + dtAttendance.CurrentRow.Cells[1].Value + "'");
+                }));
+                DataBase.Close();
+            }
+            else
+                MessageBox.Show(
+                    "Проверте подключение к базе данных",
+                    "Ошибка Подключения",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
         }
 
         private void btnComposition_Click(object sender, EventArgs e)

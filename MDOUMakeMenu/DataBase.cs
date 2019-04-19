@@ -29,7 +29,6 @@ namespace MDOUMakeMenu
                 msCommand = new MySqlCommand();
                 msCommand.Connection = msConnect;
                 msDataAdapter = new MySqlDataAdapter(msCommand);
-
                 return true;
             }
             catch (Exception EX)

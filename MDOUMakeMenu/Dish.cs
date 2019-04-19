@@ -21,6 +21,7 @@ namespace MDOUMakeMenu
         Table dish = new Table();
         Table composition = new Table();
         Table ingredients = new Table();
+        Table CompositionIngredients = new Table();
 
         public Dish(Point Location, FormWindowState state, object Role)
         {
@@ -143,11 +144,15 @@ namespace MDOUMakeMenu
             if (!((DataGridView)sender).CurrentRow.IsNewRow)
             {
                 newRowI = false;
+                btnComposition.Enabled = true;
                 if (splitContainer2.Panel2Collapsed == false)
                     dtIngredientsComposition.DataSource = ingredients.newTable("SELECT * FROM ingredients_composition WHERE ingredientID = " + dtIngredient.CurrentRow.Cells[0].Value);
             }
             else
+            {
                 newRowI = true;
+                btnComposition.Enabled = false;
+            }
         }
 
         private void dtIngredient_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -194,15 +199,19 @@ namespace MDOUMakeMenu
         private void btnComposition_Click(object sender, EventArgs e)
         {
             if (splitContainer2.Panel2Collapsed == true)
+            {
                 splitContainer2.Panel2Collapsed = false;
+            }
             else
+            {
                 splitContainer2.Panel2Collapsed = true;
+            }
         }
 
 
         private void dtIngredientsComposition_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (!dtIngredient.CurrentRow.IsNewRow)
+            if (!((DataGridView)sender).CurrentRow.IsNewRow)
             {
                 newRowIC = false;
             }
@@ -221,6 +230,30 @@ namespace MDOUMakeMenu
             {
                 return;
             }
+            if (DataBase.Connect())
+            {
+                if (!String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value.ToString()))
+                {
+                    if (newRowIC == true)
+                        CompositionIngredients.Query("INSERT INTO ingredients_composition (ingredientID, `" + ((DataGridView)sender).Columns[e.ColumnIndex].DataPropertyName + "`) VALUES (" + dtIngredient.CurrentRow.Cells[0].Value + ", " + ((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value + ");");
+                    else
+                        CompositionIngredients.Query("UPDATE ingredients_composition SET `" + ((DataGridView)sender).Columns[e.ColumnIndex].DataPropertyName + "` = " + ((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value + " WHERE ID = " + ((DataGridView)sender).CurrentRow.Cells[0].Value);
+                }
+                else if (((DataGridView)sender).CurrentRow.Cells[2].Value == null && ((DataGridView)sender).CurrentRow.Cells[3].Value == null &&
+                    ((DataGridView)sender).CurrentRow.Cells[4].Value == null && ((DataGridView)sender).CurrentRow.Cells[5].Value == null &&
+                    ((DataGridView)sender).CurrentRow.Cells[6].Value == null && ((DataGridView)sender).CurrentRow.Cells[7].Value == null)
+                    CompositionIngredients.Query("DELETE FROM ingredients_composition WHERE ID = " + dtIngredient.CurrentRow.Cells[0].Value);
+                this.BeginInvoke(new MethodInvoker(() =>
+                {
+                    dtIngredient.DataSource = composition.newTable("SELECT composition.ID, ingredients.Ingredient FROM composition " +
+                    "INNER JOIN ingredients ON ingredients.Id = composition.IngredientID " +
+                    "WHERE DishID = " + dtDish.CurrentRow.Cells[0].Value);
+                }));
+                DataBase.Close();
+            }
+            else
+                MessageBox.Show("Проверте подключение к базе данных", "Ошибка Подключения", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
         }
     }
 }

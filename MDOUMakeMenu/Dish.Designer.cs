@@ -45,7 +45,6 @@
             this.IName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.dtIngredientsComposition = new System.Windows.Forms.DataGridView();
-            this.btnComposition = new System.Windows.Forms.Button();
             this.IDic = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Energy = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -54,6 +53,7 @@
             this.BodyMass = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Fat = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Carbohydrates = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnComposition = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -307,18 +307,6 @@
             this.dtIngredientsComposition.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtIngredientsComposition_CellDoubleClick);
             this.dtIngredientsComposition.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtIngredientsComposition_CellEndEdit);
             // 
-            // btnComposition
-            // 
-            this.btnComposition.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btnComposition.Location = new System.Drawing.Point(0, 532);
-            this.btnComposition.Margin = new System.Windows.Forms.Padding(0);
-            this.btnComposition.Name = "btnComposition";
-            this.btnComposition.Size = new System.Drawing.Size(1034, 30);
-            this.btnComposition.TabIndex = 4;
-            this.btnComposition.Text = "Состав ингридиентов";
-            this.btnComposition.UseVisualStyleBackColor = true;
-            this.btnComposition.Click += new System.EventHandler(this.btnComposition_Click);
-            // 
             // IDic
             // 
             this.IDic.DataPropertyName = "ID";
@@ -368,6 +356,19 @@
             this.Carbohydrates.DataPropertyName = "Carbohydrates, g";
             this.Carbohydrates.HeaderText = "Углеводы, г";
             this.Carbohydrates.Name = "Carbohydrates";
+            // 
+            // btnComposition
+            // 
+            this.btnComposition.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnComposition.Enabled = false;
+            this.btnComposition.Location = new System.Drawing.Point(0, 532);
+            this.btnComposition.Margin = new System.Windows.Forms.Padding(0);
+            this.btnComposition.Name = "btnComposition";
+            this.btnComposition.Size = new System.Drawing.Size(1034, 30);
+            this.btnComposition.TabIndex = 4;
+            this.btnComposition.Text = "Состав ингридиентов";
+            this.btnComposition.UseVisualStyleBackColor = true;
+            this.btnComposition.Click += new System.EventHandler(this.btnComposition_Click);
             // 
             // Dish
             // 
