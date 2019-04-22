@@ -18,6 +18,8 @@ namespace MDOUMakeMenu
         bool newRowI = false;
         bool newRowIC = false;
 
+        bool open = false;
+
         Table dish = new Table();
         Table composition = new Table();
         Table ingredients = new Table();
@@ -60,6 +62,7 @@ namespace MDOUMakeMenu
             else
                 MessageBox.Show("Проверте подключение к базе данных", "Ошибка Подключения", MessageBoxButtons.OK, MessageBoxIcon.Error);
             splitContainer2.Panel2Collapsed = true;
+            open = true;
         }
 
         //====== НАВИГАЦИЯ ======
@@ -88,6 +91,13 @@ namespace MDOUMakeMenu
             dtDish.DataSource = dish.newTable("SELECT dishs.ID, dishs.DishName " +
                 "FROM dishs " +
                 "WHERE DinnerType = '" + dataView.SelectedValue + "'");
+
+            if (open == true)
+            {
+                dtIngredient.DataSource = composition.newTable("SELECT composition.ID, ingredients.Ingredient FROM composition " +
+                "INNER JOIN ingredients ON ingredients.Id = composition.IngredientID " +
+                "WHERE DishID = " + dtDish.CurrentRow.Cells[0].Value);
+            }
         }
 
         //====== РАБОТА С БОЮДАМИ ======
@@ -201,6 +211,8 @@ namespace MDOUMakeMenu
             if (splitContainer2.Panel2Collapsed == true)
             {
                 splitContainer2.Panel2Collapsed = false;
+                if (dtIngredient.CurrentRow.Selected == true)
+                    dtIngredientsComposition.DataSource = ingredients.newTable("SELECT * FROM ingredients_composition WHERE ingredientID = " + dtIngredient.CurrentRow.Cells[0].Value);
             }
             else
             {
@@ -233,7 +245,7 @@ namespace MDOUMakeMenu
             if (DataBase.Connect())
             {
                 if (newRowIC == true)
-                    CompositionIngredients.Query("INSERT INTO ingredients_composition (ingredientID, `" + ((DataGridView)sender).Columns[e.ColumnIndex].DataPropertyName + "`) VALUES (" + 
+                    CompositionIngredients.Query("INSERT INTO ingredients_composition (ingredientID, `" + ((DataGridView)sender).Columns[e.ColumnIndex].DataPropertyName + "`) VALUES (" +
                         dtIngredient.CurrentRow.Cells[0].Value + ", " + ((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value + ");");
                 else if (!String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value.ToString()))
                 {
@@ -251,8 +263,8 @@ namespace MDOUMakeMenu
                     CompositionIngredients.Query("DELETE FROM ingredients_composition WHERE ID = " + ((DataGridView)sender).CurrentRow.Cells[0].Value);
                 this.BeginInvoke(new MethodInvoker(() =>
                 {
-                    dtIngredientsComposition.DataSource = 
-                    ingredients.newTable("SELECT * FROM ingredients_composition WHERE ingredientID = " 
+                    dtIngredientsComposition.DataSource =
+                    ingredients.newTable("SELECT * FROM ingredients_composition WHERE ingredientID = "
                     + dtIngredient.CurrentRow.Cells[0].Value);
                 }));
                 DataBase.Close();

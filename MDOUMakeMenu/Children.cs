@@ -99,11 +99,11 @@ namespace MDOUMakeMenu
 
         private void dateView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            dtAttendance.DataSource = attendance.newTable("SELECT attendance.Id, groups.ID, groups.GroupName, totalchildren.TotalChildren, attendance.ActuallyChildrenAmount " +
-                "FROM attendance " +
-                "INNER JOIN totalchildren ON attendance.GroupId = totalchildren.GroupID " +
-                "INNER JOIN groups ON totalchildren.GroupID = groups.ID " +
-                "WHERE DateID = '" + dateView.SelectedValue + "'");
+                dtAttendance.DataSource = attendance.newTable("SELECT attendance.Id, groups.ID, groups.GroupName, totalchildren.TotalChildren, attendance.ActuallyChildrenAmount " +
+                    "FROM attendance " +
+                    "INNER JOIN totalchildren ON attendance.GroupId = totalchildren.GroupID " +
+                    "INNER JOIN groups ON totalchildren.GroupID = groups.ID " +
+                    "WHERE DateID = '" + dateView.SelectedValue + "'");
         }
 
         //====== РАБОТА С ПОСЕЩАЙМОСТТЬЮ ======
@@ -185,9 +185,9 @@ namespace MDOUMakeMenu
                 {
                     dtAttendance.CurrentRow.Cells[4].Value = 0;
                     MessageBox.Show(
-                        "Введеное число превышает колтчество детей в группе", 
-                        "Ошибка Подключения", 
-                        MessageBoxButtons.OK, 
+                        "Введеное число превышает колтчество детей в группе",
+                        "Ошибка Подключения",
+                        MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                 }
             }
@@ -242,12 +242,12 @@ namespace MDOUMakeMenu
                 }
                 else if (!String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value.ToString()))
                 {
-                    children.Query("UPDATE childrens SET `" + ((DataGridView)sender).Columns[e.ColumnIndex].DataPropertyName + "` = '" + 
+                    children.Query("UPDATE childrens SET `" + ((DataGridView)sender).Columns[e.ColumnIndex].DataPropertyName + "` = '" +
                         ((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value + "' WHERE ID = " + ((DataGridView)sender).CurrentRow.Cells[0].Value);
                 }
                 else
                 {
-                    children.Query("UPDATE childrens SET `" + ((DataGridView)sender).Columns[e.ColumnIndex].DataPropertyName + "` = NULL WHERE ID = " + 
+                    children.Query("UPDATE childrens SET `" + ((DataGridView)sender).Columns[e.ColumnIndex].DataPropertyName + "` = NULL WHERE ID = " +
                         ((DataGridView)sender).CurrentRow.Cells[0].Value);
                 }
                 if (String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[2].Value.ToString()) &&
