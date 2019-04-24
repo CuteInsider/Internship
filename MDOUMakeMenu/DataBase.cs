@@ -59,10 +59,7 @@ namespace MDOUMakeMenu
         {
             msCommand.CommandText = Query;
             if (Query.StartsWith("SELECT"))
-                //if (QueryType == null)
-                    return msCommand.ExecuteScalar();
-                //else
-                //    return msCommand.ExecuteNonQuery();
+                return msCommand.ExecuteScalar();
             if (Query.StartsWith("INSERT"))
                 msCommand.ExecuteNonQuery();
             if (Query.StartsWith("UPDATE"))
@@ -72,6 +69,7 @@ namespace MDOUMakeMenu
             return true;
         }
 
+        //TODO: Генератор запросов
         //public void Query(string QueryType, params string[][] Fields)
         //{
         //    switch (QueryType)

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace MDOUMakeMenu
 {
@@ -17,6 +18,7 @@ namespace MDOUMakeMenu
 
         object Role;
         bool newRowC = false;
+        bool newRowG = false;
 
         public Children(Point Location, FormWindowState state, object Role)
         {
@@ -63,10 +65,10 @@ namespace MDOUMakeMenu
                     for (int i = 1; i <= colRows; i++)
                         date.Query("INSERT INTO attendance (DateID, GroupID, ActuallyChildrenAmount) VALUES (" + dateId + ", " + i + ", " + 0 + ")");
                 }
-                dateView.DataSource = date.newTable("SELECT * FROM date ORDER BY ID");
+                dataView.DataSource = date.newTable("SELECT * FROM date ORDER BY ID");
                 DataBase.Close();
-                dateView.ValueMember = "ID";
-                dateView.DisplayMember = "Date";
+                dataView.ValueMember = "ID";
+                dataView.DisplayMember = "Date";
             }
             else
                 MessageBox.Show("Проверте подключение к базе данных", "Ошибка Подключения", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -77,33 +79,13 @@ namespace MDOUMakeMenu
             splitContainer3.Panel2.Hide();
         }
 
-        private void linkMenu_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Close();
-            Menu MForm = new Menu(Location, this.WindowState, Role);
-            MForm.Show();
-        }
-
-        private void linkIngredients_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Close();
-            Dish DForm = new Dish(Location, this.WindowState, Role);
-            DForm.Show();
-        }
-
-        private void btnEnter_Click(object sender, EventArgs e)
-        {
-            Close();
-            Application.OpenForms[0].Show();
-        }
-
         private void dateView_SelectedIndexChanged(object sender, EventArgs e)
         {
-                dtAttendance.DataSource = attendance.newTable("SELECT attendance.Id, groups.ID, groups.GroupName, totalchildren.TotalChildren, attendance.ActuallyChildrenAmount " +
-                    "FROM attendance " +
-                    "INNER JOIN totalchildren ON attendance.GroupId = totalchildren.GroupID " +
-                    "INNER JOIN groups ON totalchildren.GroupID = groups.ID " +
-                    "WHERE DateID = '" + dateView.SelectedValue + "'");
+            dtAttendance.DataSource = attendance.newTable("SELECT attendance.Id, groups.ID, groups.GroupName, totalchildren.TotalChildren, attendance.ActuallyChildrenAmount " +
+                "FROM attendance " +
+                "INNER JOIN totalchildren ON attendance.GroupId = totalchildren.GroupID " +
+                "INNER JOIN groups ON totalchildren.GroupID = groups.ID " +
+                "WHERE DateID = '" + dataView.SelectedValue + "'");
         }
 
         //====== РАБОТА С ПОСЕЩАЙМОСТТЬЮ ======
@@ -114,14 +96,21 @@ namespace MDOUMakeMenu
 
         private void dtAttendance_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            dtChildren.AllowUserToAddRows = true;
-            AgeGroup.DataSource = children.newTable("SELECT * FROM agegroup");
-            AgeGroup.ValueMember = "ID";
-            AgeGroup.DisplayMember = "agegroup";
+            if (((DataGridView)sender).CurrentRow.IsNewRow == false)
+            {
+                dtChildren.AllowUserToAddRows = true;
+                AgeGroup.DataSource = children.newTable("SELECT * FROM agegroup");
+                AgeGroup.ValueMember = "ID";
+                AgeGroup.DisplayMember = "agegroup";
 
-            dtChildren.DataSource = children.newTable("SELECT childrens.ID, childrens.IDAgeGroup, childrens.SecondName, childrens.FistName, childrens.FatherName " +
-                "FROM childrens " +
-                "WHERE childrens.IDGroup = '" + dtAttendance.CurrentRow.Cells[1].Value + "'");
+                dtChildren.DataSource = children.newTable("SELECT childrens.ID, childrens.IDAgeGroup, childrens.SecondName, childrens.FistName, childrens.FatherName " +
+                    "FROM childrens " +
+                    "WHERE childrens.IDGroup = '" + dtAttendance.CurrentRow.Cells[1].Value + "'");
+
+                newRowG = false;
+            }
+            else
+                newRowG = true;
         }
 
         private void dtAttendance_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -130,6 +119,10 @@ namespace MDOUMakeMenu
             {
                 switch (e.ColumnIndex)
                 {
+                    case 2:
+                        EndEditGroupName();
+                        break;
+
                     case 3:
                         EndEditAllAmount();
                         break;
@@ -138,14 +131,57 @@ namespace MDOUMakeMenu
                         EndEditCurrentAmount();
                         break;
                 }
+                this.BeginInvoke(new MethodInvoker(() =>
+                {
+                    ((DataGridView)sender).DataSource = attendance.newTable("SELECT attendance.Id, groups.ID, groups.GroupName, totalchildren.TotalChildren, attendance.ActuallyChildrenAmount " +
+                        "FROM attendance " +
+                        "INNER JOIN totalchildren ON attendance.GroupId = totalchildren.GroupID " +
+                        "INNER JOIN groups ON totalchildren.GroupID = groups.ID " +
+                        "WHERE DateID = '" + dataView.SelectedValue + "'");
+                }));
                 DataBase.Close();
             }
             else
-                MessageBox.Show("Проверте подключение к базе данных", "Ошибка Подключения", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Проверте подключение к базе данных",
+                    "Ошибка Подключения",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+        }
+
+        private void EndEditGroupName()
+        {
+            if (!string.IsNullOrEmpty(dtAttendance.CurrentRow.Cells[2].Value.ToString()))
+            {
+                if (newRowG == true)
+                {
+                    attendance.Query("INSERT INTO groups VALUES('" + dtAttendance.CurrentRow.Cells[2].Value + "')");
+                    int lastGroup = Convert.ToUInt16(attendance.Query("SELECT GroupID FROM totalchildren ORDER BY GroupID DESC"));
+                    attendance.Query("INSERT INTO totalchildren VALUES('" + lastGroup + 1 + "')");
+                }
+                else
+                {
+                    attendance.Query("UPDATE groups SET GroupName = '" + dtAttendance.CurrentRow.Cells[2].Value + "' WHERE ID = " + dtAttendance.CurrentRow.Cells[1].Value + "");
+                }
+            }
+            else
+            {
+                DialogResult = MessageBox.Show(
+                    "Внимание",
+                    "Вы действительно хотете удалить запсиь, удаление записи приведт к удалению всех данных связанных с ней",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+                if (DialogResult == DialogResult.Yes)
+                    attendance.Query("DELETE FROM group WHERE ID = " + dtAttendance.CurrentRow.Cells[2].Value + "");
+            }
         }
 
         private void EndEditAllAmount()
         {
+            if (newRowG == true)
+            {
+                return;
+            }
             if (!String.IsNullOrEmpty(dtAttendance.CurrentRow.Cells[3].Value.ToString()))
             {
                 if (Convert.ToInt32(dtAttendance.CurrentRow.Cells[3].Value) >= Convert.ToInt32(dtAttendance.CurrentRow.Cells[4].Value))
@@ -177,6 +213,10 @@ namespace MDOUMakeMenu
 
         private void EndEditCurrentAmount()
         {
+            if (newRowG == true)
+            {
+                return;
+            }
             if (!String.IsNullOrEmpty(dtAttendance.CurrentRow.Cells[4].Value.ToString()))
             {
                 if (Convert.ToInt32(dtAttendance.CurrentRow.Cells[3].Value) >= Convert.ToInt32(dtAttendance.CurrentRow.Cells[4].Value) && Convert.ToInt32(dtAttendance.CurrentRow.Cells[4].Value) >= 0)
@@ -273,6 +313,82 @@ namespace MDOUMakeMenu
                     MessageBoxIcon.Error);
         }
 
+        //======РАБОТА С ОТЧЕТОМ======
+        private void btnReport_Click(object sender, EventArgs e)
+        {
+            if (cbStartDate.Checked == true)
+            {
+                int index = dataView.FindString(dtpStartDate.Value.ToShortDateString());
+                if (index != -1)
+                    dataView.SelectedIndex = index;
+                else
+                {
+                    MessageBox.Show(
+                        "Такой даты не сущевствует в списке",
+                        "Ошибка",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    return;
+                }
+            }
+            else
+                dataView.SelectedIndex = 1;
+            Excel.Application excelApp = new Excel.Application();
+            Excel.Workbook workBook;
+            Excel.Worksheet workSheet;
+
+            workBook = excelApp.Workbooks.Add();
+            workSheet = (Excel.Worksheet)workBook.Worksheets.get_Item(1);
+            int allRows = 1;
+            cbStartDate.Enabled = false;
+            cbEndDate.Enabled = false;
+            for (int d = dataView.SelectedIndex; d <= dataView.Items.Count - 1; d++)
+            {
+                if (dataView.SelectedIndex != dataView.Items.Count - 1)
+                    dataView.SelectedIndex++;
+                DataRowView dateString = (DataRowView)dataView.Items[d];
+                DateTime curDate = DateTime.Parse(dateString["Date"].ToString());
+                workSheet.Cells[allRows, 1] = curDate.Date;
+                for (int i = 1; i < dtAttendance.RowCount; i++)
+                {
+                    dtAttendance.Rows[i].Selected = true;
+                    for (int j = 1; j < dtAttendance.ColumnCount - 1; j++)
+                    {
+                        workSheet.Cells[allRows + i, j] = dtAttendance.Rows[i].Cells[j + 1].Value;
+                       //TODO: Сделать дизайн для отчета
+                    }
+                }
+                allRows = allRows + dtAttendance.RowCount;
+                if (cbEndDate.Checked == true)
+                {
+                    DateTime lastDate = dtpEndDate.Value.Date;
+                    if (lastDate >= curDate)
+                        break;
+                }
+                allRows = allRows + 1;
+            }
+            cbStartDate.Enabled = true;
+            cbEndDate.Enabled = true;
+            workSheet.Cells.EntireRow.AutoFit();
+            excelApp.Visible = true;
+        }
+
+        private void cbStartDate_CheckedChanged(object sender, EventArgs e)
+        {
+            if (dtpStartDate.Enabled == false)
+                dtpStartDate.Enabled = true;
+            else
+                dtpStartDate.Enabled = false;
+        }
+
+        private void cbEndDate_CheckedChanged(object sender, EventArgs e)
+        {
+            if (dtpEndDate.Enabled == false)
+                dtpEndDate.Enabled = true;
+            else
+                dtpEndDate.Enabled = false;
+        }
+
         private void btnComposition_Click(object sender, EventArgs e)
         {
             if (splitContainer2.Panel2Collapsed == true)
@@ -362,6 +478,26 @@ namespace MDOUMakeMenu
             }
             anError.ThrowException = false;
 
+        }
+
+        private void linkMenu_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Close();
+            Menu MForm = new Menu(Location, this.WindowState, Role);
+            MForm.Show();
+        }
+
+        private void linkIngredients_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Close();
+            Dish DForm = new Dish(Location, this.WindowState, Role);
+            DForm.Show();
+        }
+
+        private void btnEnter_Click(object sender, EventArgs e)
+        {
+            Close();
+            Application.OpenForms[0].Show();
         }
     }
 }

@@ -197,6 +197,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dtDish.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dtDish.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
+            this.dtDish.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dtDish.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtDish.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ID,
@@ -206,6 +207,7 @@
             this.dtDish.Margin = new System.Windows.Forms.Padding(0);
             this.dtDish.MultiSelect = false;
             this.dtDish.Name = "dtDish";
+            this.dtDish.RowHeadersVisible = false;
             this.dtDish.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dtDish.Size = new System.Drawing.Size(367, 235);
             this.dtDish.TabIndex = 0;
@@ -231,6 +233,7 @@
             this.dtIngredient.AllowUserToDeleteRows = false;
             this.dtIngredient.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.dtIngredient.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
+            this.dtIngredient.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dtIngredient.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtIngredient.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ID_,
@@ -240,6 +243,7 @@
             this.dtIngredient.Location = new System.Drawing.Point(0, 0);
             this.dtIngredient.MultiSelect = false;
             this.dtIngredient.Name = "dtIngredient";
+            this.dtIngredient.RowHeadersVisible = false;
             this.dtIngredient.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dtIngredient.Size = new System.Drawing.Size(538, 235);
             this.dtIngredient.TabIndex = 0;
@@ -301,6 +305,7 @@
             this.dtIngredientsComposition.Location = new System.Drawing.Point(0, 0);
             this.dtIngredientsComposition.Margin = new System.Windows.Forms.Padding(0);
             this.dtIngredientsComposition.Name = "dtIngredientsComposition";
+            this.dtIngredientsComposition.RowHeadersVisible = false;
             this.dtIngredientsComposition.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dtIngredientsComposition.Size = new System.Drawing.Size(1034, 239);
             this.dtIngredientsComposition.TabIndex = 0;
