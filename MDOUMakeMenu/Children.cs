@@ -4,10 +4,11 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Excel = Microsoft.Office.Interop.Excel;
+using OfficeOpenXml;
 
 namespace MDOUMakeMenu
 {
@@ -66,12 +67,16 @@ namespace MDOUMakeMenu
                         date.Query("INSERT INTO attendance (DateID, GroupID, ActuallyChildrenAmount) VALUES (" + dateId + ", " + i + ", " + 0 + ")");
                 }
                 dataView.DataSource = date.newTable("SELECT * FROM date ORDER BY ID");
-                DataBase.Close();
                 dataView.ValueMember = "ID";
                 dataView.DisplayMember = "Date";
+                DataBase.Close();
             }
             else
-                MessageBox.Show("Проверте подключение к базе данных", "Ошибка Подключения", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Проверте подключение к базе данных",
+                    "Ошибка Подключения",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             splitContainer2.Panel2Collapsed = true;
             splitContainer3.Panel1Collapsed = true;
             splitContainer3.Panel1.Hide();
@@ -158,6 +163,23 @@ namespace MDOUMakeMenu
                     attendance.Query("INSERT INTO groups VALUES('" + dtAttendance.CurrentRow.Cells[2].Value + "')");
                     int lastGroup = Convert.ToUInt16(attendance.Query("SELECT GroupID FROM totalchildren ORDER BY GroupID DESC"));
                     attendance.Query("INSERT INTO totalchildren VALUES('" + lastGroup + 1 + "')");
+
+                    DataRowView dateString = (DataRowView)dataView.SelectedItem;
+                    int curDateID = Convert.ToInt32(attendance.Query("SELECT ID FROM Group WHERE Date = '" + dateString["Date"].ToString() + "'"));
+
+                    attendance.Query("INSERT INTO attendance VALUES('" + curDateID + "', '" + lastGroup + 1 + "', " + 0 + ")");
+
+                    DialogResult = MessageBox.Show(
+                        "Добавить группу ко всем датам",
+                        "Сообщение",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Asterisk);
+                    if (DialogResult == DialogResult.Yes)
+                    {
+                        //for (int i = 0;)
+                        //    //TODO: Сюда ебни цикл
+                        //    attendance.Query("INSERT INTO attendance");
+                    }
                 }
                 else
                 {
@@ -314,13 +336,17 @@ namespace MDOUMakeMenu
         }
 
         //======РАБОТА С ОТЧЕТОМ======
-        private void btnReport_Click(object sender, EventArgs e)
+        private /*async*/ void btnReport_Click(object sender, EventArgs e)
         {
-            if (cbStartDate.Checked == true)
+            string rangeDate;
+            if (dtpStartDate.Checked == true)
             {
                 int index = dataView.FindString(dtpStartDate.Value.ToShortDateString());
                 if (index != -1)
+                {
                     dataView.SelectedIndex = index;
+                    rangeDate = " от " + dtpStartDate.Value.ToShortDateString();
+                }
                 else
                 {
                     MessageBox.Show(
@@ -332,45 +358,85 @@ namespace MDOUMakeMenu
                 }
             }
             else
-                dataView.SelectedIndex = 1;
-            Excel.Application excelApp = new Excel.Application();
-            Excel.Workbook workBook;
-            Excel.Worksheet workSheet;
-
-            workBook = excelApp.Workbooks.Add();
-            workSheet = (Excel.Worksheet)workBook.Worksheets.get_Item(1);
-            int allRows = 1;
-            cbStartDate.Enabled = false;
-            cbEndDate.Enabled = false;
-            for (int d = dataView.SelectedIndex; d <= dataView.Items.Count - 1; d++)
             {
-                if (dataView.SelectedIndex != dataView.Items.Count - 1)
-                    dataView.SelectedIndex++;
-                DataRowView dateString = (DataRowView)dataView.Items[d];
-                DateTime curDate = DateTime.Parse(dateString["Date"].ToString());
-                workSheet.Cells[allRows, 1] = curDate.Date;
-                for (int i = 1; i < dtAttendance.RowCount; i++)
-                {
-                    dtAttendance.Rows[i].Selected = true;
-                    for (int j = 1; j < dtAttendance.ColumnCount - 1; j++)
-                    {
-                        workSheet.Cells[allRows + i, j] = dtAttendance.Rows[i].Cells[j + 1].Value;
-                       //TODO: Сделать дизайн для отчета
-                    }
-                }
-                allRows = allRows + dtAttendance.RowCount;
-                if (cbEndDate.Checked == true)
-                {
-                    DateTime lastDate = dtpEndDate.Value.Date;
-                    if (lastDate >= curDate)
-                        break;
-                }
-                allRows = allRows + 1;
+                dataView.SelectedIndex = 1;
+                DataRowView dateString = (DataRowView)dataView.SelectedItem;
+                DateTime shortDate = DateTime.Parse(dateString["Date"].ToString());
+                rangeDate = " от " + shortDate.ToShortDateString();
             }
-            cbStartDate.Enabled = true;
-            cbEndDate.Enabled = true;
-            workSheet.Cells.EntireRow.AutoFit();
-            excelApp.Visible = true;
+            //await Task.Factory.StartNew(() =>
+            //{
+            panel1.Enabled = false;
+            dataView.Enabled = false;
+            splitContainer2.Enabled = false;
+            btnNone.Enabled = false;
+            btnNone2.Enabled = false;
+            btnReport.Enabled = false;
+            dtpStartDate.Enabled = false;
+            dtpEndDate.Enabled = false;
+            //Создание файла
+            using (ExcelPackage Excel = new ExcelPackage())
+            {
+                //Создание листа
+                ExcelWorksheet workSheet = Excel.Workbook.Worksheets.Add("Отчет");
+
+                int allRows = 1;
+                for (int d = dataView.SelectedIndex; d <= dataView.Items.Count - 1; d++)
+                {
+                    DataRowView dateString = (DataRowView)dataView.Items[d];
+                    DateTime curDate = DateTime.Parse(dateString["Date"].ToString());
+
+                    //Шапка
+                    workSheet.Cells[allRows, 1].Value = curDate.ToShortDateString();
+                    workSheet.Cells[allRows, 1].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    workSheet.Cells[allRows + 1, 1].Value = "Название группы";
+                    workSheet.Cells[allRows+ 1, 1].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    workSheet.Cells[allRows + 1, 2].Value = "Детей всего";
+                    workSheet.Cells[allRows + 1, 2].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    workSheet.Cells[allRows + 1, 3].Value = "Детей было";
+                    workSheet.Cells[allRows + 1, 3].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    allRows++;
+
+                    for (int i = 1; i < dtAttendance.RowCount - 1; i++)
+                    {
+                        for (int j = 2; j <= dtAttendance.ColumnCount - 1; j++)
+                        {
+                            workSheet.Cells[allRows + i, j - 1].Value = dtAttendance.Rows[i - 1].Cells[j].Value;
+                            workSheet.Cells[allRows + i, j - 1].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        }
+                    }
+                    if (dtpEndDate.Checked == true)
+                    {
+                        DateTime lastDate = dtpEndDate.Value.Date;
+                        if (lastDate == curDate)
+                        {
+                            rangeDate = rangeDate + " до " + lastDate.ToShortDateString();
+                            break;
+                        }
+                    }
+                    allRows = allRows + dtAttendance.RowCount + 1;
+                    if (dataView.SelectedIndex != dataView.Items.Count - 1)
+                        dataView.SelectedIndex++;
+                }
+
+                //Форматирование Файла
+                workSheet.Cells.AutoFitColumns();
+                workSheet.Cells.Style.Font.Name = "Times New Roman";
+                workSheet.Cells.Style.Font.Size = 12;
+
+                //Сохранение Excel
+                System.IO.FileInfo fi = new System.IO.FileInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Отчет о посещаймости" + rangeDate + ".xlsx");
+                Excel.SaveAs(fi);
+            }
+            panel1.Enabled = true;
+            dataView.Enabled = true;
+            splitContainer2.Enabled = true;
+            btnNone.Enabled = true;
+            btnNone2.Enabled = true;
+            btnReport.Enabled = true;
+            dtpStartDate.Enabled = true;
+            dtpEndDate.Enabled = true;
+            //}, TaskCreationOptions.LongRunning);
         }
 
         private void cbStartDate_CheckedChanged(object sender, EventArgs e)

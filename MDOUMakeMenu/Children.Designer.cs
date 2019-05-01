@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Children));
             this.panel1 = new System.Windows.Forms.Panel();
             this.linkMenu = new System.Windows.Forms.LinkLabel();
@@ -55,11 +55,11 @@
             this.btnNone = new System.Windows.Forms.Button();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.dtpStartDate = new System.Windows.Forms.DateTimePicker();
             this.dtpEndDate = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
-            this.cbEndDate = new System.Windows.Forms.CheckBox();
-            this.cbStartDate = new System.Windows.Forms.CheckBox();
             this.btnReport = new System.Windows.Forms.Button();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -181,14 +181,14 @@
             this.dtAttendance.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dtAttendance.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.dtAttendance.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dtAttendance.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dtAttendance.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dtAttendance.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtAttendance.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ID,
@@ -201,14 +201,14 @@
             this.dtAttendance.Margin = new System.Windows.Forms.Padding(0);
             this.dtAttendance.MultiSelect = false;
             this.dtAttendance.Name = "dtAttendance";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dtAttendance.RowHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtAttendance.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dtAttendance.RowHeadersVisible = false;
             this.dtAttendance.RowHeadersWidth = 25;
             this.dtAttendance.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -272,14 +272,14 @@
             this.dtChildren.Margin = new System.Windows.Forms.Padding(0);
             this.dtChildren.MultiSelect = false;
             this.dtChildren.Name = "dtChildren";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dtChildren.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dtChildren.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dtChildren.RowHeadersVisible = false;
             this.dtChildren.RowHeadersWidth = 5;
             this.dtChildren.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -405,11 +405,11 @@
             // 
             // splitContainer3.Panel1
             // 
+            this.splitContainer3.Panel1.Controls.Add(this.label3);
+            this.splitContainer3.Panel1.Controls.Add(this.label2);
             this.splitContainer3.Panel1.Controls.Add(this.dtpStartDate);
             this.splitContainer3.Panel1.Controls.Add(this.dtpEndDate);
             this.splitContainer3.Panel1.Controls.Add(this.label1);
-            this.splitContainer3.Panel1.Controls.Add(this.cbEndDate);
-            this.splitContainer3.Panel1.Controls.Add(this.cbStartDate);
             this.splitContainer3.Panel1.Controls.Add(this.btnReport);
             // 
             // splitContainer3.Panel2
@@ -419,22 +419,43 @@
             this.splitContainer3.SplitterDistance = 540;
             this.splitContainer3.TabIndex = 0;
             // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(283, 28);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(154, 23);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Конечная дата";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 28);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(165, 23);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Начальная дата";
+            // 
             // dtpStartDate
             // 
-            this.dtpStartDate.Enabled = false;
+            this.dtpStartDate.Checked = false;
             this.dtpStartDate.Location = new System.Drawing.Point(16, 84);
-            this.dtpStartDate.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
+            this.dtpStartDate.Margin = new System.Windows.Forms.Padding(0);
             this.dtpStartDate.Name = "dtpStartDate";
+            this.dtpStartDate.ShowCheckBox = true;
             this.dtpStartDate.Size = new System.Drawing.Size(240, 31);
             this.dtpStartDate.TabIndex = 4;
             // 
             // dtpEndDate
             // 
             this.dtpEndDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.dtpEndDate.Enabled = false;
+            this.dtpEndDate.Checked = false;
             this.dtpEndDate.Location = new System.Drawing.Point(287, 84);
-            this.dtpEndDate.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
+            this.dtpEndDate.Margin = new System.Windows.Forms.Padding(0);
             this.dtpEndDate.Name = "dtpEndDate";
+            this.dtpEndDate.ShowCheckBox = true;
             this.dtpEndDate.Size = new System.Drawing.Size(236, 31);
             this.dtpEndDate.TabIndex = 5;
             // 
@@ -447,29 +468,6 @@
             this.label1.Size = new System.Drawing.Size(19, 23);
             this.label1.TabIndex = 6;
             this.label1.Text = "-";
-            // 
-            // cbEndDate
-            // 
-            this.cbEndDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbEndDate.AutoSize = true;
-            this.cbEndDate.Location = new System.Drawing.Point(289, 29);
-            this.cbEndDate.Name = "cbEndDate";
-            this.cbEndDate.Size = new System.Drawing.Size(173, 27);
-            this.cbEndDate.TabIndex = 3;
-            this.cbEndDate.Text = "Конечная дата";
-            this.cbEndDate.UseVisualStyleBackColor = true;
-            this.cbEndDate.CheckedChanged += new System.EventHandler(this.cbEndDate_CheckedChanged);
-            // 
-            // cbStartDate
-            // 
-            this.cbStartDate.AutoSize = true;
-            this.cbStartDate.Location = new System.Drawing.Point(16, 29);
-            this.cbStartDate.Name = "cbStartDate";
-            this.cbStartDate.Size = new System.Drawing.Size(184, 27);
-            this.cbStartDate.TabIndex = 3;
-            this.cbStartDate.Text = "Начальная дата";
-            this.cbStartDate.UseVisualStyleBackColor = true;
-            this.cbStartDate.CheckedChanged += new System.EventHandler(this.cbStartDate_CheckedChanged);
             // 
             // btnReport
             // 
@@ -601,12 +599,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn GroupName;
         private System.Windows.Forms.DataGridViewTextBoxColumn TotalChildren;
         private System.Windows.Forms.DataGridViewTextBoxColumn ActuallyChildren;
-        private System.Windows.Forms.CheckBox cbStartDate;
         private System.Windows.Forms.Button btnReport;
         private System.Windows.Forms.DateTimePicker dtpStartDate;
         private System.Windows.Forms.DateTimePicker dtpEndDate;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox cbEndDate;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
     }
 }
 
