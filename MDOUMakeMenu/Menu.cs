@@ -60,5 +60,7 @@ namespace MDOUMakeMenu
             Children CForm = new Children(Location, this.WindowState, Role);
             CForm.Show();
         }
+
+        //====== РАБОТА С МЕНЮ =======
     }
 }

@@ -61,12 +61,12 @@ namespace MDOUMakeMenu
             if (Query.StartsWith("SELECT"))
                 return msCommand.ExecuteScalar();
             if (Query.StartsWith("INSERT"))
-                msCommand.ExecuteNonQuery();
+                return msCommand.ExecuteNonQuery();
             if (Query.StartsWith("UPDATE"))
-                msCommand.ExecuteNonQuery();
+                return msCommand.ExecuteNonQuery();
             if (Query.StartsWith("DELETE"))
-                msCommand.ExecuteNonQuery();
-            return true;
+                return msCommand.ExecuteNonQuery();
+            return false;
         }
 
         //TODO: Генератор запросов

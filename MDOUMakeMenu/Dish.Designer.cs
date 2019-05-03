@@ -38,11 +38,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataView = new System.Windows.Forms.ListBox();
             this.dtDish = new System.Windows.Forms.DataGridView();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DishName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dtIngredient = new System.Windows.Forms.DataGridView();
-            this.ID_ = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.dtIngredientsComposition = new System.Windows.Forms.DataGridView();
             this.IDic = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -54,6 +50,10 @@
             this.Fat = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Carbohydrates = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnComposition = new System.Windows.Forms.Button();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DishName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ID_ = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -197,12 +197,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dtDish.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dtDish.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
+            this.dtDish.BackgroundColor = System.Drawing.Color.White;
             this.dtDish.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dtDish.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtDish.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ID,
             this.DishName});
             this.dtDish.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dtDish.GridColor = System.Drawing.Color.Silver;
             this.dtDish.Location = new System.Drawing.Point(125, 0);
             this.dtDish.Margin = new System.Windows.Forms.Padding(0);
             this.dtDish.MultiSelect = false;
@@ -215,24 +217,12 @@
             this.dtDish.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtDish_CellDoubleClick);
             this.dtDish.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtDish_CellEndEdit);
             // 
-            // ID
-            // 
-            this.ID.DataPropertyName = "ID";
-            this.ID.HeaderText = "ID";
-            this.ID.Name = "ID";
-            this.ID.Visible = false;
-            // 
-            // DishName
-            // 
-            this.DishName.DataPropertyName = "DishName";
-            this.DishName.HeaderText = "Название";
-            this.DishName.Name = "DishName";
-            // 
             // dtIngredient
             // 
             this.dtIngredient.AllowUserToDeleteRows = false;
-            this.dtIngredient.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dtIngredient.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dtIngredient.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
+            this.dtIngredient.BackgroundColor = System.Drawing.Color.White;
             this.dtIngredient.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dtIngredient.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtIngredient.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -240,6 +230,7 @@
             this.IName});
             this.dtIngredient.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtIngredient.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dtIngredient.GridColor = System.Drawing.Color.DarkGray;
             this.dtIngredient.Location = new System.Drawing.Point(0, 0);
             this.dtIngredient.MultiSelect = false;
             this.dtIngredient.Name = "dtIngredient";
@@ -250,21 +241,6 @@
             this.dtIngredient.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtIngredient_CellClick);
             this.dtIngredient.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtIngredient_CellDoubleClick);
             this.dtIngredient.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtIngredient_CellEndEdit);
-            // 
-            // ID_
-            // 
-            this.ID_.DataPropertyName = "Id";
-            this.ID_.HeaderText = "ID";
-            this.ID_.Name = "ID_";
-            this.ID_.Visible = false;
-            this.ID_.Width = 58;
-            // 
-            // IName
-            // 
-            this.IName.DataPropertyName = "Ingredient";
-            this.IName.HeaderText = "Название";
-            this.IName.Name = "IName";
-            this.IName.Width = 127;
             // 
             // splitContainer2
             // 
@@ -376,6 +352,32 @@
             this.btnComposition.UseVisualStyleBackColor = true;
             this.btnComposition.Click += new System.EventHandler(this.btnComposition_Click);
             // 
+            // ID
+            // 
+            this.ID.DataPropertyName = "ID";
+            this.ID.HeaderText = "ID";
+            this.ID.Name = "ID";
+            this.ID.Visible = false;
+            // 
+            // DishName
+            // 
+            this.DishName.DataPropertyName = "DishName";
+            this.DishName.HeaderText = "Название блюда";
+            this.DishName.Name = "DishName";
+            // 
+            // ID_
+            // 
+            this.ID_.DataPropertyName = "Id";
+            this.ID_.HeaderText = "ID";
+            this.ID_.Name = "ID_";
+            this.ID_.Visible = false;
+            // 
+            // IName
+            // 
+            this.IName.DataPropertyName = "Ingredient";
+            this.IName.HeaderText = "Название ингредиента";
+            this.IName.Name = "IName";
+            // 
             // Dish
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -420,11 +422,7 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.DataGridView dtDish;
         private System.Windows.Forms.DataGridView dtIngredient;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DishName;
         private System.Windows.Forms.ListBox dataView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ID_;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IName;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.DataGridView dtIngredientsComposition;
         private System.Windows.Forms.Button btnComposition;
@@ -436,6 +434,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn BodyMass;
         private System.Windows.Forms.DataGridViewTextBoxColumn Fat;
         private System.Windows.Forms.DataGridViewTextBoxColumn Carbohydrates;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DishName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ID_;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IName;
     }
 }
 

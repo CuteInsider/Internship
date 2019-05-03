@@ -100,8 +100,8 @@ namespace MDOUMakeMenu
             }
         }
 
-        //====== РАБОТА С БОЮДАМИ ======
 
+        //====== РАБОТА С БОЮДАМИ ======
         private void dtDish_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (!((DataGridView)sender).CurrentRow.IsNewRow)
@@ -135,20 +135,26 @@ namespace MDOUMakeMenu
                         dish.Query("UPDATE dishs SET DishName = '" + ((DataGridView)sender).CurrentRow.Cells[1].Value + "' WHERE ID = " + ((DataGridView)sender).CurrentRow.Cells[0].Value);
                 else
                     dish.Query("DELETE FROM dishs WHERE ID = " + ((DataGridView)sender).CurrentRow.Cells[0].Value);
+                int rowIndex = e.RowIndex;
                 this.BeginInvoke(new MethodInvoker(() =>
                 {
                     ((DataGridView)sender).DataSource = dish.newTable("SELECT dishs.ID, dishs.DishName " +
                         "FROM dishs " +
                         "WHERE DinnerType = '" + dataView.SelectedValue + "'");
+                    dtDish.Rows[rowIndex].Selected = true;
                 }));
                 DataBase.Close();
             }
             else
-                MessageBox.Show("Проверте подключение к базе данных", "Ошибка Подключения", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Проверте подключение к базе данных", 
+                    "Ошибка Подключения", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error);
         }
 
-        //====== РАБОТА С ИНГРИДИЕНТАМИ ======
 
+        //====== РАБОТА С ИНГРИДИЕНТАМИ ======
         private void dtIngredient_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (!((DataGridView)sender).CurrentRow.IsNewRow)
@@ -192,11 +198,13 @@ namespace MDOUMakeMenu
                 }
                 else
                     DishIngredients.Query("DELETE FROM ingredients WHERE ID = " + ((DataGridView)sender).CurrentRow.Cells[0].Value);
+                int rowIndex = e.RowIndex;
                 this.BeginInvoke(new MethodInvoker(() =>
                 {
                     dtIngredient.DataSource = composition.newTable("SELECT composition.ID, ingredients.Ingredient FROM composition " +
                     "INNER JOIN ingredients ON ingredients.Id = composition.IngredientID " +
                     "WHERE DishID = " + dtDish.CurrentRow.Cells[0].Value);
+                    dtIngredient.Rows[rowIndex].Selected = true;
                 }));
                 DataBase.Close();
             }
@@ -204,8 +212,8 @@ namespace MDOUMakeMenu
                 MessageBox.Show("Проверте подключение к базе данных", "Ошибка Подключения", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        //====== РАБОТА С СОСТАВОМ ИНГРИДИЕНТОВ ======
 
+        //====== РАБОТА С СОСТАВОМ ИНГРИДИЕНТОВ ======
         private void btnComposition_Click(object sender, EventArgs e)
         {
             if (splitContainer2.Panel2Collapsed == true)
@@ -219,7 +227,6 @@ namespace MDOUMakeMenu
                 splitContainer2.Panel2Collapsed = true;
             }
         }
-
 
         private void dtIngredientsComposition_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -261,11 +268,13 @@ namespace MDOUMakeMenu
                     String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[4].Value.ToString()) && String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[5].Value.ToString()) &&
                     String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[6].Value.ToString()) && String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[7].Value.ToString()) && newRowIC == false)
                     CompositionIngredients.Query("DELETE FROM ingredients_composition WHERE ID = " + ((DataGridView)sender).CurrentRow.Cells[0].Value);
+                int rowIndex = e.RowIndex;
                 this.BeginInvoke(new MethodInvoker(() =>
                 {
                     dtIngredientsComposition.DataSource =
                     ingredients.newTable("SELECT * FROM ingredients_composition WHERE ingredientID = "
                     + dtIngredient.CurrentRow.Cells[0].Value);
+                    dtIngredientsComposition.Rows[rowIndex].Selected = true;
                 }));
                 DataBase.Close();
             }

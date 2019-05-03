@@ -35,7 +35,13 @@
             this.linkChildren = new System.Windows.Forms.LinkLabel();
             this.btnSetup = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.dtMenu = new System.Windows.Forms.DataGridView();
+            this.dtDish = new System.Windows.Forms.DataGridView();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dtMenu)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtDish)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -125,12 +131,72 @@
             this.panel2.Size = new System.Drawing.Size(834, 3);
             this.panel2.TabIndex = 1;
             // 
+            // dtMenu
+            // 
+            this.dtMenu.AllowUserToAddRows = false;
+            this.dtMenu.AllowUserToDeleteRows = false;
+            this.dtMenu.BackgroundColor = System.Drawing.Color.White;
+            this.dtMenu.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.tableLayoutPanel1.SetColumnSpan(this.dtMenu, 3);
+            this.dtMenu.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dtMenu.Location = new System.Drawing.Point(156, 0);
+            this.dtMenu.Margin = new System.Windows.Forms.Padding(0);
+            this.dtMenu.Name = "dtMenu";
+            this.dtMenu.ReadOnly = true;
+            this.tableLayoutPanel1.SetRowSpan(this.dtMenu, 5);
+            this.dtMenu.Size = new System.Drawing.Size(274, 384);
+            this.dtMenu.TabIndex = 1;
+            // 
+            // dtDish
+            // 
+            this.dtDish.AllowUserToAddRows = false;
+            this.dtDish.AllowUserToDeleteRows = false;
+            this.dtDish.BackgroundColor = System.Drawing.Color.White;
+            this.dtDish.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.tableLayoutPanel1.SetColumnSpan(this.dtDish, 4);
+            this.dtDish.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dtDish.Location = new System.Drawing.Point(517, 0);
+            this.dtDish.Margin = new System.Windows.Forms.Padding(0);
+            this.dtDish.Name = "dtDish";
+            this.dtDish.ReadOnly = true;
+            this.tableLayoutPanel1.SetRowSpan(this.dtDish, 5);
+            this.dtDish.Size = new System.Drawing.Size(317, 384);
+            this.dtDish.TabIndex = 0;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 10;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.417768F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.417768F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.08275F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.47021F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.47021F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.47021F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.417768F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.417768F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.417768F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.417768F));
+            this.tableLayoutPanel1.Controls.Add(this.dtDish, 6, 0);
+            this.tableLayoutPanel1.Controls.Add(this.dtMenu, 2, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 78);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 5;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19.87578F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19.87578F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19.87578F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19.40994F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20.96273F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(834, 384);
+            this.tableLayoutPanel1.TabIndex = 2;
+            // 
             // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(834, 462);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -141,6 +207,9 @@
             this.Text = "Меню";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dtMenu)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtDish)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -153,6 +222,9 @@
         private System.Windows.Forms.LinkLabel linkIngredients;
         private System.Windows.Forms.LinkLabel linkChildren;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.DataGridView dtMenu;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.DataGridView dtDish;
     }
 }
 

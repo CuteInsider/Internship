@@ -46,13 +46,13 @@
             this.ActuallyChildren = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dtChildren = new System.Windows.Forms.DataGridView();
             this.ChildrenID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AgeGroup = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.cmbAgeGroup = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.SecondName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FistName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FatherName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataView = new System.Windows.Forms.ListBox();
-            this.btnNone = new System.Windows.Forms.Button();
+            this.btnReport = new System.Windows.Forms.Button();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.label3 = new System.Windows.Forms.Label();
@@ -60,11 +60,12 @@
             this.dtpStartDate = new System.Windows.Forms.DateTimePicker();
             this.dtpEndDate = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnReport = new System.Windows.Forms.Button();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnCreateReport = new System.Windows.Forms.Button();
+            this.dtAgeGroup = new System.Windows.Forms.DataGridView();
+            this.IDAgeGroup = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AgeGroup = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnNone2 = new System.Windows.Forms.Button();
+            this.btnAgeGroup = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtAttendance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtChildren)).BeginInit();
@@ -80,7 +81,7 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtAgeGroup)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -197,6 +198,7 @@
             this.TotalChildren,
             this.ActuallyChildren});
             this.dtAttendance.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dtAttendance.GridColor = System.Drawing.Color.DarkGray;
             this.dtAttendance.Location = new System.Drawing.Point(133, 0);
             this.dtAttendance.Margin = new System.Windows.Forms.Padding(0);
             this.dtAttendance.MultiSelect = false;
@@ -262,7 +264,7 @@
             this.dtChildren.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtChildren.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ChildrenID,
-            this.AgeGroup,
+            this.cmbAgeGroup,
             this.SecondName,
             this.FistName,
             this.FatherName});
@@ -296,15 +298,15 @@
             this.ChildrenID.Name = "ChildrenID";
             this.ChildrenID.Visible = false;
             // 
-            // AgeGroup
+            // cmbAgeGroup
             // 
-            this.AgeGroup.DataPropertyName = "IDAgeGroup";
-            this.AgeGroup.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.AgeGroup.DisplayStyleForCurrentCellOnly = true;
-            this.AgeGroup.DropDownWidth = 3;
-            this.AgeGroup.FillWeight = 120F;
-            this.AgeGroup.HeaderText = "Воз. Группа";
-            this.AgeGroup.Name = "AgeGroup";
+            this.cmbAgeGroup.DataPropertyName = "IDAgeGroup";
+            this.cmbAgeGroup.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.cmbAgeGroup.DisplayStyleForCurrentCellOnly = true;
+            this.cmbAgeGroup.DropDownWidth = 3;
+            this.cmbAgeGroup.FillWeight = 120F;
+            this.cmbAgeGroup.HeaderText = "Воз. Группа";
+            this.cmbAgeGroup.Name = "cmbAgeGroup";
             // 
             // SecondName
             // 
@@ -362,17 +364,17 @@
             this.dataView.TabIndex = 3;
             this.dataView.SelectedIndexChanged += new System.EventHandler(this.dateView_SelectedIndexChanged);
             // 
-            // btnNone
+            // btnReport
             // 
-            this.btnNone.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnNone.Location = new System.Drawing.Point(0, 480);
-            this.btnNone.Margin = new System.Windows.Forms.Padding(0);
-            this.btnNone.Name = "btnNone";
-            this.btnNone.Size = new System.Drawing.Size(542, 30);
-            this.btnNone.TabIndex = 5;
-            this.btnNone.Text = "Отчет";
-            this.btnNone.UseVisualStyleBackColor = true;
-            this.btnNone.Click += new System.EventHandler(this.btnComposition_Click);
+            this.btnReport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnReport.Location = new System.Drawing.Point(0, 480);
+            this.btnReport.Margin = new System.Windows.Forms.Padding(0);
+            this.btnReport.Name = "btnReport";
+            this.btnReport.Size = new System.Drawing.Size(542, 30);
+            this.btnReport.TabIndex = 5;
+            this.btnReport.Text = "Отчет о посещаемости";
+            this.btnReport.UseVisualStyleBackColor = true;
+            this.btnReport.Click += new System.EventHandler(this.btnReport_Click);
             // 
             // splitContainer2
             // 
@@ -410,11 +412,11 @@
             this.splitContainer3.Panel1.Controls.Add(this.dtpStartDate);
             this.splitContainer3.Panel1.Controls.Add(this.dtpEndDate);
             this.splitContainer3.Panel1.Controls.Add(this.label1);
-            this.splitContainer3.Panel1.Controls.Add(this.btnReport);
+            this.splitContainer3.Panel1.Controls.Add(this.btnCreateReport);
             // 
             // splitContainer3.Panel2
             // 
-            this.splitContainer3.Panel2.Controls.Add(this.dataGridView2);
+            this.splitContainer3.Panel2.Controls.Add(this.dtAgeGroup);
             this.splitContainer3.Size = new System.Drawing.Size(1084, 205);
             this.splitContainer3.SplitterDistance = 540;
             this.splitContainer3.TabIndex = 0;
@@ -441,7 +443,7 @@
             // dtpStartDate
             // 
             this.dtpStartDate.Checked = false;
-            this.dtpStartDate.Location = new System.Drawing.Point(16, 84);
+            this.dtpStartDate.Location = new System.Drawing.Point(16, 51);
             this.dtpStartDate.Margin = new System.Windows.Forms.Padding(0);
             this.dtpStartDate.Name = "dtpStartDate";
             this.dtpStartDate.ShowCheckBox = true;
@@ -452,7 +454,7 @@
             // 
             this.dtpEndDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpEndDate.Checked = false;
-            this.dtpEndDate.Location = new System.Drawing.Point(287, 84);
+            this.dtpEndDate.Location = new System.Drawing.Point(287, 51);
             this.dtpEndDate.Margin = new System.Windows.Forms.Padding(0);
             this.dtpEndDate.Name = "dtpEndDate";
             this.dtpEndDate.ShowCheckBox = true;
@@ -463,51 +465,68 @@
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(262, 87);
+            this.label1.Location = new System.Drawing.Point(262, 54);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(19, 23);
             this.label1.TabIndex = 6;
             this.label1.Text = "-";
             // 
-            // btnReport
+            // btnCreateReport
             // 
-            this.btnReport.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.btnCreateReport.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReport.Location = new System.Drawing.Point(16, 157);
-            this.btnReport.Name = "btnReport";
-            this.btnReport.Size = new System.Drawing.Size(507, 35);
-            this.btnReport.TabIndex = 2;
-            this.btnReport.Text = "Сформировать отчет о посещаймости";
-            this.btnReport.UseVisualStyleBackColor = true;
-            this.btnReport.Click += new System.EventHandler(this.btnReport_Click);
+            this.btnCreateReport.Location = new System.Drawing.Point(16, 157);
+            this.btnCreateReport.Name = "btnCreateReport";
+            this.btnCreateReport.Size = new System.Drawing.Size(507, 35);
+            this.btnCreateReport.TabIndex = 2;
+            this.btnCreateReport.Text = "Сформировать отчет о посещаемости";
+            this.btnCreateReport.UseVisualStyleBackColor = true;
+            this.btnCreateReport.Click += new System.EventHandler(this.btnCreateReport_Click);
             // 
-            // dataGridView2
+            // dtAgeGroup
             // 
-            this.dataGridView2.AllowUserToAddRows = false;
-            this.dataGridView2.AllowUserToDeleteRows = false;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column2});
-            this.dataGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView2.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.ReadOnly = true;
-            this.dataGridView2.Size = new System.Drawing.Size(538, 203);
-            this.dataGridView2.TabIndex = 0;
+            this.dtAgeGroup.AllowUserToDeleteRows = false;
+            this.dtAgeGroup.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dtAgeGroup.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
+            this.dtAgeGroup.BackgroundColor = System.Drawing.Color.White;
+            this.dtAgeGroup.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtAgeGroup.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.IDAgeGroup,
+            this.AgeGroup});
+            this.dtAgeGroup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dtAgeGroup.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dtAgeGroup.Location = new System.Drawing.Point(0, 0);
+            this.dtAgeGroup.Margin = new System.Windows.Forms.Padding(0);
+            this.dtAgeGroup.MultiSelect = false;
+            this.dtAgeGroup.Name = "dtAgeGroup";
+            this.dtAgeGroup.RowHeadersVisible = false;
+            this.dtAgeGroup.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dtAgeGroup.Size = new System.Drawing.Size(538, 203);
+            this.dtAgeGroup.TabIndex = 0;
+            this.dtAgeGroup.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtAgeGroup_CellDoubleClick);
+            this.dtAgeGroup.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtAgeGroup_CellEndEdit);
+            this.dtAgeGroup.Click += new System.EventHandler(this.dtAgeGroup_Click);
             // 
-            // Column2
+            // IDAgeGroup
             // 
-            this.Column2.HeaderText = "Column2";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
+            this.IDAgeGroup.DataPropertyName = "ID";
+            this.IDAgeGroup.HeaderText = "ID";
+            this.IDAgeGroup.Name = "IDAgeGroup";
+            this.IDAgeGroup.Visible = false;
+            // 
+            // AgeGroup
+            // 
+            this.AgeGroup.DataPropertyName = "AgeGroup";
+            this.AgeGroup.HeaderText = "Возрастная группа";
+            this.AgeGroup.Name = "AgeGroup";
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.btnNone, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.btnNone2, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.btnReport, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.btnAgeGroup, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.splitContainer2, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 83);
@@ -520,17 +539,17 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1084, 510);
             this.tableLayoutPanel1.TabIndex = 7;
             // 
-            // btnNone2
+            // btnAgeGroup
             // 
-            this.btnNone2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnNone2.Location = new System.Drawing.Point(542, 480);
-            this.btnNone2.Margin = new System.Windows.Forms.Padding(0);
-            this.btnNone2.Name = "btnNone2";
-            this.btnNone2.Size = new System.Drawing.Size(542, 30);
-            this.btnNone2.TabIndex = 6;
-            this.btnNone2.Text = "None2";
-            this.btnNone2.UseVisualStyleBackColor = true;
-            this.btnNone2.Click += new System.EventHandler(this.btnNone2_Click);
+            this.btnAgeGroup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnAgeGroup.Location = new System.Drawing.Point(542, 480);
+            this.btnAgeGroup.Margin = new System.Windows.Forms.Padding(0);
+            this.btnAgeGroup.Name = "btnAgeGroup";
+            this.btnAgeGroup.Size = new System.Drawing.Size(542, 30);
+            this.btnAgeGroup.TabIndex = 6;
+            this.btnAgeGroup.Text = "Возрастные группы";
+            this.btnAgeGroup.UseVisualStyleBackColor = true;
+            this.btnAgeGroup.Click += new System.EventHandler(this.btnAgeGroup_Click);
             // 
             // Children
             // 
@@ -564,7 +583,7 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtAgeGroup)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -582,29 +601,30 @@
         private System.Windows.Forms.DataGridView dtChildren;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.ListBox dataView;
-        private System.Windows.Forms.Button btnNone;
+        private System.Windows.Forms.Button btnReport;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Button btnNone2;
-        private System.Windows.Forms.DataGridView dataGridView2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.Button btnAgeGroup;
         private System.Windows.Forms.SplitContainer splitContainer3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ChildrenID;
-        private System.Windows.Forms.DataGridViewComboBoxColumn AgeGroup;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SecondName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FistName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FatherName;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn GroupID;
         private System.Windows.Forms.DataGridViewTextBoxColumn GroupName;
         private System.Windows.Forms.DataGridViewTextBoxColumn TotalChildren;
         private System.Windows.Forms.DataGridViewTextBoxColumn ActuallyChildren;
-        private System.Windows.Forms.Button btnReport;
+        private System.Windows.Forms.Button btnCreateReport;
         private System.Windows.Forms.DateTimePicker dtpStartDate;
         private System.Windows.Forms.DateTimePicker dtpEndDate;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DataGridView dtAgeGroup;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ChildrenID;
+        private System.Windows.Forms.DataGridViewComboBoxColumn cmbAgeGroup;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SecondName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FistName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FatherName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IDAgeGroup;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AgeGroup;
     }
 }
 
