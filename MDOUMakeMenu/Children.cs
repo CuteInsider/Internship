@@ -68,7 +68,7 @@ namespace MDOUMakeMenu
                 }
                 dataView.DataSource = date.newTable("SELECT date FROM attendance GROUP BY Date");
                 dataView.ValueMember = "date";
-                dataView.DisplayMember = "Date";
+                //dataView.DisplayMember = "date";
                 DataBase.Close();
             }
             else
@@ -82,6 +82,7 @@ namespace MDOUMakeMenu
             splitContainer3.Panel1.Hide();
             splitContainer3.Panel2Collapsed = true;
             splitContainer3.Panel2.Hide();
+            InvokeDtAttendance(dataView.SelectedValue);
             open = true;
         }
 
@@ -114,6 +115,7 @@ namespace MDOUMakeMenu
             if (open == true)
             {
                 InvokeDtAttendance(dataView.SelectedValue);
+
             }
         }
 

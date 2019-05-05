@@ -46,13 +46,14 @@ namespace MDOUMakeMenu
 
     class Table : DataBase
     {
+        public DataTable DBTable;
         public DataTable newTable(string Query)
         {
-            DataTable Table = new DataTable();
+            DBTable = new DataTable();
             msCommand.CommandText = Query;
-            Table.Clear();
-            msDataAdapter.Fill(Table);
-            return Table;
+            DBTable.Clear();
+            msDataAdapter.Fill(DBTable);
+            return DBTable;
         }
 
         public object Query(string Query/*, string QueryType = null*/)
