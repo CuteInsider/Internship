@@ -164,7 +164,7 @@
             this.dtDish.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtDish.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dtDish.GridColor = System.Drawing.Color.DarkGray;
-            this.dtDish.Location = new System.Drawing.Point(205, 39);
+            this.dtDish.Location = new System.Drawing.Point(200, 39);
             this.dtDish.Margin = new System.Windows.Forms.Padding(0);
             this.dtDish.MultiSelect = false;
             this.dtDish.Name = "dtDish";
@@ -172,7 +172,7 @@
             this.dtDish.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dtDish.RowHeadersVisible = false;
             this.dtDish.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dtDish.Size = new System.Drawing.Size(262, 345);
+            this.dtDish.Size = new System.Drawing.Size(265, 345);
             this.dtDish.TabIndex = 2;
             this.dtDish.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dtDish_MouseDown);
             // 
@@ -195,20 +195,20 @@
             // 
             this.cmbDinnerType.Dock = System.Windows.Forms.DockStyle.Top;
             this.cmbDinnerType.FormattingEnabled = true;
-            this.cmbDinnerType.Location = new System.Drawing.Point(575, 0);
+            this.cmbDinnerType.Location = new System.Drawing.Point(569, 0);
             this.cmbDinnerType.Margin = new System.Windows.Forms.Padding(0);
             this.cmbDinnerType.Name = "cmbDinnerType";
-            this.cmbDinnerType.Size = new System.Drawing.Size(259, 31);
+            this.cmbDinnerType.Size = new System.Drawing.Size(265, 31);
             this.cmbDinnerType.TabIndex = 3;
             this.cmbDinnerType.SelectedIndexChanged += new System.EventHandler(this.cmbDinnerType_SelectedIndexChanged);
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 4;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24.58034F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.41487F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.94964F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.87958F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 265F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 265F));
             this.tableLayoutPanel1.Controls.Add(this.dtDish, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.DataView, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.dtMenu, 3, 1);
@@ -234,7 +234,7 @@
             this.DataView.Margin = new System.Windows.Forms.Padding(0);
             this.DataView.Name = "DataView";
             this.tableLayoutPanel1.SetRowSpan(this.DataView, 2);
-            this.DataView.Size = new System.Drawing.Size(205, 384);
+            this.DataView.Size = new System.Drawing.Size(200, 384);
             this.DataView.TabIndex = 4;
             this.DataView.SelectedIndexChanged += new System.EventHandler(this.DataView_SelectedIndexChanged);
             // 
@@ -252,12 +252,12 @@
             this.DishMenu});
             this.dtMenu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtMenu.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dtMenu.Location = new System.Drawing.Point(575, 39);
+            this.dtMenu.Location = new System.Drawing.Point(569, 39);
             this.dtMenu.Margin = new System.Windows.Forms.Padding(0);
             this.dtMenu.Name = "dtMenu";
             this.dtMenu.ReadOnly = true;
             this.dtMenu.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dtMenu.Size = new System.Drawing.Size(259, 345);
+            this.dtMenu.Size = new System.Drawing.Size(265, 345);
             this.dtMenu.TabIndex = 5;
             this.dtMenu.DragDrop += new System.Windows.Forms.DragEventHandler(this.dtMenu_DragDrop);
             this.dtMenu.DragEnter += new System.Windows.Forms.DragEventHandler(this.dtMenu_DragEnter);
@@ -266,9 +266,9 @@
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.label1, 2);
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(208, 0);
+            this.label1.Location = new System.Drawing.Point(203, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(364, 39);
+            this.label1.Size = new System.Drawing.Size(363, 39);
             this.label1.TabIndex = 6;
             this.label1.Text = "Меню на";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
