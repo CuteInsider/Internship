@@ -488,11 +488,11 @@ namespace MDOUMakeMenu
             string rangeDate;
             if (dtpStartDate.Checked == true)
             {
-                int index = dataView.FindString(dtpStartDate.Value.ToShortDateString());
+                int index = dataView.FindString(dtpStartDate.Value.ToString("D"));
                 if (index != -1)
                 {
                     dataView.SelectedIndex = index;
-                    rangeDate = " от " + dtpStartDate.Value.ToShortDateString();
+                    rangeDate = " от " + dtpStartDate.Value.ToString("D");
                 }
                 else
                 {
@@ -509,7 +509,7 @@ namespace MDOUMakeMenu
                 dataView.SelectedIndex = 0;
                 DataRowView dateString = (DataRowView)dataView.SelectedItem;
                 DateTime shortDate = DateTime.Parse(dateString["Date"].ToString());
-                rangeDate = " от " + shortDate.ToShortDateString();
+                rangeDate = " от " + shortDate.ToString("D");
             }
             panel1.Enabled = false;
             dataView.Enabled = false;
@@ -533,7 +533,7 @@ namespace MDOUMakeMenu
                     DateTime curDate = DateTime.Parse(dateString["Date"].ToString());
 
                     //Шапка
-                    workSheet.Cells[allRows, 1].Value = curDate.ToShortDateString();
+                    workSheet.Cells[allRows, 1].Value = curDate.ToString("D");
                     workSheet.Cells[allRows, 1].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
                     workSheet.Cells[allRows + 1, 1].Value = "Название группы";
                     workSheet.Cells[allRows + 1, 1].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
@@ -556,7 +556,7 @@ namespace MDOUMakeMenu
                         DateTime lastDate = dtpEndDate.Value.Date;
                         if (lastDate == curDate)
                         {
-                            rangeDate = rangeDate + " до " + lastDate.ToShortDateString();
+                            rangeDate = rangeDate + " до " + lastDate.ToString("D");
                             break;
                         }
                     }
