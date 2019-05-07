@@ -18,6 +18,7 @@ namespace MDOUMakeMenu
         Table date = new Table();
         Table dinnerType = new Table();
         Table dish = new Table();
+        Table menu = new Table();
 
         public Menu(Point Location, FormWindowState state, object Role)
         {
@@ -45,6 +46,35 @@ namespace MDOUMakeMenu
                     linkChildren.Enabled = false;
                     break;
             }
+            if (DataBase.Connect())
+            {
+                DateTime menuLastDate = Convert.ToDateTime(date.Query("SELECT Date FROM menu GROUP BY Date ORDER BY Date DESC"));
+                DateTime attendanceLastDate = Convert.ToDateTime(date.Query("SELECT DISTINCT date FROM attendance ORDER BY date DESC"));
+                DateTime NowDate = DateTime.Now.Date;
+                while (attendanceLastDate.Date < NowDate.Date)
+                {
+                    int colRows = 0;
+                    if (colRows == 0)
+                        colRows = Convert.ToInt32(date.Query("SELECT count(*) FROM groups"));
+                    attendanceLastDate = attendanceLastDate.AddDays(1);
+                    for (int i = 1; i <= colRows; i++)
+                    {
+                        date.Query("INSERT INTO attendance (Date, GroupID, ActuallyChildrenAmount) VALUES ('" + attendanceLastDate.Date.ToString("yyyy-MM-dd") + "', " + i + ", " + 0 + ")");
+                    }
+                }
+                //while (menuLastDate.Date < attendanceLastDate.Date)
+                //{
+                //    menuLastDate = menuLastDate.AddDays(1);
+                //    menu.Query("INSERT INTO Menu (Date) VALUES('" + menuLastDate.Date.ToString("yyyy-MM-dd") + "')");
+                //}
+                DataBase.Close();
+            }
+            else
+                MessageBox.Show(
+                    "Проверте подключение к базе данных",
+                    "Ошибка Подключения",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             DataView.DataSource = date.newTable("SELECT date FROM attendance GROUP BY date");
             DataView.ValueMember = "date";
             cmbDinnerType.DataSource = dinnerType.newTable("SELECT * FROM dinnertype");
@@ -88,6 +118,11 @@ namespace MDOUMakeMenu
             if (open)
             {
                 InvokeDinnerType(cmbDinnerType.SelectedValue);
+                dtMenu.DataSource = menu.newTable("SELECT dishs.DishName FROM dishs " +
+                    "INNER JOIN dinnertype ON dishs.DinnerType = dinnertype.ID " +
+                    "INNER JOIN menu menu.DishId = dishs.ID " +
+                    "WHERE menu.date= '" + DataView.SelectedValue + "' " +
+                    "AND DinnerType.ID = " + Convert.ToDateTime(DataView.SelectedValue).ToString("yyyy-MM-dd") + "'");
             }
         }
 
@@ -129,7 +164,17 @@ namespace MDOUMakeMenu
         {
             DataRow dropped = (DataRow)e.Data.GetData(typeof(DataRow));
             dtMenu.Rows.Add(dropped["ID"].ToString(), dropped["DishName"].ToString());
+            if (DataBase.Connect())
+            {
+                menu.Query("INSERT INTO menu (date, DishID) VALUES ('" + Convert.ToDateTime(DataView.SelectedValue).ToString("yyyy-MM-dd") + "', " + dropped["ID"].ToString() + ")");
+                DataBase.Close();
+            }
+            else
+                MessageBox.Show(
+                    "Проверте подключение к базе данных",
+                    "Ошибка Подключения",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
         }
-
     }
 }

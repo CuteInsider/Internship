@@ -38,7 +38,11 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataView = new System.Windows.Forms.ListBox();
             this.dtDish = new System.Windows.Forms.DataGridView();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DishName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dtIngredient = new System.Windows.Forms.DataGridView();
+            this.ID_ = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.dtIngredientsComposition = new System.Windows.Forms.DataGridView();
             this.IDic = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -50,10 +54,6 @@
             this.Fat = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Carbohydrates = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnComposition = new System.Windows.Forms.Button();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DishName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ID_ = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -217,6 +217,19 @@
             this.dtDish.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtDish_CellDoubleClick);
             this.dtDish.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtDish_CellEndEdit);
             // 
+            // ID
+            // 
+            this.ID.DataPropertyName = "ID";
+            this.ID.HeaderText = "ID";
+            this.ID.Name = "ID";
+            this.ID.Visible = false;
+            // 
+            // DishName
+            // 
+            this.DishName.DataPropertyName = "DishName";
+            this.DishName.HeaderText = "Название блюда";
+            this.DishName.Name = "DishName";
+            // 
             // dtIngredient
             // 
             this.dtIngredient.AllowUserToDeleteRows = false;
@@ -241,6 +254,19 @@
             this.dtIngredient.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtIngredient_CellClick);
             this.dtIngredient.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtIngredient_CellDoubleClick);
             this.dtIngredient.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtIngredient_CellEndEdit);
+            // 
+            // ID_
+            // 
+            this.ID_.DataPropertyName = "Id";
+            this.ID_.HeaderText = "ID";
+            this.ID_.Name = "ID_";
+            this.ID_.Visible = false;
+            // 
+            // IName
+            // 
+            this.IName.DataPropertyName = "Ingredient";
+            this.IName.HeaderText = "Название ингредиента";
+            this.IName.Name = "IName";
             // 
             // splitContainer2
             // 
@@ -352,32 +378,6 @@
             this.btnComposition.UseVisualStyleBackColor = true;
             this.btnComposition.Click += new System.EventHandler(this.btnComposition_Click);
             // 
-            // ID
-            // 
-            this.ID.DataPropertyName = "ID";
-            this.ID.HeaderText = "ID";
-            this.ID.Name = "ID";
-            this.ID.Visible = false;
-            // 
-            // DishName
-            // 
-            this.DishName.DataPropertyName = "DishName";
-            this.DishName.HeaderText = "Название блюда";
-            this.DishName.Name = "DishName";
-            // 
-            // ID_
-            // 
-            this.ID_.DataPropertyName = "Id";
-            this.ID_.HeaderText = "ID";
-            this.ID_.Name = "ID_";
-            this.ID_.Visible = false;
-            // 
-            // IName
-            // 
-            this.IName.DataPropertyName = "Ingredient";
-            this.IName.HeaderText = "Название ингредиента";
-            this.IName.Name = "IName";
-            // 
             // Dish
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -393,7 +393,7 @@
             this.MinimumSize = new System.Drawing.Size(475, 500);
             this.Name = "Dish";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "Меню";
+            this.Text = "Блюда";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);

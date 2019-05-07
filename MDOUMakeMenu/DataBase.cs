@@ -25,10 +25,15 @@ namespace MDOUMakeMenu
             try
             {
                 msConnect = new MySqlConnection(localConnectionString);
-                msConnect.Open();
-                msCommand = new MySqlCommand();
-                msCommand.Connection = msConnect;
-                msDataAdapter = new MySqlDataAdapter(msCommand);
+                if (msConnect.State == ConnectionState.Closed)
+                {
+                    msConnect.Open();
+                    msCommand = new MySqlCommand
+                    {
+                        Connection = msConnect
+                    };
+                    msDataAdapter = new MySqlDataAdapter(msCommand);
+                }
                 return true;
             }
             catch (Exception EX)
@@ -40,7 +45,10 @@ namespace MDOUMakeMenu
 
         static public void Close()
         {
-            msConnect.Close();
+            if (msConnect.State == ConnectionState.Open && msConnect != null)
+            {
+                msConnect.Close();
+            }
         }
     }
 

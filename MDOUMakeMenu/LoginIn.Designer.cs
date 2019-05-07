@@ -262,7 +262,7 @@
             this.MinimumSize = new System.Drawing.Size(475, 500);
             this.Name = "LoginIn";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "Меню";
+            this.Text = "Вход";
             this.Activated += new System.EventHandler(this.LoginIn_Activated);
             this.Load += new System.EventHandler(this.LoginIn_Load);
             this.panel1.ResumeLayout(false);
