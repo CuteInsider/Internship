@@ -43,13 +43,16 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.DataView = new System.Windows.Forms.ListBox();
             this.dtMenu = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DishMenu = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtDish)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtMenu)).BeginInit();
+            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -62,7 +65,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(834, 75);
+            this.panel1.Size = new System.Drawing.Size(984, 75);
             this.panel1.TabIndex = 0;
             // 
             // linkMenu
@@ -91,7 +94,7 @@
             this.linkIngredients.ForeColor = System.Drawing.Color.White;
             this.linkIngredients.LinkBehavior = System.Windows.Forms.LinkBehavior.AlwaysUnderline;
             this.linkIngredients.LinkColor = System.Drawing.Color.White;
-            this.linkIngredients.Location = new System.Drawing.Point(264, 26);
+            this.linkIngredients.Location = new System.Drawing.Point(339, 26);
             this.linkIngredients.Name = "linkIngredients";
             this.linkIngredients.Size = new System.Drawing.Size(74, 23);
             this.linkIngredients.TabIndex = 1;
@@ -108,7 +111,7 @@
             this.linkChildren.DisabledLinkColor = System.Drawing.Color.Gray;
             this.linkChildren.ForeColor = System.Drawing.Color.White;
             this.linkChildren.LinkColor = System.Drawing.Color.White;
-            this.linkChildren.Location = new System.Drawing.Point(522, 26);
+            this.linkChildren.Location = new System.Drawing.Point(672, 26);
             this.linkChildren.Name = "linkChildren";
             this.linkChildren.Size = new System.Drawing.Size(56, 23);
             this.linkChildren.TabIndex = 1;
@@ -122,7 +125,7 @@
             this.btnSetup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSetup.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSetup.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnSetup.Location = new System.Drawing.Point(688, 20);
+            this.btnSetup.Location = new System.Drawing.Point(838, 20);
             this.btnSetup.Name = "btnSetup";
             this.btnSetup.Size = new System.Drawing.Size(135, 35);
             this.btnSetup.TabIndex = 0;
@@ -136,11 +139,12 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 75);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(834, 3);
+            this.panel2.Size = new System.Drawing.Size(984, 3);
             this.panel2.TabIndex = 1;
             // 
             // dtDish
             // 
+            this.dtDish.AllowDrop = true;
             this.dtDish.AllowUserToAddRows = false;
             this.dtDish.AllowUserToDeleteRows = false;
             this.dtDish.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
@@ -174,7 +178,10 @@
             this.dtDish.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dtDish.Size = new System.Drawing.Size(265, 345);
             this.dtDish.TabIndex = 2;
+            this.dtDish.DragDrop += new System.Windows.Forms.DragEventHandler(this.dtDish_DragDrop);
+            this.dtDish.DragEnter += new System.Windows.Forms.DragEventHandler(this.dtDish_DragEnter);
             this.dtDish.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dtDish_MouseDown);
+            this.dtDish.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dtDish_MouseMove);
             // 
             // DishID
             // 
@@ -195,7 +202,7 @@
             // 
             this.cmbDinnerType.Dock = System.Windows.Forms.DockStyle.Top;
             this.cmbDinnerType.FormattingEnabled = true;
-            this.cmbDinnerType.Location = new System.Drawing.Point(569, 0);
+            this.cmbDinnerType.Location = new System.Drawing.Point(719, 0);
             this.cmbDinnerType.Margin = new System.Windows.Forms.Padding(0);
             this.cmbDinnerType.Name = "cmbDinnerType";
             this.cmbDinnerType.Size = new System.Drawing.Size(265, 31);
@@ -214,13 +221,14 @@
             this.tableLayoutPanel1.Controls.Add(this.dtMenu, 3, 1);
             this.tableLayoutPanel1.Controls.Add(this.label1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.cmbDinnerType, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 2, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 78);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.15625F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 89.84375F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(834, 384);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(984, 384);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
             // DataView
@@ -252,15 +260,33 @@
             this.DishMenu});
             this.dtMenu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtMenu.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dtMenu.Location = new System.Drawing.Point(569, 39);
+            this.dtMenu.Location = new System.Drawing.Point(719, 39);
             this.dtMenu.Margin = new System.Windows.Forms.Padding(0);
             this.dtMenu.Name = "dtMenu";
             this.dtMenu.ReadOnly = true;
+            this.dtMenu.RowHeadersVisible = false;
             this.dtMenu.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dtMenu.Size = new System.Drawing.Size(265, 345);
             this.dtMenu.TabIndex = 5;
             this.dtMenu.DragDrop += new System.Windows.Forms.DragEventHandler(this.dtMenu_DragDrop);
             this.dtMenu.DragEnter += new System.Windows.Forms.DragEventHandler(this.dtMenu_DragEnter);
+            this.dtMenu.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dtMenu_MouseDown);
+            this.dtMenu.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dtMenu_MouseMove);
+            // 
+            // ID
+            // 
+            this.ID.DataPropertyName = "ID";
+            this.ID.HeaderText = "ИД";
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            this.ID.Visible = false;
+            // 
+            // DishMenu
+            // 
+            this.DishMenu.DataPropertyName = "DishName";
+            this.DishMenu.HeaderText = "Блюдо";
+            this.DishMenu.Name = "DishMenu";
+            this.DishMenu.ReadOnly = true;
             // 
             // label1
             // 
@@ -268,30 +294,44 @@
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Location = new System.Drawing.Point(203, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(363, 39);
+            this.label1.Size = new System.Drawing.Size(513, 39);
             this.label1.TabIndex = 6;
             this.label1.Text = "Меню на";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // ID
+            // tableLayoutPanel2
             // 
-            this.ID.HeaderText = "ID";
-            this.ID.Name = "ID";
-            this.ID.ReadOnly = true;
-            this.ID.Visible = false;
+            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.checkBox1, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(468, 42);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 3;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 253F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(248, 339);
+            this.tableLayoutPanel2.TabIndex = 7;
             // 
-            // DishMenu
+            // checkBox1
             // 
-            this.DishMenu.HeaderText = "Блюдо";
-            this.DishMenu.Name = "DishMenu";
-            this.DishMenu.ReadOnly = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1.Location = new System.Drawing.Point(50, 0);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(50, 0, 0, 0);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(198, 50);
+            this.checkBox1.TabIndex = 0;
+            this.checkBox1.Text = "Учитывать посещаймость";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(834, 462);
+            this.ClientSize = new System.Drawing.Size(984, 462);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -306,6 +346,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dtDish)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dtMenu)).EndInit();
+            this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -328,6 +369,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn DishMenu;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 

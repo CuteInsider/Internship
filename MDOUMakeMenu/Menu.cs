@@ -81,6 +81,12 @@ namespace MDOUMakeMenu
             cmbDinnerType.ValueMember = "ID";
             cmbDinnerType.DisplayMember = "Type";
             InvokeDinnerType(cmbDinnerType.SelectedValue);
+            dtMenu.DataSource = menu.newTable("SELECT dishs.ID, dishs.DishName FROM dishs " +
+                        "INNER JOIN dishs_for_dinnertype ON dishs.ID = dishs_for_dinnertype.DishID " +
+                        "INNER JOIN dinnerType ON dishs_for_dinnertype.DinnerTypeID = dinnerType.ID " +
+                        "INNER JOIN menu ON menu.DishId = dishs.ID " +
+                        "WHERE menu.date= '" + Convert.ToDateTime(DataView.SelectedValue).ToString("yyyy-MM-dd") + "' " +
+                        "AND DinnerType.ID = " + cmbDinnerType.SelectedValue + "");
             open = true;
         }
 
@@ -110,7 +116,10 @@ namespace MDOUMakeMenu
         private void InvokeDinnerType(object Value)
         {
             dtDish.DataSource = dish.newTable(
-                "SELECT ID, DishName FROM dishs WHERE DinnerType = " + Value + "");
+                "SELECT dishs.ID, dishs.DishName " +
+                "FROM dishs " +
+                "INNER JOIN dishs_for_dinnertype ON dishs.ID = dishs_for_dinnertype.DishID " +
+                "WHERE DinnerTypeID = " + Value + "");
         }
 
         private void cmbDinnerType_SelectedIndexChanged(object sender, EventArgs e)
@@ -118,11 +127,19 @@ namespace MDOUMakeMenu
             if (open)
             {
                 InvokeDinnerType(cmbDinnerType.SelectedValue);
-                dtMenu.DataSource = menu.newTable("SELECT dishs.DishName FROM dishs " +
-                    "INNER JOIN dinnertype ON dishs.DinnerType = dinnertype.ID " +
-                    "INNER JOIN menu menu.DishId = dishs.ID " +
-                    "WHERE menu.date= '" + DataView.SelectedValue + "' " +
-                    "AND DinnerType.ID = " + Convert.ToDateTime(DataView.SelectedValue).ToString("yyyy-MM-dd") + "'");
+                try
+                {
+                    dtMenu.DataSource = menu.newTable("SELECT dishs.ID, dishs.DishName " +
+                        "FROM dishs " +
+                        "INNER JOIN menu ON dishs.ID = menu.DishID " +
+                        "INNER JOIN dishs_for_dinnertype ON dishs.ID = dishs_for_dinnertype.DishID " +
+                        "WHERE dishs_for_dinnertype.DinnerTypeID = " + cmbDinnerType.SelectedValue + " " +
+                        "AND menu.Date = '" + Convert.ToDateTime(DataView.SelectedValue).ToString("yyyy-MM-dd") + "'");
+                }
+                catch (Exception Ex)
+                {
+                    MessageBox.Show(Ex.ToString(), "Ошибка");
+                }
             }
         }
 
@@ -145,12 +162,24 @@ namespace MDOUMakeMenu
 
 
         //====== РАБОТА С МЕНЮ =======
+        //Drag n Drop Из Списка болюд в меню
+        DataRow dataRow;
+        int rowIndex;
         private void dtDish_MouseDown(object sender, MouseEventArgs e)
         {
-            if (dtDish.CurrentRow.Index != -1 && dtDish.CurrentRow.Index != -1)
+            rowIndex = dtDish.HitTest(e.X, e.Y).RowIndex;
+            if (rowIndex != -1)
             {
-                DataRow dataRow = dish.DBTable.Rows[dtDish.CurrentRow.Index];
-                dtDish.DoDragDrop(dataRow, DragDropEffects.Copy);
+                dataRow = dish.DBTable.Rows[dtDish.CurrentRow.Index];
+            }
+        }
+
+        private void dtDish_MouseMove(object sender, MouseEventArgs e)
+        {
+            if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+            {
+                if (rowIndex != -1)
+                    dtDish.DoDragDrop(dataRow, DragDropEffects.Copy);
             }
         }
 
@@ -162,11 +191,22 @@ namespace MDOUMakeMenu
 
         private void dtMenu_DragDrop(object sender, DragEventArgs e)
         {
-            DataRow dropped = (DataRow)e.Data.GetData(typeof(DataRow));
-            dtMenu.Rows.Add(dropped["ID"].ToString(), dropped["DishName"].ToString());
+            DataTable dropped = dtMenu.DataSource as DataTable;
+            DataRow row = dropped.NewRow();
+            row = (DataRow)e.Data.GetData(typeof(DataRow));
             if (DataBase.Connect())
             {
-                menu.Query("INSERT INTO menu (date, DishID) VALUES ('" + Convert.ToDateTime(DataView.SelectedValue).ToString("yyyy-MM-dd") + "', " + dropped["ID"].ToString() + ")");
+                try
+                {
+                    menu.DBTable.Rows.Add(row["ID"].ToString(), row["DishName"].ToString());
+                    menu.Query(
+                        "INSERT INTO menu (date, DishID) " +
+                        "VALUES ('" + Convert.ToDateTime(DataView.SelectedValue).ToString("yyyy-MM-dd") + "', " + row["ID"].ToString() + ")");
+                }
+                catch (Exception Ex)
+                {
+                    MessageBox.Show(Ex.ToString(), "Ошибка");
+                }
                 DataBase.Close();
             }
             else
@@ -175,6 +215,52 @@ namespace MDOUMakeMenu
                     "Ошибка Подключения",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
+        }
+
+        //Drag n Drop Из меню 
+        private void dtMenu_MouseDown(object sender, MouseEventArgs e)
+        {
+            rowIndex = dtMenu.HitTest(e.X, e.Y).RowIndex;
+            if (rowIndex != -1)
+            {
+                dataRow = menu.DBTable.Rows[dtMenu.CurrentRow.Index];
+            }
+        }
+
+        private void dtMenu_MouseMove(object sender, MouseEventArgs e)
+        {
+            if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+            {
+                if (rowIndex != -1)
+                    dtMenu.DoDragDrop(dataRow, DragDropEffects.Move);
+            }
+        }
+
+        private void dtDish_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(DataRow)))
+                e.Effect = DragDropEffects.Move;
+        }
+
+        private void dtDish_DragDrop(object sender, DragEventArgs e)
+        {
+            if (DataBase.Connect())
+            {
+                DataRow row = (DataRow)e.Data.GetData(typeof(DataRow));
+                try
+                {
+                    menu.Query(
+                    "DELETE FROM menu " +
+                    "WHERE date= '" + Convert.ToDateTime(DataView.SelectedValue).ToString("yyyy-MM-dd") + "' " +
+                    "AND DishID = " + row["ID"].ToString() + "");
+                    menu.DBTable.Rows.Remove(row);
+                }
+                catch (Exception Ex)
+                {
+                    MessageBox.Show(Ex.ToString(), "Ошибка");
+                }
+                DataBase.Close();
+            }
         }
     }
 }

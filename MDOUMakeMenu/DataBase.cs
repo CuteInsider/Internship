@@ -66,15 +66,22 @@ namespace MDOUMakeMenu
 
         public object Query(string Query/*, string QueryType = null*/)
         {
-            msCommand.CommandText = Query;
-            if (Query.StartsWith("SELECT"))
-                return msCommand.ExecuteScalar();
-            if (Query.StartsWith("INSERT"))
-                return msCommand.ExecuteNonQuery();
-            if (Query.StartsWith("UPDATE"))
-                return msCommand.ExecuteNonQuery();
-            if (Query.StartsWith("DELETE"))
-                return msCommand.ExecuteNonQuery();
+            try
+            {
+                msCommand.CommandText = Query;
+                if (Query.StartsWith("SELECT"))
+                    return msCommand.ExecuteScalar();
+                if (Query.StartsWith("INSERT"))
+                    return msCommand.ExecuteNonQuery();
+                if (Query.StartsWith("UPDATE"))
+                    return msCommand.ExecuteNonQuery();
+                if (Query.StartsWith("DELETE"))
+                    return msCommand.ExecuteNonQuery();
+            }
+            catch (Exception EX)
+            {
+                System.Windows.Forms.MessageBox.Show(EX.ToString(), "Ошибка");
+            }
             return false;
         }
 

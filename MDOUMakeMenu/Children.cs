@@ -342,6 +342,14 @@ namespace MDOUMakeMenu
         private void dtChildren_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             ((DataGridView)sender).BeginEdit(false);
+            if (!((DataGridView)sender).CurrentRow.IsNewRow)
+            {
+                newRowC = false;
+            }
+            else
+            {
+                newRowC = true;
+            }
         }
 
         private void dtChildren_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -453,6 +461,8 @@ namespace MDOUMakeMenu
 
         private void dtAgeGroup_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            if (newRowC && string.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value.ToString()))
+                return;
             if (DataBase.Connect())
             {
                 if (newRowAG && string.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[1].Value.ToString()))
