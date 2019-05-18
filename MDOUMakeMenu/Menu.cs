@@ -75,18 +75,16 @@ namespace MDOUMakeMenu
                     "Ошибка Подключения",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
-            DataView.DataSource = date.newTable("SELECT date FROM attendance GROUP BY date");
             DataView.ValueMember = "date";
-            cmbDinnerType.DataSource = dinnerType.newTable("SELECT * FROM dinnertype");
+            DataView.DataSource = date.newTable("SELECT date FROM attendance GROUP BY date");
+
             cmbDinnerType.ValueMember = "ID";
             cmbDinnerType.DisplayMember = "Type";
+            cmbDinnerType.DataSource = dinnerType.newTable("SELECT * FROM dinnertype");
+
+            InvokeDate(DataView.SelectedItem);
             InvokeDinnerType(cmbDinnerType.SelectedValue);
-            dtMenu.DataSource = menu.newTable("SELECT dishs.ID, dishs.DishName FROM dishs " +
-                        "INNER JOIN dishs_for_dinnertype ON dishs.ID = dishs_for_dinnertype.DishID " +
-                        "INNER JOIN dinnerType ON dishs_for_dinnertype.DinnerTypeID = dinnerType.ID " +
-                        "INNER JOIN menu ON menu.DishId = dishs.ID " +
-                        "WHERE menu.date= '" + Convert.ToDateTime(DataView.SelectedValue).ToString("yyyy-MM-dd") + "' " +
-                        "AND DinnerType.ID = " + cmbDinnerType.SelectedValue + "");
+            InvokeDtMenu(DataView.SelectedValue, cmbDinnerType.SelectedValue);
             open = true;
         }
 
@@ -157,6 +155,7 @@ namespace MDOUMakeMenu
             if (open)
             {
                 InvokeDate(DataView.SelectedItem);
+                InvokeDtMenu(DataView.SelectedItem, cmbDinnerType.SelectedValue);
             }
         }
 
@@ -165,6 +164,17 @@ namespace MDOUMakeMenu
         //Drag n Drop Из Списка болюд в меню
         DataRow dataRow;
         int rowIndex;
+
+        private void InvokeDtMenu(object SelectedDate, object SelectedDT)
+        {
+            dtMenu.DataSource = menu.newTable("SELECT dishs.ID, dishs.DishName FROM dishs " +
+            "INNER JOIN dishs_for_dinnertype ON dishs.ID = dishs_for_dinnertype.DishID " +
+            "INNER JOIN dinnerType ON dishs_for_dinnertype.DinnerTypeID = dinnerType.ID " +
+            "INNER JOIN menu ON menu.DishId = dishs.ID " +
+            "WHERE menu.date= '" + Convert.ToDateTime(SelectedDate).ToString("yyyy-MM-dd") + "' " +
+            "AND DinnerType.ID = " + SelectedDT + "");
+        }
+
         private void dtDish_MouseDown(object sender, MouseEventArgs e)
         {
             rowIndex = dtDish.HitTest(e.X, e.Y).RowIndex;

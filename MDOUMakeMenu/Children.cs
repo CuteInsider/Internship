@@ -354,7 +354,7 @@ namespace MDOUMakeMenu
 
         private void dtChildren_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (newRowC && string.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value.ToString()))
+            if (newRowC && ((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value == null)
                 return;
             if (DataBase.Connect())
             {
