@@ -31,6 +31,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Children));
             this.panel1 = new System.Windows.Forms.Panel();
             this.linkMenu = new System.Windows.Forms.LinkLabel();
@@ -61,11 +63,22 @@
             this.dtpEndDate = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.btnCreateReport = new System.Windows.Forms.Button();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.dtAgeGroup = new System.Windows.Forms.DataGridView();
             this.IDAgeGroup = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AgeGroup = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dtNFAG = new System.Windows.Forms.DataGridView();
+            this.btnNFAG = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.btnAgeGroup = new System.Windows.Forms.Button();
+            this.IAGID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Energy = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Protein = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.animalProtein = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BodyMass = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Fat = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Carbohydrates = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtAttendance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtChildren)).BeginInit();
@@ -81,7 +94,13 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
+            this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.Panel2.SuspendLayout();
+            this.splitContainer4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtAgeGroup)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtNFAG)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -417,7 +436,7 @@
             // 
             // splitContainer3.Panel2
             // 
-            this.splitContainer3.Panel2.Controls.Add(this.dtAgeGroup);
+            this.splitContainer3.Panel2.Controls.Add(this.tableLayoutPanel2);
             this.splitContainer3.Panel2MinSize = 200;
             this.splitContainer3.Size = new System.Drawing.Size(1084, 205);
             this.splitContainer3.SplitterDistance = 540;
@@ -485,6 +504,44 @@
             this.btnCreateReport.UseVisualStyleBackColor = true;
             this.btnCreateReport.Click += new System.EventHandler(this.btnCreateReport_Click);
             // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel2.Controls.Add(this.splitContainer4, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btnNFAG, 0, 1);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(538, 203);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // splitContainer4
+            // 
+            this.tableLayoutPanel2.SetColumnSpan(this.splitContainer4, 2);
+            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer4.Margin = new System.Windows.Forms.Padding(0);
+            this.splitContainer4.Name = "splitContainer4";
+            this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer4.Panel1
+            // 
+            this.splitContainer4.Panel1.Controls.Add(this.dtAgeGroup);
+            // 
+            // splitContainer4.Panel2
+            // 
+            this.splitContainer4.Panel2.Controls.Add(this.dtNFAG);
+            this.splitContainer4.Panel2MinSize = 35;
+            this.splitContainer4.Size = new System.Drawing.Size(538, 168);
+            this.splitContainer4.SplitterDistance = 84;
+            this.splitContainer4.SplitterWidth = 1;
+            this.splitContainer4.TabIndex = 0;
+            // 
             // dtAgeGroup
             // 
             this.dtAgeGroup.AllowUserToDeleteRows = false;
@@ -504,11 +561,11 @@
             this.dtAgeGroup.Name = "dtAgeGroup";
             this.dtAgeGroup.RowHeadersVisible = false;
             this.dtAgeGroup.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dtAgeGroup.Size = new System.Drawing.Size(538, 203);
+            this.dtAgeGroup.Size = new System.Drawing.Size(538, 84);
             this.dtAgeGroup.TabIndex = 0;
+            this.dtAgeGroup.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtAgeGroup_CellClick);
             this.dtAgeGroup.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtAgeGroup_CellDoubleClick);
             this.dtAgeGroup.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtAgeGroup_CellEndEdit);
-            this.dtAgeGroup.Click += new System.EventHandler(this.dtAgeGroup_Click);
             // 
             // IDAgeGroup
             // 
@@ -522,6 +579,56 @@
             this.AgeGroup.DataPropertyName = "AgeGroup";
             this.AgeGroup.HeaderText = "Возрастная группа";
             this.AgeGroup.Name = "AgeGroup";
+            // 
+            // dtNFAG
+            // 
+            this.dtNFAG.AllowUserToDeleteRows = false;
+            this.dtNFAG.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dtNFAG.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dtNFAG.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.dtNFAG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtNFAG.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.IAGID,
+            this.Energy,
+            this.Protein,
+            this.animalProtein,
+            this.BodyMass,
+            this.Fat,
+            this.Carbohydrates});
+            this.dtNFAG.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dtNFAG.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dtNFAG.Location = new System.Drawing.Point(0, 0);
+            this.dtNFAG.Margin = new System.Windows.Forms.Padding(0);
+            this.dtNFAG.MultiSelect = false;
+            this.dtNFAG.Name = "dtNFAG";
+            this.dtNFAG.RowHeadersVisible = false;
+            this.dtNFAG.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dtNFAG.Size = new System.Drawing.Size(538, 83);
+            this.dtNFAG.TabIndex = 0;
+            this.dtNFAG.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtNFAG_CellClick);
+            this.dtNFAG.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtNFAG_CellDoubleClick);
+            this.dtNFAG.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtNFAG_CellEndEdit);
+            this.dtNFAG.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dtNFAG_CellFormatting);
+            // 
+            // btnNFAG
+            // 
+            this.tableLayoutPanel2.SetColumnSpan(this.btnNFAG, 2);
+            this.btnNFAG.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnNFAG.Location = new System.Drawing.Point(0, 168);
+            this.btnNFAG.Margin = new System.Windows.Forms.Padding(0);
+            this.btnNFAG.Name = "btnNFAG";
+            this.btnNFAG.Size = new System.Drawing.Size(538, 35);
+            this.btnNFAG.TabIndex = 0;
+            this.btnNFAG.Text = "Настройки";
+            this.btnNFAG.UseVisualStyleBackColor = true;
+            this.btnNFAG.Click += new System.EventHandler(this.btnNFAG_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -553,6 +660,51 @@
             this.btnAgeGroup.Text = "Возрастные группы";
             this.btnAgeGroup.UseVisualStyleBackColor = true;
             this.btnAgeGroup.Click += new System.EventHandler(this.btnAgeGroup_Click);
+            // 
+            // IAGID
+            // 
+            this.IAGID.DataPropertyName = "IDAgeGroup";
+            this.IAGID.HeaderText = "AgeGroupID";
+            this.IAGID.Name = "IAGID";
+            this.IAGID.Visible = false;
+            // 
+            // Energy
+            // 
+            this.Energy.DataPropertyName = "Energy(kkal)";
+            this.Energy.HeaderText = "Энергия(ккал.)";
+            this.Energy.Name = "Energy";
+            // 
+            // Protein
+            // 
+            this.Protein.DataPropertyName = "Protein,g";
+            this.Protein.HeaderText = "Белок, г";
+            this.Protein.Name = "Protein";
+            // 
+            // animalProtein
+            // 
+            this.animalProtein.DataPropertyName = "animalProtein(%)";
+            this.animalProtein.HeaderText = "Животный Белок в % от обычного";
+            this.animalProtein.Name = "animalProtein";
+            // 
+            // BodyMass
+            // 
+            this.BodyMass.DataPropertyName = "g/kg_BodyMass";
+            dataGridViewCellStyle5.NullValue = null;
+            this.BodyMass.DefaultCellStyle = dataGridViewCellStyle5;
+            this.BodyMass.HeaderText = "Г/Кг массы тела";
+            this.BodyMass.Name = "BodyMass";
+            // 
+            // Fat
+            // 
+            this.Fat.DataPropertyName = "Fat,g";
+            this.Fat.HeaderText = "Жир, г";
+            this.Fat.Name = "Fat";
+            // 
+            // Carbohydrates
+            // 
+            this.Carbohydrates.DataPropertyName = "Carbohydrates, g";
+            this.Carbohydrates.HeaderText = "Углеводы, г";
+            this.Carbohydrates.Name = "Carbohydrates";
             // 
             // Children
             // 
@@ -586,7 +738,13 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.splitContainer4.Panel1.ResumeLayout(false);
+            this.splitContainer4.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
+            this.splitContainer4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dtAgeGroup)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtNFAG)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -628,6 +786,18 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn FatherName;
         private System.Windows.Forms.DataGridViewTextBoxColumn IDAgeGroup;
         private System.Windows.Forms.DataGridViewTextBoxColumn AgeGroup;
+        private System.Windows.Forms.SplitContainer splitContainer4;
+        private System.Windows.Forms.Button btnNFAG;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.DataGridView dtNFAG;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IAGID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Energy;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Protein;
+        private System.Windows.Forms.DataGridViewTextBoxColumn animalProtein;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BodyMass;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Fat;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Carbohydrates;
     }
 }
 

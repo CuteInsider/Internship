@@ -36,6 +36,7 @@ namespace MDOUMakeMenu
                             linkMenu.Enabled = true;
                             linkIngredients.Enabled = true;
                             linkChildren.Enabled = true;
+                            btnSetup.Visible = true;
                             lblHello.Text = "Добро пожаловать Администратор";
                             break;
 
@@ -43,6 +44,7 @@ namespace MDOUMakeMenu
                             linkMenu.Enabled = false;
                             linkIngredients.Enabled = false;
                             linkChildren.Enabled = true;
+                            btnSetup.Visible = false;
                             lblHello.Text = "Добро пожаловать Воспитатель";
                             break;
 
@@ -50,6 +52,7 @@ namespace MDOUMakeMenu
                             linkMenu.Enabled = true;
                             linkIngredients.Enabled = true;
                             linkChildren.Enabled = false;
+                            btnSetup.Visible = false;
                             lblHello.Text = "Добро пожаловать Человек-меню";
                             break;
                     }
@@ -105,6 +108,7 @@ namespace MDOUMakeMenu
                                 linkMenu.Enabled = true;
                                 linkIngredients.Enabled = true;
                                 linkChildren.Enabled = true;
+                                btnSetup.Visible = true;
                                 lblHello.Text = "Добро пожаловать Администратор";
                                 break;
 
@@ -112,6 +116,7 @@ namespace MDOUMakeMenu
                                 linkMenu.Enabled = false;
                                 linkIngredients.Enabled = false;
                                 linkChildren.Enabled = true;
+                                btnSetup.Visible = false;
                                 lblHello.Text = "Добро пожаловать Воспитатель";
                                 break;
 
@@ -119,6 +124,7 @@ namespace MDOUMakeMenu
                                 linkMenu.Enabled = true;
                                 linkIngredients.Enabled = true;
                                 linkChildren.Enabled = false;
+                                btnSetup.Visible = false;
                                 lblHello.Text = "Добро пожаловать Человек-меню";
                                 break;
 
@@ -127,6 +133,7 @@ namespace MDOUMakeMenu
                                 linkIngredients.Enabled = false;
                                 linkChildren.Enabled = false;
                                 lblHello.Visible = false;
+                                btnSetup.Visible = false;
                                 lblErr.Text = "Неверный логин или пароль";
                                 lblErr.Visible = true;
                                 DataBase.Close();

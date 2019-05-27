@@ -17,11 +17,13 @@ namespace MDOUMakeMenu
         Table tAttendance = new Table();
         Table tChildren = new Table();
         Table tAgeGroup = new Table();
+        Table tNforAG = new Table();
 
         object Role;
         bool newRowC = false;
         bool newRowG = false;
         bool newRowAG = false;
+        bool newRowNforAG = false;
 
         bool open = false;
         public Children(Point Location, FormWindowState state, object Role)
@@ -83,6 +85,7 @@ namespace MDOUMakeMenu
             splitContainer3.Panel2Collapsed = true;
             splitContainer3.Panel2.Hide();
             InvokeDtAttendance(dataView.SelectedValue);
+            splitContainer4.Panel2Collapsed = true;
             open = true;
         }
 
@@ -107,7 +110,7 @@ namespace MDOUMakeMenu
             Close();
             Application.OpenForms[0].Show();
         }
-        
+
 
         //====== РАБОТА СО СПИСКОМ ДАТ ======
         private void dateView_SelectedIndexChanged(object sender, EventArgs e)
@@ -135,6 +138,14 @@ namespace MDOUMakeMenu
         private void dtAttendance_DoubleClick(object sender, EventArgs e)
         {
             ((DataGridView)sender).BeginEdit(false);
+            if (!((DataGridView)sender).CurrentRow.IsNewRow)
+            {
+                newRowG = false;
+            }
+            else
+            {
+                newRowG = true;
+            }
         }
 
         private void dtAttendance_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -414,22 +425,30 @@ namespace MDOUMakeMenu
 
 
         //====== РАБОТА С ВОЗРАСТНЫМИ ГРУППАМИ ======
+        private void InvokeDtAgeGroup()
+        {
+            dtAgeGroup.DataSource = tAgeGroup.newTable("SELECT * FROM AgeGroup");
+        }
+
         private void btnAgeGroup_Click(object sender, EventArgs e)
         {
             if (splitContainer2.Panel2Collapsed == true)
             {
                 splitContainer2.Panel2Collapsed = false;
+                VerticalOrientation();
                 if (splitContainer3.Panel2Collapsed == true)
                 {
                     splitContainer3.Panel2Collapsed = false;
                     splitContainer3.Panel2.Show();
                     splitContainer3.Panel1Collapsed = true;
                     splitContainer3.Panel1.Hide();
-                    dtAgeGroup.DataSource = tAgeGroup.newTable("SELECT * FROM AgeGroup");
+                    InvokeDtAgeGroup();
+                    VerticalOrientation();
                 }
             }
             else if (splitContainer3.Panel1Collapsed == false)
             {
+                HorizontalOrientation();
                 if (splitContainer3.Panel2Collapsed == false)
                 {
                     splitContainer3.Panel2Collapsed = true;
@@ -439,7 +458,7 @@ namespace MDOUMakeMenu
                 {
                     splitContainer3.Panel2Collapsed = false;
                     splitContainer3.Panel2.Show();
-                    dtAgeGroup.DataSource = tAgeGroup.newTable("SELECT * FROM AgeGroup");
+                    InvokeDtAgeGroup();
                 }
             }
             else
@@ -449,14 +468,28 @@ namespace MDOUMakeMenu
         private void dtAgeGroup_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             ((DataGridView)sender).BeginEdit(false);
+            if (!((DataGridView)sender).CurrentRow.IsNewRow)
+            {
+                newRowAG = false;
+            }
+            else
+            {
+                newRowAG = true;
+            }
         }
 
-        private void dtAgeGroup_Click(object sender, EventArgs e)
+        private void dtAgeGroup_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (((DataGridView)sender).CurrentRow.IsNewRow)
-                newRowAG = true;
-            else
+            if (!((DataGridView)sender).CurrentRow.IsNewRow)
+            {
                 newRowAG = false;
+                if (dtAgeGroup.CurrentRow.Index < dtNFAG.RowCount)
+                    dtNFAG.Rows[dtAgeGroup.CurrentRow.Index].Selected = true;
+            }
+            else
+            {
+                newRowAG = true;
+            }
         }
 
         private void dtAgeGroup_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -491,8 +524,162 @@ namespace MDOUMakeMenu
 
         }
 
+        private void HorizontalOrientation()
+        {
+            splitContainer4.Orientation = Orientation.Horizontal;
+
+            tableLayoutPanel2.SetRowSpan(splitContainer4, 1);
+            tableLayoutPanel2.SetRowSpan(btnNFAG, 1);
+
+            tableLayoutPanel2.SetColumn(btnNFAG, 0);
+            tableLayoutPanel2.SetRow(btnNFAG, 1);
+
+            tableLayoutPanel2.SetColumnSpan(btnNFAG, 2);
+            tableLayoutPanel2.SetColumnSpan(splitContainer4, 2);
+
+            splitContainer4.SplitterDistance = splitContainer4.Width / 2;
+        }
+
+        private void VerticalOrientation()
+        {
+            splitContainer4.Orientation = Orientation.Vertical;
+
+            tableLayoutPanel2.SetColumnSpan(btnNFAG, 1);
+            tableLayoutPanel2.SetColumnSpan(splitContainer4, 1);
+
+            tableLayoutPanel2.SetColumn(btnNFAG, 1);
+            tableLayoutPanel2.SetRow(btnNFAG, 0);
+
+            tableLayoutPanel2.SetRowSpan(btnNFAG, 2);
+            tableLayoutPanel2.SetRowSpan(splitContainer4, 2);
+
+            splitContainer4.SplitterDistance = splitContainer4.Width / 2;
+        }
+
+
+        //====== РАБОТА С НОРМАМИ ДЛЯ ВГ ======
+        private void InvokeDtNforAG(int selectedRow)
+        {
+            dtNFAG.DataSource = tNforAG.newTable("SELECT * FROM normsforag");
+            if (selectedRow < dtNFAG.RowCount)
+                dtNFAG.Rows[selectedRow].Selected = true;
+        }
+
+        private void btnNFAG_Click(object sender, EventArgs e)
+        {
+            if (splitContainer4.Panel2Collapsed)
+            {
+                splitContainer4.Panel2Collapsed = false;
+                InvokeDtNforAG(dtAgeGroup.CurrentRow.Index);
+            }
+            else
+            {
+                splitContainer4.Panel2Collapsed = true;
+            }
+        }
+
+        private void dtNFAG_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (!((DataGridView)sender).CurrentRow.IsNewRow)
+            {
+                newRowNforAG = false;
+                if (dtNFAG.CurrentRow.Index < dtAgeGroup.RowCount)
+                    dtAgeGroup.Rows[dtNFAG.CurrentRow.Index].Selected = true;
+            }
+            else
+            {
+                newRowNforAG = true;
+            }
+        }
+
+        private void dtNFAG_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            dtNFAG.BeginEdit(false);
+            if (!((DataGridView)sender).CurrentRow.IsNewRow)
+            {
+                newRowNforAG = false;
+            }
+            else
+            {
+                newRowNforAG = true;
+            }
+        }
+
+        private void dtNFAG_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (newRowNforAG == true && String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value.ToString()))
+                return;
+            if (DataBase.Connect())
+            {
+                if (newRowNforAG == true)
+                    tNforAG.Query("INSERT INTO normsforag (IDAgeGroup, `" + ((DataGridView)sender).Columns[e.ColumnIndex].DataPropertyName + "`) VALUES (" +
+                        dtAgeGroup.CurrentRow.Cells[0].Value + ", " + ((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value + ");");
+                else if (!String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value.ToString()))
+                {
+                    tNforAG.Query("UPDATE normsforag SET `" + ((DataGridView)sender).Columns[e.ColumnIndex].DataPropertyName + "` = '" +
+                        ((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value + "' WHERE IDAgeGroup = " + ((DataGridView)sender).CurrentRow.Cells[0].Value);
+                }
+                else
+                {
+                    tNforAG.Query("UPDATE normsforag SET `" + ((DataGridView)sender).Columns[e.ColumnIndex].DataPropertyName + "` = NULL WHERE IDAgeGroup = " +
+                        ((DataGridView)sender).CurrentRow.Cells[0].Value);
+                }
+                if (String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[1].Value.ToString()) && String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[2].Value.ToString()) &&
+                    String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[3].Value.ToString()) && String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[4].Value.ToString()) &&
+                    String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[5].Value.ToString()) && String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[6].Value.ToString()) && newRowNforAG == false)
+                    tNforAG.Query("DELETE FROM normsforag WHERE IDAgeGroup = " + ((DataGridView)sender).CurrentRow.Cells[0].Value);
+                int rowIndex = e.RowIndex;
+                this.BeginInvoke(new MethodInvoker(() =>
+                {
+                    InvokeDtNforAG(dtAgeGroup.CurrentRow.Index);
+                    dtNFAG.Rows[rowIndex].Selected = true;
+                }));
+                DataBase.Close();
+            }
+            else
+                MessageBox.Show(
+                    "Проверте подключение к базе данных",
+                    "Ошибка Подключения",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+        }
+
 
         //====== РАБОТА С ОТЧЕТОМ ======
+        private void btnReport_Click(object sender, EventArgs e)
+        {
+            if (splitContainer2.Panel2Collapsed == true)
+            {
+                splitContainer2.Panel2Collapsed = false;
+                HorizontalOrientation();
+                if (splitContainer3.Panel1Collapsed == true)
+                {
+                    splitContainer3.Panel1Collapsed = false;
+                    splitContainer3.Panel1.Show();
+                    splitContainer3.Panel2Collapsed = true;
+                    splitContainer3.Panel2.Hide();
+                    HorizontalOrientation();
+                }
+            }
+            else if (splitContainer3.Panel2Collapsed == false)
+            {
+                if (splitContainer3.Panel1Collapsed == false)
+                {
+                    splitContainer3.Panel1Collapsed = true;
+                    splitContainer3.Panel1.Hide();
+                    VerticalOrientation();
+                }
+                else
+                {
+                    splitContainer3.Panel1Collapsed = false;
+                    splitContainer3.Panel1.Show();
+                    HorizontalOrientation();
+                }
+            }
+            else
+                splitContainer2.Panel2Collapsed = true;
+        }
+
         private void btnCreateReport_Click(object sender, EventArgs e)
         {
             string rangeDate;
@@ -594,34 +781,15 @@ namespace MDOUMakeMenu
             dtpEndDate.Enabled = true;
         }
 
-        private void btnReport_Click(object sender, EventArgs e)
+        private void dtNFAG_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (splitContainer2.Panel2Collapsed == true)
-            {
-                splitContainer2.Panel2Collapsed = false;
-                if (splitContainer3.Panel1Collapsed == true)
-                {
-                    splitContainer3.Panel1Collapsed = false;
-                    splitContainer3.Panel1.Show();
-                    splitContainer3.Panel2Collapsed = true;
-                    splitContainer3.Panel2.Hide();
-                }
-            }
-            else if (splitContainer3.Panel2Collapsed == false)
-            {
-                if (splitContainer3.Panel1Collapsed == false)
-                {
-                    splitContainer3.Panel1Collapsed = true;
-                    splitContainer3.Panel1.Hide();
-                }
-                else
-                {
-                    splitContainer3.Panel1Collapsed = false;
-                    splitContainer3.Panel1.Show();
-                }
-            }
-            else
-                splitContainer2.Panel2Collapsed = true;
+            //if (e.Value != null)
+            //{
+            //    if (float.TryParse(e.Value.ToString(), out float parsedValue))
+            //    {
+            //        dtNFAG.CurrentRow.Cells[e.ColumnIndex].Value = parsedValue;
+            //    }
+            //}
         }
     }
 }

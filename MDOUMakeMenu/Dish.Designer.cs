@@ -193,8 +193,8 @@
             this.splitContainer1.Panel2.Controls.Add(this.dtIngredient);
             this.splitContainer1.Panel2MinSize = 55;
             this.tableLayoutPanel2.SetRowSpan(this.splitContainer1, 2);
-            this.splitContainer1.Size = new System.Drawing.Size(834, 301);
-            this.splitContainer1.SplitterDistance = 82;
+            this.splitContainer1.Size = new System.Drawing.Size(834, 239);
+            this.splitContainer1.SplitterDistance = 83;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 2;
             // 
@@ -229,7 +229,7 @@
             this.dtDish.Name = "dtDish";
             this.dtDish.RowHeadersVisible = false;
             this.dtDish.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dtDish.Size = new System.Drawing.Size(834, 82);
+            this.dtDish.Size = new System.Drawing.Size(834, 83);
             this.dtDish.TabIndex = 0;
             this.dtDish.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtDish_CellClick);
             this.dtDish.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtDish_CellDoubleClick);
@@ -290,7 +290,7 @@
             this.dtIngredient.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dtIngredient.RowHeadersVisible = false;
             this.dtIngredient.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dtIngredient.Size = new System.Drawing.Size(834, 217);
+            this.dtIngredient.Size = new System.Drawing.Size(834, 154);
             this.dtIngredient.TabIndex = 0;
             this.dtIngredient.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtIngredient_CellClick);
             this.dtIngredient.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtIngredient_CellDoubleClick);
@@ -326,7 +326,7 @@
             this.splitContainer2.Panel2.Controls.Add(this.dtIngredientsComposition);
             this.tableLayoutPanel1.SetRowSpan(this.splitContainer2, 2);
             this.splitContainer2.Size = new System.Drawing.Size(1034, 454);
-            this.splitContainer2.SplitterDistance = 301;
+            this.splitContainer2.SplitterDistance = 239;
             this.splitContainer2.SplitterWidth = 10;
             this.splitContainer2.TabIndex = 3;
             // 
@@ -344,7 +344,7 @@
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1034, 301);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1034, 239);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
             // dtDinnerType
@@ -372,7 +372,7 @@
             this.dtDinnerType.RowHeadersVisible = false;
             this.dtDinnerType.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.White;
             this.dtDinnerType.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dtDinnerType.Size = new System.Drawing.Size(200, 271);
+            this.dtDinnerType.Size = new System.Drawing.Size(200, 209);
             this.dtDinnerType.TabIndex = 0;
             this.dtDinnerType.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtDinnerType_CellClick);
             this.dtDinnerType.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtDinnerType_CellDoubleClick);
@@ -399,7 +399,7 @@
             // 
             this.btnDinnerType.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnDinnerType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDinnerType.Location = new System.Drawing.Point(0, 271);
+            this.btnDinnerType.Location = new System.Drawing.Point(0, 209);
             this.btnDinnerType.Margin = new System.Windows.Forms.Padding(0);
             this.btnDinnerType.Name = "btnDinnerType";
             this.btnDinnerType.Size = new System.Drawing.Size(200, 30);
@@ -440,7 +440,7 @@
             this.dtIngredientsComposition.Name = "dtIngredientsComposition";
             this.dtIngredientsComposition.RowHeadersVisible = false;
             this.dtIngredientsComposition.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dtIngredientsComposition.Size = new System.Drawing.Size(1034, 143);
+            this.dtIngredientsComposition.Size = new System.Drawing.Size(1034, 205);
             this.dtIngredientsComposition.TabIndex = 0;
             this.dtIngredientsComposition.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtIngredientsComposition_CellClick);
             this.dtIngredientsComposition.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtIngredientsComposition_CellDoubleClick);

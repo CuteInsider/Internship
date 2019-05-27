@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -83,10 +85,12 @@ namespace MDOUMakeMenu
             cmbDinnerType.DataSource = dinnerType.newTable("SELECT * FROM dinnertype");
 
             InvokeDate(DataView.SelectedItem);
+            InvokeTxtChildren(DataView.SelectedValue);
             InvokeDinnerType(cmbDinnerType.SelectedValue);
             InvokeDtMenu(DataView.SelectedValue, cmbDinnerType.SelectedValue);
             open = true;
         }
+
 
         //====== НАВИГАЦИЯ ======
         private void btnEnter_Click(object sender, EventArgs e)
@@ -155,6 +159,7 @@ namespace MDOUMakeMenu
             if (open)
             {
                 InvokeDate(DataView.SelectedItem);
+                InvokeTxtChildren(DataView.SelectedValue);
                 InvokeDtMenu(DataView.SelectedItem, cmbDinnerType.SelectedValue);
             }
         }
@@ -270,6 +275,70 @@ namespace MDOUMakeMenu
                     MessageBox.Show(Ex.ToString(), "Ошибка");
                 }
                 DataBase.Close();
+            }
+        }
+
+        //====== РАБОТА С НОРМАМИ ПИТАНИЯ ======
+        private void InvokeTxtChildren(object date)
+        {
+            if (DataBase.Connect())
+            {
+                Table children = new Table();
+                txtAllChildren.Text = children.Query(
+                    "SELECT SUM(ActuallyChildrenAmount) " +
+                    "FROM attendance " +
+                    "WHERE Date= '" + Convert.ToDateTime(date).ToString("yyyy-MM-dd") + "'").ToString();
+                DataBase.Close();
+            }
+        }
+
+        private void cbChildrenControl_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnMakeMenu_Click(object sender, EventArgs e)
+        {
+            //Создание файла
+            using (ExcelPackage Excel = new ExcelPackage())
+            {
+                //Создание листа
+                ExcelWorksheet workSheet = Excel.Workbook.Worksheets.Add("Отчет");
+
+                workSheet.Cells[1, 1].Value = Convert.ToDateTime(DataView.SelectedValue).ToString("D");
+                DataTable DTcmb = cmbDinnerType.DataSource as DataTable;
+                cmbDinnerType.SelectedIndex = 0;
+                int allRows = 1;
+                for (int dinnerType = 0; dinnerType < (cmbDinnerType.Items.Count); dinnerType++)
+                {
+                    workSheet.Cells[allRows + dinnerType  +1, 1].Value = DTcmb.Rows[dinnerType][1].ToString();
+                    allRows++;
+                    for (int row = 0; row < dtMenu.Rows.Count; row++)
+                    {
+                        workSheet.Cells[allRows + row + dinnerType, 2].Value = dtMenu.Rows[row].Cells[1].Value;
+                    }
+                    allRows = allRows + dtMenu.RowCount;
+                    if (cmbDinnerType.SelectedIndex != cmbDinnerType.Items.Count - 1)
+                        cmbDinnerType.SelectedIndex++;
+                }
+
+                //Форматирование Файла
+                workSheet.Cells.AutoFitColumns();
+                workSheet.Cells.Style.Font.Name = "Times New Roman";
+                workSheet.Cells.Style.Font.Size = 12;
+                using (var entireSheetRange = workSheet.Cells[1, 1, workSheet.Dimension.End.Row, 2])
+                {
+                    entireSheetRange.Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                    entireSheetRange.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    entireSheetRange.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    entireSheetRange.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                    entireSheetRange.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                }
+
+                //Сохранение Excel
+                System.IO.FileInfo fi = new System.IO.FileInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Меню.xlsx");
+                Excel.SaveAs(fi);
+
             }
         }
     }

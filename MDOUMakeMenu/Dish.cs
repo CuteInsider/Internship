@@ -385,7 +385,6 @@ namespace MDOUMakeMenu
             }
             else
                 MessageBox.Show("Проверте подключение к базе данных", "Ошибка Подключения", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
         }
 
         int data;
