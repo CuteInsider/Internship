@@ -790,7 +790,6 @@
         private System.Windows.Forms.Button btnNFAG;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.DataGridView dtNFAG;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IID;
         private System.Windows.Forms.DataGridViewTextBoxColumn IAGID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Energy;
         private System.Windows.Forms.DataGridViewTextBoxColumn Protein;

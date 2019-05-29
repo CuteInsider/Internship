@@ -172,6 +172,54 @@ namespace MDOUMakeMenu
             }
         }
 
+        private void btnSaveDB_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.CheckFileExists = false;
+                saveFileDialog.Filter = "Structured Query Language(*.sql)|*.sql";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    if (DataBase.Connect())
+                    {
+                        if (DataBase.BackUp(saveFileDialog.FileName))
+                        {
+                            MessageBox.Show(
+                                "Экспорт завершен",
+                                "Операция",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+                        }
+                        DataBase.Close();
+                    }
+                }
+            }
+        }
+
+        private void btnLoadDB_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Structured Query Language(*.sql)|*.sql";
+                openFileDialog.Multiselect = false;
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    if (DataBase.Connect())
+                    {
+                        if (DataBase.Restore(openFileDialog.FileName))
+                        {
+                            MessageBox.Show(
+                                "Импорт завершен",
+                                "Операция",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+                        }
+                        DataBase.Close();
+                    }
+                }
+            }
+        }
+
         private void linkMenu_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Hide();

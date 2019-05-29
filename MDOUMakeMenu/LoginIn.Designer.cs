@@ -37,21 +37,24 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.lblErr = new System.Windows.Forms.Label();
-            this.lblHello = new System.Windows.Forms.Label();
             this.btnSetup = new System.Windows.Forms.Button();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.lblPassword = new System.Windows.Forms.Label();
             this.txtLogin = new System.Windows.Forms.TextBox();
             this.lblLogin = new System.Windows.Forms.Label();
             this.btnLoginIn = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.lblAdmin = new System.Windows.Forms.Label();
+            this.dtUsers = new System.Windows.Forms.DataGridView();
+            this.lblHello = new System.Windows.Forms.Label();
+            this.btnSaveDB = new System.Windows.Forms.Button();
+            this.btnLoadDB = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtUsers)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -164,8 +167,11 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.label1);
+            this.splitContainer1.Panel2.Controls.Add(this.btnLoadDB);
+            this.splitContainer1.Panel2.Controls.Add(this.btnSaveDB);
             this.splitContainer1.Panel2.Controls.Add(this.lblAdmin);
-            this.splitContainer1.Panel2.Controls.Add(this.dataGridView1);
+            this.splitContainer1.Panel2.Controls.Add(this.dtUsers);
             this.splitContainer1.Size = new System.Drawing.Size(834, 361);
             this.splitContainer1.SplitterDistance = 411;
             this.splitContainer1.SplitterWidth = 1;
@@ -183,18 +189,6 @@
             this.lblErr.Text = "-";
             this.lblErr.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblErr.Visible = false;
-            // 
-            // lblHello
-            // 
-            this.lblHello.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblHello.Location = new System.Drawing.Point(0, 78);
-            this.lblHello.Margin = new System.Windows.Forms.Padding(0);
-            this.lblHello.Name = "lblHello";
-            this.lblHello.Size = new System.Drawing.Size(834, 23);
-            this.lblHello.TabIndex = 4;
-            this.lblHello.Text = "-";
-            this.lblHello.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.lblHello.Visible = false;
             // 
             // btnSetup
             // 
@@ -257,22 +251,6 @@
             this.btnLoginIn.UseVisualStyleBackColor = true;
             this.btnLoginIn.Click += new System.EventHandler(this.btnLoginIn_Click);
             // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dataGridView1.Location = new System.Drawing.Point(56, 92);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(322, 150);
-            this.dataGridView1.TabIndex = 0;
-            // 
             // lblAdmin
             // 
             this.lblAdmin.Dock = System.Windows.Forms.DockStyle.Top;
@@ -282,6 +260,71 @@
             this.lblAdmin.TabIndex = 1;
             this.lblAdmin.Text = "Управдление пользователями";
             this.lblAdmin.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // dtUsers
+            // 
+            this.dtUsers.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.dtUsers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dtUsers.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
+            this.dtUsers.BackgroundColor = System.Drawing.Color.White;
+            this.dtUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtUsers.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dtUsers.Location = new System.Drawing.Point(53, 64);
+            this.dtUsers.Margin = new System.Windows.Forms.Padding(0);
+            this.dtUsers.MultiSelect = false;
+            this.dtUsers.Name = "dtUsers";
+            this.dtUsers.RowHeadersVisible = false;
+            this.dtUsers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dtUsers.Size = new System.Drawing.Size(322, 150);
+            this.dtUsers.TabIndex = 0;
+            // 
+            // lblHello
+            // 
+            this.lblHello.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblHello.Location = new System.Drawing.Point(0, 78);
+            this.lblHello.Margin = new System.Windows.Forms.Padding(0);
+            this.lblHello.Name = "lblHello";
+            this.lblHello.Size = new System.Drawing.Size(834, 23);
+            this.lblHello.TabIndex = 4;
+            this.lblHello.Text = "-";
+            this.lblHello.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lblHello.Visible = false;
+            // 
+            // btnSaveDB
+            // 
+            this.btnSaveDB.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnSaveDB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSaveDB.Location = new System.Drawing.Point(65, 294);
+            this.btnSaveDB.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
+            this.btnSaveDB.Name = "btnSaveDB";
+            this.btnSaveDB.Size = new System.Drawing.Size(150, 45);
+            this.btnSaveDB.TabIndex = 2;
+            this.btnSaveDB.Text = "Сохранить";
+            this.btnSaveDB.UseVisualStyleBackColor = true;
+            this.btnSaveDB.Click += new System.EventHandler(this.btnSaveDB_Click);
+            // 
+            // btnLoadDB
+            // 
+            this.btnLoadDB.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnLoadDB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLoadDB.Location = new System.Drawing.Point(214, 294);
+            this.btnLoadDB.Margin = new System.Windows.Forms.Padding(0);
+            this.btnLoadDB.Name = "btnLoadDB";
+            this.btnLoadDB.Size = new System.Drawing.Size(150, 45);
+            this.btnLoadDB.TabIndex = 2;
+            this.btnLoadDB.Text = "Загрузить";
+            this.btnLoadDB.UseVisualStyleBackColor = true;
+            this.btnLoadDB.Click += new System.EventHandler(this.btnLoadDB_Click);
+            // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(73, 259);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(280, 23);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Резервное копирование БД";
             // 
             // LoginIn
             // 
@@ -306,9 +349,10 @@
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtUsers)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -331,7 +375,10 @@
         private System.Windows.Forms.Label lblHello;
         private System.Windows.Forms.Label lblErr;
         private System.Windows.Forms.Label lblAdmin;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dtUsers;
+        private System.Windows.Forms.Button btnSaveDB;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnLoadDB;
     }
 }
 

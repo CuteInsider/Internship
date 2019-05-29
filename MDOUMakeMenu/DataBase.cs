@@ -43,6 +43,24 @@ namespace MDOUMakeMenu
             }
         }
 
+        static public bool BackUp(string file)
+        {
+            using (MySqlBackup backUp = new MySqlBackup(msCommand))
+            {
+                backUp.ExportToFile(file);
+                return true;
+            }
+        }
+
+        static public bool Restore(string file)
+        {
+            using (MySqlBackup restore = new MySqlBackup(msCommand))
+            {
+                restore.ImportFromFile(file);
+                return true;
+            }
+        }
+
         static public void Close()
         {
             if (msConnect.State == ConnectionState.Open && msConnect != null)
@@ -54,17 +72,22 @@ namespace MDOUMakeMenu
 
     class Table : DataBase
     {
-        public DataTable DBTable;
+        public DataTable DBTable = null;
+
+        ~Table()
+        {
+            DBTable.Dispose();
+        }
+
         public DataTable newTable(string Query)
         {
-            DBTable = new DataTable();
             msCommand.CommandText = Query;
             DBTable.Clear();
             msDataAdapter.Fill(DBTable);
             return DBTable;
         }
 
-        public object Query(string Query/*, string QueryType = null*/)
+        public object Query(string Query)
         {
             try
             {
