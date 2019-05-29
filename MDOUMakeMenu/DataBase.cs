@@ -72,19 +72,26 @@ namespace MDOUMakeMenu
 
     class Table : DataBase
     {
-        public DataTable DBTable = null;
+        public DataTable DBTable;
 
-        ~Table()
-        {
-            DBTable.Dispose();
-        }
+        //~Table()
+        //{
+        //    if (DBTable != null)
+        //        DBTable.Dispose();
+        //}
 
         public DataTable newTable(string Query)
         {
-            msCommand.CommandText = Query;
-            DBTable.Clear();
-            msDataAdapter.Fill(DBTable);
-            return DBTable;
+            if (Query.StartsWith("SELECT"))
+            {
+                DBTable = new DataTable();
+                msCommand.CommandText = Query;
+                DBTable.Clear();
+                msDataAdapter.Fill(DBTable);
+                return DBTable;
+            }
+            else
+                return null;
         }
 
         public object Query(string Query)

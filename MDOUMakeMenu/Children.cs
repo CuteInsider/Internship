@@ -25,6 +25,8 @@ namespace MDOUMakeMenu
         bool newRowAG = false;
         bool newRowNforAG = false;
 
+        bool closing = true;
+
         bool open = false;
         public Children(Point Location, FormWindowState state, object Role)
         {
@@ -93,6 +95,7 @@ namespace MDOUMakeMenu
         //====== НАВИГАЦИЯ ======
         private void linkMenu_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            closing = false;
             Close();
             Menu MForm = new Menu(Location, this.WindowState, Role);
             MForm.Show();
@@ -100,6 +103,7 @@ namespace MDOUMakeMenu
 
         private void linkIngredients_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            closing = false;
             Close();
             Dish DForm = new Dish(Location, this.WindowState, Role);
             DForm.Show();
@@ -107,10 +111,18 @@ namespace MDOUMakeMenu
 
         private void btnEnter_Click(object sender, EventArgs e)
         {
+            closing = false;
             Close();
+            Application.OpenForms[0].WindowState = this.WindowState;
+            Application.OpenForms[0].Location = this.Location;
             Application.OpenForms[0].Show();
         }
 
+        private void Children_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (closing)
+                Application.Exit();
+        }
 
         //====== РАБОТА СО СПИСКОМ ДАТ ======
         private void dateView_SelectedIndexChanged(object sender, EventArgs e)

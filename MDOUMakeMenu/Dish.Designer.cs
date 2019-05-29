@@ -578,6 +578,7 @@
             this.Name = "Dish";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Блюда";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Dish_FormClosing);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);

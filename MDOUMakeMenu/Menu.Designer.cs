@@ -352,6 +352,7 @@
             // 
             // btnMakeMenu
             // 
+            this.btnMakeMenu.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnMakeMenu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnMakeMenu.Location = new System.Drawing.Point(0, 299);
             this.btnMakeMenu.Margin = new System.Windows.Forms.Padding(0);
@@ -377,6 +378,7 @@
             this.Name = "Menu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Меню";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Menu_FormClosing);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtDish)).EndInit();

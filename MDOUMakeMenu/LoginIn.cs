@@ -14,10 +14,11 @@ namespace MDOUMakeMenu
     {
         object Role = null;
         Table login = new Table();
-        public LoginIn(Point location)
+        public LoginIn(Point location, FormWindowState State)
         {
             InitializeComponent();
             this.Location = location;
+            this.WindowState = State;
         }
 
         private void LoginIn_Load(object sender, EventArgs e)
@@ -66,11 +67,6 @@ namespace MDOUMakeMenu
                     btnLoginIn.Text = "Выйти";
                 }
             }
-        }
-
-        private void LoginIn_Activated(object sender, EventArgs e)
-        {
-            //Location = 
         }
 
         private void btnSetup_Click(object sender, EventArgs e)

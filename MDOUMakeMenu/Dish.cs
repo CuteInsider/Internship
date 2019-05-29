@@ -21,6 +21,8 @@ namespace MDOUMakeMenu
 
         bool open = false;
 
+        bool closing = true;
+
         Table dish = new Table();
         Table composition = new Table();
         Table ingredients = new Table();
@@ -68,6 +70,7 @@ namespace MDOUMakeMenu
         //====== НАВИГАЦИЯ ======
         private void linkMenu_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            closing = false;
             Close();
             Menu MForm = new Menu(Location, this.WindowState, Role);
             MForm.Show();
@@ -75,6 +78,7 @@ namespace MDOUMakeMenu
 
         private void linkChildren_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            closing = false;
             Close();
             Children CForm = new Children(Location, this.WindowState, Role);
             CForm.Show();
@@ -82,10 +86,18 @@ namespace MDOUMakeMenu
 
         private void btnEnter_Click(object sender, EventArgs e)
         {
+            closing = false;
             Close();
+            Application.OpenForms[0].WindowState = this.WindowState;
+            Application.OpenForms[0].Location = this.Location;
             Application.OpenForms[0].Show();
         }
 
+        private void Dish_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (closing)
+                Application.Exit();
+        }
 
         //====== РАБОТА С ТИПАМИ ПРИЕМА ПИЩИ ======
         private void InvokeDtDinnerType()

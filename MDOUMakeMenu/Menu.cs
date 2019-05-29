@@ -17,6 +17,8 @@ namespace MDOUMakeMenu
         object Role;
         bool open = false;
 
+        bool close = true;
+
         Table date = new Table();
         Table dinnerType = new Table();
         Table dish = new Table();
@@ -95,12 +97,16 @@ namespace MDOUMakeMenu
         //====== НАВИГАЦИЯ ======
         private void btnEnter_Click(object sender, EventArgs e)
         {
+            close = false;
             Close();
+            Application.OpenForms[0].WindowState = this.WindowState;
+            Application.OpenForms[0].Location = this.Location;
             Application.OpenForms[0].Show();
         }
 
         private void linkIngredients_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            close = false;
             Close();
             Dish DForm = new Dish(Location, this.WindowState, Role);
             DForm.Show();
@@ -108,11 +114,17 @@ namespace MDOUMakeMenu
 
         private void linkChildren_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            close = false;
             Close();
             Children CForm = new Children(Location, this.WindowState, Role);
             CForm.Show();
         }
 
+        private void Menu_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (close)
+                Application.Exit();
+        }
 
         //====== РАБОТА С ТИПАМИ ПИТАНИЯ ======
         private void InvokeDinnerType(object Value)
@@ -311,7 +323,7 @@ namespace MDOUMakeMenu
                 int allRows = 1;
                 for (int dinnerType = 0; dinnerType < (cmbDinnerType.Items.Count); dinnerType++)
                 {
-                    workSheet.Cells[allRows + dinnerType  +1, 1].Value = DTcmb.Rows[dinnerType][1].ToString();
+                    workSheet.Cells[allRows + dinnerType + 1, 1].Value = DTcmb.Rows[dinnerType][1].ToString();
                     allRows++;
                     for (int row = 0; row < dtMenu.Rows.Count; row++)
                     {
@@ -341,5 +353,6 @@ namespace MDOUMakeMenu
 
             }
         }
+
     }
 }
