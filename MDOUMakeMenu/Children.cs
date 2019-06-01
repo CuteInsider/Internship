@@ -134,6 +134,8 @@ namespace MDOUMakeMenu
             }
         }
 
+
+        //====== РАБОТА С ПОСЕЩАЙМОСТТЬЮ ======
         private void InvokeDtAttendance(object Value)
         {
             DateTime date = (DateTime)Value;
@@ -145,9 +147,7 @@ namespace MDOUMakeMenu
                 "WHERE Date = '" + date.ToString("yyyy-MM-dd") + "'");
         }
 
-
-        //====== РАБОТА С ПОСЕЩАЙМОСТТЬЮ ======
-        private void dtAttendance_DoubleClick(object sender, EventArgs e)
+        private void dtAttendance_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             ((DataGridView)sender).BeginEdit(false);
             if (!((DataGridView)sender).CurrentRow.IsNewRow)
@@ -793,15 +793,13 @@ namespace MDOUMakeMenu
             dtpEndDate.Enabled = true;
         }
 
-        private void dtNFAG_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        private void dtNFAG_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
-            //if (e.Value != null)
-            //{
-            //    if (float.TryParse(e.Value.ToString(), out float parsedValue))
-            //    {
-            //        dtNFAG.CurrentRow.Cells[e.ColumnIndex].Value = parsedValue;
-            //    }
-            //}
+            string Value = e.FormattedValue.ToString();
+            if (Value.IndexOf(",") > -1)
+            {
+                e.Cancel = true;
+            }
         }
     }
 }

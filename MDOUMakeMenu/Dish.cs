@@ -212,11 +212,9 @@ namespace MDOUMakeMenu
         {
             if (DataBase.Connect())
             {
-                if (newRowD == true && string.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[1].Value.ToString()))
-                {
+                if (newRowD == true && ((DataGridView)sender).CurrentRow.Cells[1].Value == null)
                     return;
-                }
-                if (!string.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[1].Value.ToString()))
+                if (!string.IsNullOrWhiteSpace(((DataGridView)sender).CurrentRow.Cells[1].Value.ToString()))
                     if (newRowD == true)
                     {
                         dish.Query("INSERT INTO dishs (DishName) VALUES ('" + ((DataGridView)sender).CurrentRow.Cells[1].Value + "')");
@@ -226,12 +224,16 @@ namespace MDOUMakeMenu
                     else
                         dish.Query("UPDATE dishs SET DishName = '" + ((DataGridView)sender).CurrentRow.Cells[1].Value + "' WHERE ID = " + ((DataGridView)sender).CurrentRow.Cells[0].Value);
                 else
-                    dish.Query("DELETE FROM dishs WHERE ID = " + ((DataGridView)sender).CurrentRow.Cells[0].Value);
+                {
+                    if (!newRowD)
+                        dish.Query("DELETE FROM dishs WHERE ID = " + ((DataGridView)sender).CurrentRow.Cells[0].Value);
+                }
                 int rowIndex = e.RowIndex;
                 this.BeginInvoke(new MethodInvoker(() =>
                 {
                     InvokeDtDish(dtDinnerType.CurrentRow.Cells[0].Value);
-                    dtDish.Rows[rowIndex].Selected = true;
+                    if (rowIndex < e.RowIndex)
+                        dtDish.Rows[rowIndex].Selected = true;
                 }));
                 DataBase.Close();
             }
@@ -283,7 +285,7 @@ namespace MDOUMakeMenu
             Table DishIngredients = new Table();
             if (DataBase.Connect())
             {
-                if (!String.IsNullOrEmpty(dtIngredient.CurrentRow.Cells[1].Value.ToString()))
+                if (!String.IsNullOrWhiteSpace(dtIngredient.CurrentRow.Cells[1].Value?.ToString()))
                 {
                     if (newRowI == true)
                     {
@@ -295,12 +297,16 @@ namespace MDOUMakeMenu
                         DishIngredients.Query("UPDATE ingredients SET Ingredient = '" + ((DataGridView)sender).CurrentRow.Cells[1].Value + "' WHERE ID = " + dtIngredient.CurrentRow.Cells[0].Value);
                 }
                 else
-                    DishIngredients.Query("DELETE FROM ingredients WHERE ID = " + ((DataGridView)sender).CurrentRow.Cells[0].Value);
+                {
+                    if (!newRowI)
+                        DishIngredients.Query("DELETE FROM ingredients WHERE ID = " + ((DataGridView)sender).CurrentRow.Cells[0].Value);
+                }
                 int rowIndex = e.RowIndex;
                 this.BeginInvoke(new MethodInvoker(() =>
                 {
                     InvokeDtIngredient(dtDish.CurrentRow.Cells[0].Value);
-                    dtIngredient.Rows[rowIndex].Selected = true;
+                    if (rowIndex < e.RowIndex)
+                        dtIngredient.Rows[rowIndex].Selected = true;
                 }));
                 DataBase.Close();
             }
@@ -435,15 +441,23 @@ namespace MDOUMakeMenu
                 DataGridView.HitTestInfo hit = dtDinnerType.HitTest(clientPoint.X, clientPoint.Y);
                 if (hit.Type == DataGridViewHitTestType.Cell)
                 {
-                    object result = dish.Query(
-                        "SELECT ID " +
-                        "FROM dishs_for_dinnertype " +
-                        "WHERE DishID = '" + (int)e.Data.GetData(typeof(int)) + "' " +
-                        "AND DinnerTypeID = '" + hit.RowIndex + "'");
-                    if (result == null)
-                        dish.Query(
-                            "INSERT INTO dishs_for_dinnertype (DishID, DinnerTypeID) " +
-                            "VALUES (" + (int)e.Data.GetData(typeof(int)) + ", " + hit.RowIndex + ")");
+                    try
+                    {
+
+                        object result = dish.Query(
+                            "SELECT ID " +
+                            "FROM dishs_for_dinnertype " +
+                            "WHERE DishID = '" + (int)e.Data.GetData(typeof(int)) + "' " +
+                            "AND DinnerTypeID = '" + dtDinnerType.Rows[hit.RowIndex].Cells[0].Value + "'");
+                        if (result == null)
+                            dish.Query(
+                                "INSERT INTO dishs_for_dinnertype (DishID, DinnerTypeID) " +
+                                "VALUES (" + (int)e.Data.GetData(typeof(int)) + ", " + dtDinnerType.Rows[hit.RowIndex].Cells[0].Value + ")");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString());
+                    }
                 }
                 DataBase.Close();
             }
@@ -486,12 +500,12 @@ namespace MDOUMakeMenu
             toolStripComboBox1.ComboBox.DataSource = dish.newTable(
                 "SELECT dinnerType.ID, dinnerType.Type " +
                 "FROM dinnerType " +
-                "INNER JOIN dishs_for_dinnertype ON DinnerType.ID = dishs_for_dinnertype.DinnerTypeID " +
                 "WHERE dinnerType.ID != " + dtDinnerType.CurrentRow.Cells[0].Value + " " +
                 "GROUP BY dinnerType.ID");
             toolStripComboBox1.SelectedIndexChanged += toolStripComboBox1_SelectedIndexChanged;
         }
 
+        //Удалить блюдо из этого  времени приема пищи
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (DataBase.Connect())
@@ -504,6 +518,7 @@ namespace MDOUMakeMenu
             }
         }
 
+        //Удалить блюдо навсегда
         private void ToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             if (DataBase.Connect())
@@ -513,6 +528,7 @@ namespace MDOUMakeMenu
             }
         }
 
+        //Добавить блюдо в выбранный прием пищи
         private void toolStripComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (DataBase.Connect())

@@ -76,8 +76,11 @@ namespace MDOUMakeMenu
 
         //~Table()
         //{
-        //    if (DBTable != null)
-        //        DBTable.Dispose();
+        //    try
+        //    {
+        //        if (DBTable != null)
+        //            DBTable.Dispose();
+        //    }
         //}
 
         public DataTable newTable(string Query)
