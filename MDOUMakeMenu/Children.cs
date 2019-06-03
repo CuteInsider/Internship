@@ -216,9 +216,9 @@ namespace MDOUMakeMenu
 
         private void EndEditGroupName()
         {
-            if (newRowG && string.IsNullOrEmpty(dtAttendance.CurrentRow.Cells[2].Value.ToString()))
+            if (newRowG && string.IsNullOrEmpty(dtAttendance.CurrentRow.Cells[2].Value?.ToString()))
                 return;
-            if (!string.IsNullOrEmpty(dtAttendance.CurrentRow.Cells[2].Value.ToString()))
+            if (!string.IsNullOrEmpty(dtAttendance.CurrentRow.Cells[2].Value?.ToString()))
             {
                 if (newRowG == true)
                 {
@@ -480,7 +480,6 @@ namespace MDOUMakeMenu
         private void dtAgeGroup_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             ((DataGridView)sender).BeginEdit(false);
-
             if (!((DataGridView)sender).CurrentRow.IsNewRow)
             {
                 newRowAG = false;
@@ -489,6 +488,7 @@ namespace MDOUMakeMenu
             {
                 newRowAG = true;
             }
+            ((DataGridView)sender).AllowUserToAddRows = false;
         }
 
         private void dtAgeGroup_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -496,12 +496,12 @@ namespace MDOUMakeMenu
             if (!((DataGridView)sender).CurrentRow.IsNewRow)
             {
                 newRowAG = false;
-
             }
             else
             {
                 newRowAG = true;
             }
+            ((DataGridView)sender).AllowUserToAddRows = false;
             if (dtAgeGroup.CurrentRow.Index < dtNFAG.Rows.Count)
             {
                 dtNFAG.Rows[dtAgeGroup.CurrentRow.Index].Selected = true;
@@ -595,7 +595,7 @@ namespace MDOUMakeMenu
             {
                 splitContainer4.Panel2Collapsed = false;
                 InvokeDtNforAG(dtAgeGroup.CurrentRow.Index);
-                if (dtAgeGroup.Rows.Count -1 <= dtNFAG.Rows.Count)
+                if (dtAgeGroup.Rows.Count - 1 <= dtNFAG.Rows.Count)
                     dtNFAG.AllowUserToAddRows = false;
                 else
                     dtNFAG.AllowUserToAddRows = true;
