@@ -480,6 +480,7 @@ namespace MDOUMakeMenu
         private void dtAgeGroup_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             ((DataGridView)sender).BeginEdit(false);
+
             if (!((DataGridView)sender).CurrentRow.IsNewRow)
             {
                 newRowAG = false;
@@ -495,22 +496,26 @@ namespace MDOUMakeMenu
             if (!((DataGridView)sender).CurrentRow.IsNewRow)
             {
                 newRowAG = false;
-                if (dtAgeGroup.CurrentRow.Index < dtNFAG.RowCount)
-                    dtNFAG.Rows[dtAgeGroup.CurrentRow.Index].Selected = true;
+
             }
             else
             {
                 newRowAG = true;
             }
+            if (dtAgeGroup.CurrentRow.Index < dtNFAG.Rows.Count)
+            {
+                dtNFAG.Rows[dtAgeGroup.CurrentRow.Index].Selected = true;
+                dtNFAG.CurrentCell = dtNFAG[1, dtAgeGroup.CurrentRow.Index];
+            }
         }
 
         private void dtAgeGroup_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (newRowC && string.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value.ToString()))
+            if (newRowC && string.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value?.ToString()))
                 return;
             if (DataBase.Connect())
             {
-                if (newRowAG && string.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[1].Value.ToString()))
+                if (newRowAG && string.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[1].Value?.ToString()))
                     return;
                 if (!string.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[1].Value.ToString()))
                     if (newRowAG == true)
@@ -524,6 +529,13 @@ namespace MDOUMakeMenu
                 {
                     ((DataGridView)sender).DataSource = tAgeGroup.newTable("SELECT * FROM AgeGroup");
                     dtAgeGroup.Rows[rowIndex].Selected = true;
+                    if (dtAgeGroup.Rows.Count - 1 <= dtNFAG.Rows.Count - (dtNFAG.AllowUserToAddRows ? 1 : 0))
+                    {
+                        dtNFAG.AllowUserToAddRows = false;
+                        dtNFAG.Rows.RemoveAt(dtNFAG.CurrentRow.Index);
+                    }
+                    else
+                        dtNFAG.AllowUserToAddRows = true;
                 }));
                 DataBase.Close();
             }
@@ -583,6 +595,10 @@ namespace MDOUMakeMenu
             {
                 splitContainer4.Panel2Collapsed = false;
                 InvokeDtNforAG(dtAgeGroup.CurrentRow.Index);
+                if (dtAgeGroup.Rows.Count -1 <= dtNFAG.Rows.Count)
+                    dtNFAG.AllowUserToAddRows = false;
+                else
+                    dtNFAG.AllowUserToAddRows = true;
             }
             else
             {
@@ -595,12 +611,15 @@ namespace MDOUMakeMenu
             if (!((DataGridView)sender).CurrentRow.IsNewRow)
             {
                 newRowNforAG = false;
-                if (dtNFAG.CurrentRow.Index < dtAgeGroup.RowCount)
-                    dtAgeGroup.Rows[dtNFAG.CurrentRow.Index].Selected = true;
             }
             else
             {
                 newRowNforAG = true;
+            }
+            if (dtNFAG.CurrentRow.Index < dtAgeGroup.Rows.Count)
+            {
+                dtAgeGroup.Rows[dtNFAG.CurrentRow.Index].Selected = true;
+                dtAgeGroup.CurrentCell = dtAgeGroup[1, dtNFAG.CurrentRow.Index];
             }
         }
 
@@ -619,7 +638,7 @@ namespace MDOUMakeMenu
 
         private void dtNFAG_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (newRowNforAG == true && String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value.ToString()))
+            if (newRowNforAG == true && String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value?.ToString()))
                 return;
             if (DataBase.Connect())
             {
@@ -629,22 +648,24 @@ namespace MDOUMakeMenu
                 else if (!String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value.ToString()))
                 {
                     tNforAG.Query("UPDATE normsforag SET `" + ((DataGridView)sender).Columns[e.ColumnIndex].DataPropertyName + "` = '" +
-                        ((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value + "' WHERE IDAgeGroup = " + ((DataGridView)sender).CurrentRow.Cells[0].Value);
+                        ((DataGridView)sender).CurrentRow.Cells[e.ColumnIndex].Value + "' WHERE IDAgeGroup = " + dtAgeGroup.CurrentRow.Cells[0].Value);
                 }
                 else
                 {
                     tNforAG.Query("UPDATE normsforag SET `" + ((DataGridView)sender).Columns[e.ColumnIndex].DataPropertyName + "` = NULL WHERE IDAgeGroup = " +
-                        ((DataGridView)sender).CurrentRow.Cells[0].Value);
+                        dtAgeGroup.CurrentRow.Cells[0].Value);
                 }
-                if (String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[1].Value.ToString()) && String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[2].Value.ToString()) &&
-                    String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[3].Value.ToString()) && String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[4].Value.ToString()) &&
-                    String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[5].Value.ToString()) && String.IsNullOrEmpty(((DataGridView)sender).CurrentRow.Cells[6].Value.ToString()) && newRowNforAG == false)
-                    tNforAG.Query("DELETE FROM normsforag WHERE IDAgeGroup = " + ((DataGridView)sender).CurrentRow.Cells[0].Value);
                 int rowIndex = e.RowIndex;
                 this.BeginInvoke(new MethodInvoker(() =>
                 {
                     InvokeDtNforAG(dtAgeGroup.CurrentRow.Index);
                     dtNFAG.Rows[rowIndex].Selected = true;
+                    if (dtAgeGroup.Rows.Count - 1 <= dtNFAG.Rows.Count - (dtNFAG.AllowUserToAddRows ? 1 : 0))
+                    {
+                        dtNFAG.AllowUserToAddRows = false;
+                    }
+                    else
+                        dtNFAG.AllowUserToAddRows = true;
                 }));
                 DataBase.Close();
             }
@@ -654,6 +675,15 @@ namespace MDOUMakeMenu
                     "Ошибка Подключения",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
+        }
+
+        private void dtNFAG_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            string Value = e.FormattedValue.ToString();
+            if (Value.IndexOf(",") > -1)
+            {
+                e.Cancel = true;
+            }
         }
 
 
@@ -791,15 +821,6 @@ namespace MDOUMakeMenu
             btnCreateReport.Enabled = true;
             dtpStartDate.Enabled = true;
             dtpEndDate.Enabled = true;
-        }
-
-        private void dtNFAG_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
-        {
-            string Value = e.FormattedValue.ToString();
-            if (Value.IndexOf(",") > -1)
-            {
-                e.Cancel = true;
-            }
         }
     }
 }

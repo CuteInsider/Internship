@@ -19,10 +19,6 @@ namespace MDOUMakeMenu
             InitializeComponent();
             this.Location = location;
             this.WindowState = State;
-        }
-
-        private void LoginIn_Load(object sender, EventArgs e)
-        {
             splitContainer1.Panel2Collapsed = true;
             if (DataBase.Connect())
             {
@@ -69,6 +65,35 @@ namespace MDOUMakeMenu
             }
         }
 
+        // ====== НАВИГАЦИЯ ======
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void linkMenu_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Hide();
+            Menu MForm = new Menu(Location, this.WindowState, Role);
+            MForm.Show();
+        }
+
+        private void linkIngredients_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Hide();
+            Dish CForm = new Dish(Location, this.WindowState, Role);
+            CForm.Show();
+        }
+
+        private void linkChildren_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Hide();
+            Children CForm = new Children(Location, this.WindowState, Role);
+            CForm.Show();
+        }
+
+
+        //====== НАСТРОЙКИ ======
         private void btnSetup_Click(object sender, EventArgs e)
         {
             if (splitContainer1.Panel2Collapsed == true)
@@ -81,11 +106,6 @@ namespace MDOUMakeMenu
                 btnSetup.Text = "<Настройки<";
                 splitContainer1.Panel2Collapsed = true;
             }
-        }
-
-        private void btnBack_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
 
         private void btnLoginIn_Click(object sender, EventArgs e)
@@ -192,6 +212,7 @@ namespace MDOUMakeMenu
             }
         }
 
+        //====== ВХОД ======
         private void btnLoadDB_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
@@ -214,27 +235,6 @@ namespace MDOUMakeMenu
                     }
                 }
             }
-        }
-
-        private void linkMenu_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Hide();
-            Menu MForm = new Menu(Location, this.WindowState, Role);
-            MForm.Show();
-        }
-
-        private void linkIngredients_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Hide();
-            Dish CForm = new Dish(Location, this.WindowState, Role);
-            CForm.Show();
-        }
-
-        private void linkChildren_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Hide();
-            Children CForm = new Children(Location, this.WindowState, Role);
-            CForm.Show();
         }
     }
 }

@@ -74,9 +74,6 @@
             this.IDAgeGroup = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AgeGroup = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dtNFAG = new System.Windows.Forms.DataGridView();
-            this.btnNFAG = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnAgeGroup = new System.Windows.Forms.Button();
             this.IAGID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Energy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Protein = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -84,6 +81,9 @@
             this.BodyMass = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Fat = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Carbohydrates = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnNFAG = new System.Windows.Forms.Button();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnAgeGroup = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtAttendance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtChildren)).BeginInit();
@@ -199,6 +199,7 @@
             // 
             // dtAttendance
             // 
+            this.dtAttendance.AllowUserToAddRows = false;
             this.dtAttendance.AllowUserToDeleteRows = false;
             this.dtAttendance.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -284,7 +285,6 @@
             this.dtChildren.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dtChildren.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.dtChildren.BackgroundColor = System.Drawing.Color.White;
-            this.dtChildren.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dtChildren.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtChildren.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ChildrenID,
@@ -587,6 +587,7 @@
             // 
             // dtNFAG
             // 
+            this.dtNFAG.AllowUserToAddRows = false;
             this.dtNFAG.AllowUserToDeleteRows = false;
             this.dtNFAG.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dtNFAG.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
@@ -622,50 +623,6 @@
             this.dtNFAG.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtNFAG_CellDoubleClick);
             this.dtNFAG.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtNFAG_CellEndEdit);
             this.dtNFAG.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dtNFAG_CellValidating);
-            // 
-            // btnNFAG
-            // 
-            this.tableLayoutPanel2.SetColumnSpan(this.btnNFAG, 2);
-            this.btnNFAG.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnNFAG.Location = new System.Drawing.Point(0, 168);
-            this.btnNFAG.Margin = new System.Windows.Forms.Padding(0);
-            this.btnNFAG.Name = "btnNFAG";
-            this.btnNFAG.Size = new System.Drawing.Size(538, 35);
-            this.btnNFAG.TabIndex = 0;
-            this.btnNFAG.Text = "Настройки";
-            this.btnNFAG.UseVisualStyleBackColor = true;
-            this.btnNFAG.Click += new System.EventHandler(this.btnNFAG_Click);
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.btnReport, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.btnAgeGroup, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this.splitContainer2, 0, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 83);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1084, 510);
-            this.tableLayoutPanel1.TabIndex = 7;
-            // 
-            // btnAgeGroup
-            // 
-            this.btnAgeGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnAgeGroup.Location = new System.Drawing.Point(542, 480);
-            this.btnAgeGroup.Margin = new System.Windows.Forms.Padding(0);
-            this.btnAgeGroup.Name = "btnAgeGroup";
-            this.btnAgeGroup.Size = new System.Drawing.Size(542, 30);
-            this.btnAgeGroup.TabIndex = 6;
-            this.btnAgeGroup.Text = "Возрастные группы";
-            this.btnAgeGroup.UseVisualStyleBackColor = true;
-            this.btnAgeGroup.Click += new System.EventHandler(this.btnAgeGroup_Click);
             // 
             // IAGID
             // 
@@ -733,6 +690,50 @@
             this.Carbohydrates.DefaultCellStyle = dataGridViewCellStyle10;
             this.Carbohydrates.HeaderText = "Углеводы, г";
             this.Carbohydrates.Name = "Carbohydrates";
+            // 
+            // btnNFAG
+            // 
+            this.tableLayoutPanel2.SetColumnSpan(this.btnNFAG, 2);
+            this.btnNFAG.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnNFAG.Location = new System.Drawing.Point(0, 168);
+            this.btnNFAG.Margin = new System.Windows.Forms.Padding(0);
+            this.btnNFAG.Name = "btnNFAG";
+            this.btnNFAG.Size = new System.Drawing.Size(538, 35);
+            this.btnNFAG.TabIndex = 0;
+            this.btnNFAG.Text = "Настройки";
+            this.btnNFAG.UseVisualStyleBackColor = true;
+            this.btnNFAG.Click += new System.EventHandler(this.btnNFAG_Click);
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.btnReport, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.btnAgeGroup, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.splitContainer2, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 83);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1084, 510);
+            this.tableLayoutPanel1.TabIndex = 7;
+            // 
+            // btnAgeGroup
+            // 
+            this.btnAgeGroup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnAgeGroup.Location = new System.Drawing.Point(542, 480);
+            this.btnAgeGroup.Margin = new System.Windows.Forms.Padding(0);
+            this.btnAgeGroup.Name = "btnAgeGroup";
+            this.btnAgeGroup.Size = new System.Drawing.Size(542, 30);
+            this.btnAgeGroup.TabIndex = 6;
+            this.btnAgeGroup.Text = "Возрастные группы";
+            this.btnAgeGroup.UseVisualStyleBackColor = true;
+            this.btnAgeGroup.Click += new System.EventHandler(this.btnAgeGroup_Click);
             // 
             // Children
             // 
