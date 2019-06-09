@@ -319,33 +319,10 @@ namespace MDOUMakeMenu
 
         private void dtAttendance_DataError(object sender, DataGridViewDataErrorEventArgs anError)
         {
-            MessageBox.Show("Ошибка ввода информации " + anError.Context.ToString(), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            if (anError.Context == DataGridViewDataErrorContexts.Commit)
-            {
-                MessageBox.Show("Commit error");
-            }
-            if (anError.Context == DataGridViewDataErrorContexts.CurrentCellChange)
-            {
-                MessageBox.Show("Cell change");
-            }
-            if (anError.Context == DataGridViewDataErrorContexts.Parsing)
-            {
-                MessageBox.Show("parsing error");
-            }
-            if (anError.Context == DataGridViewDataErrorContexts.LeaveControl)
-            {
-                MessageBox.Show("leave control error");
-            }
-
-            if ((anError.Exception) is ConstraintException)
-            {
-                DataGridView view = (DataGridView)sender;
-                view.Rows[anError.RowIndex].ErrorText = "an error";
-                view.Rows[anError.RowIndex].Cells[anError.ColumnIndex].ErrorText = "an error";
-            }
-            anError.ThrowException = false;
-
+            if (dtAttendance.CurrentRow.Cells[anError.ColumnIndex].OwningColumn.Name == "GroupName")
+                dtAttendance.CurrentRow.Cells[anError.ColumnIndex].Value = string.Empty;
+            else
+                dtAttendance.CancelEdit();
         }
 
 
@@ -677,15 +654,12 @@ namespace MDOUMakeMenu
                     MessageBoxIcon.Error);
         }
 
-        private void dtNFAG_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        private void dtNFAG_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
-            string Value = e.FormattedValue.ToString();
-            if (Value.IndexOf(",") > -1)
-            {
-                e.Cancel = true;
-            }
+            dtNFAG.CancelEdit();
+            e.ThrowException = false;
+            e.Cancel = true;
         }
-
 
         //====== РАБОТА С ОТЧЕТОМ ======
         private void btnReport_Click(object sender, EventArgs e)

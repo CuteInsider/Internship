@@ -60,6 +60,13 @@
             this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnDinnerType = new System.Windows.Forms.Button();
             this.dtIngredientsComposition = new System.Windows.Forms.DataGridView();
+            this.IID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Energy = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Protein = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.animalProtein = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BodyMass = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Fat = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Carbohydrates = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnComposition = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -68,13 +75,6 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.IID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Energy = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Protein = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.animalProtein = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BodyMass = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Fat = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Carbohydrates = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -453,6 +453,73 @@
             this.dtIngredientsComposition.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtIngredientsComposition_CellDoubleClick);
             this.dtIngredientsComposition.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtIngredientsComposition_CellEndEdit);
             // 
+            // IID
+            // 
+            this.IID.DataPropertyName = "ingredientID";
+            this.IID.HeaderText = "Ingredient ID";
+            this.IID.Name = "IID";
+            this.IID.Visible = false;
+            // 
+            // Energy
+            // 
+            this.Energy.DataPropertyName = "Energy(kkal)";
+            dataGridViewCellStyle5.Format = "N2";
+            dataGridViewCellStyle5.FormatProvider = new System.Globalization.CultureInfo("en-US");
+            dataGridViewCellStyle5.NullValue = "0";
+            this.Energy.DefaultCellStyle = dataGridViewCellStyle5;
+            this.Energy.HeaderText = "Энергия(ккал.)";
+            this.Energy.Name = "Energy";
+            // 
+            // Protein
+            // 
+            this.Protein.DataPropertyName = "Protein,g";
+            dataGridViewCellStyle6.Format = "N2";
+            dataGridViewCellStyle6.FormatProvider = new System.Globalization.CultureInfo("en-US");
+            dataGridViewCellStyle6.NullValue = "0";
+            this.Protein.DefaultCellStyle = dataGridViewCellStyle6;
+            this.Protein.HeaderText = "Белок, г";
+            this.Protein.Name = "Protein";
+            // 
+            // animalProtein
+            // 
+            this.animalProtein.DataPropertyName = "animalProtein(%)";
+            dataGridViewCellStyle7.Format = "00%";
+            dataGridViewCellStyle7.FormatProvider = new System.Globalization.CultureInfo("en-US");
+            dataGridViewCellStyle7.NullValue = "0";
+            this.animalProtein.DefaultCellStyle = dataGridViewCellStyle7;
+            this.animalProtein.HeaderText = "Животный Белок в % от обычного";
+            this.animalProtein.Name = "animalProtein";
+            // 
+            // BodyMass
+            // 
+            this.BodyMass.DataPropertyName = "g/kg_BodyMass";
+            dataGridViewCellStyle8.Format = "N2";
+            dataGridViewCellStyle8.FormatProvider = new System.Globalization.CultureInfo("en-US");
+            dataGridViewCellStyle8.NullValue = "0";
+            this.BodyMass.DefaultCellStyle = dataGridViewCellStyle8;
+            this.BodyMass.HeaderText = "Г/Кг массы тела";
+            this.BodyMass.Name = "BodyMass";
+            // 
+            // Fat
+            // 
+            this.Fat.DataPropertyName = "Fat,g";
+            dataGridViewCellStyle9.Format = "N2";
+            dataGridViewCellStyle9.FormatProvider = new System.Globalization.CultureInfo("en-US");
+            dataGridViewCellStyle9.NullValue = "0";
+            this.Fat.DefaultCellStyle = dataGridViewCellStyle9;
+            this.Fat.HeaderText = "Жир, г";
+            this.Fat.Name = "Fat";
+            // 
+            // Carbohydrates
+            // 
+            this.Carbohydrates.DataPropertyName = "Carbohydrates, g";
+            dataGridViewCellStyle10.Format = "N2";
+            dataGridViewCellStyle10.FormatProvider = new System.Globalization.CultureInfo("en-US");
+            dataGridViewCellStyle10.NullValue = "0";
+            this.Carbohydrates.DefaultCellStyle = dataGridViewCellStyle10;
+            this.Carbohydrates.HeaderText = "Углеводы, г";
+            this.Carbohydrates.Name = "Carbohydrates";
+            // 
             // btnComposition
             // 
             this.btnComposition.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -526,73 +593,6 @@
             this.ToolStripMenuItem2.Size = new System.Drawing.Size(340, 22);
             this.ToolStripMenuItem2.Text = "Удалить блюдо навсегда";
             this.ToolStripMenuItem2.Click += new System.EventHandler(this.ToolStripMenuItem2_Click);
-            // 
-            // IID
-            // 
-            this.IID.DataPropertyName = "ingredientID";
-            this.IID.HeaderText = "Ingredient ID";
-            this.IID.Name = "IID";
-            this.IID.Visible = false;
-            // 
-            // Energy
-            // 
-            this.Energy.DataPropertyName = "Energy(kkal)";
-            dataGridViewCellStyle5.Format = "N2";
-            dataGridViewCellStyle5.FormatProvider = new System.Globalization.CultureInfo("en-US");
-            dataGridViewCellStyle5.NullValue = "0";
-            this.Energy.DefaultCellStyle = dataGridViewCellStyle5;
-            this.Energy.HeaderText = "Энергия(ккал.)";
-            this.Energy.Name = "Energy";
-            // 
-            // Protein
-            // 
-            this.Protein.DataPropertyName = "Protein,g";
-            dataGridViewCellStyle6.Format = "N2";
-            dataGridViewCellStyle6.FormatProvider = new System.Globalization.CultureInfo("en-US");
-            dataGridViewCellStyle6.NullValue = "0";
-            this.Protein.DefaultCellStyle = dataGridViewCellStyle6;
-            this.Protein.HeaderText = "Белок, г";
-            this.Protein.Name = "Protein";
-            // 
-            // animalProtein
-            // 
-            this.animalProtein.DataPropertyName = "animalProtein(%)";
-            dataGridViewCellStyle7.Format = "00%";
-            dataGridViewCellStyle7.FormatProvider = new System.Globalization.CultureInfo("en-US");
-            dataGridViewCellStyle7.NullValue = "0";
-            this.animalProtein.DefaultCellStyle = dataGridViewCellStyle7;
-            this.animalProtein.HeaderText = "Животный Белок в % от обычного";
-            this.animalProtein.Name = "animalProtein";
-            // 
-            // BodyMass
-            // 
-            this.BodyMass.DataPropertyName = "g/kg_BodyMass";
-            dataGridViewCellStyle8.Format = "N2";
-            dataGridViewCellStyle8.FormatProvider = new System.Globalization.CultureInfo("en-US");
-            dataGridViewCellStyle8.NullValue = "0";
-            this.BodyMass.DefaultCellStyle = dataGridViewCellStyle8;
-            this.BodyMass.HeaderText = "Г/Кг массы тела";
-            this.BodyMass.Name = "BodyMass";
-            // 
-            // Fat
-            // 
-            this.Fat.DataPropertyName = "Fat,g";
-            dataGridViewCellStyle9.Format = "N2";
-            dataGridViewCellStyle9.FormatProvider = new System.Globalization.CultureInfo("en-US");
-            dataGridViewCellStyle9.NullValue = "0";
-            this.Fat.DefaultCellStyle = dataGridViewCellStyle9;
-            this.Fat.HeaderText = "Жир, г";
-            this.Fat.Name = "Fat";
-            // 
-            // Carbohydrates
-            // 
-            this.Carbohydrates.DataPropertyName = "Carbohydrates, g";
-            dataGridViewCellStyle10.Format = "N2";
-            dataGridViewCellStyle10.FormatProvider = new System.Globalization.CultureInfo("en-US");
-            dataGridViewCellStyle10.NullValue = "0";
-            this.Carbohydrates.DefaultCellStyle = dataGridViewCellStyle10;
-            this.Carbohydrates.HeaderText = "Углеводы, г";
-            this.Carbohydrates.Name = "Carbohydrates";
             // 
             // Dish
             // 

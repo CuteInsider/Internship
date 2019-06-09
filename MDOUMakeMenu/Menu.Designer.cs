@@ -47,8 +47,6 @@
             this.DishMenu = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.cbChildrenControl = new System.Windows.Forms.CheckBox();
-            this.txtAllChildren = new System.Windows.Forms.TextBox();
             this.btnMakeMenu = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtDish)).BeginInit();
@@ -203,6 +201,7 @@
             // cmbDinnerType
             // 
             this.cmbDinnerType.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cmbDinnerType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbDinnerType.FormattingEnabled = true;
             this.cmbDinnerType.Location = new System.Drawing.Point(719, 0);
             this.cmbDinnerType.Margin = new System.Windows.Forms.Padding(0);
@@ -305,8 +304,6 @@
             // 
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Controls.Add(this.cbChildrenControl, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.txtAllChildren, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.btnMakeMenu, 0, 3);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(468, 42);
@@ -319,41 +316,11 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(248, 339);
             this.tableLayoutPanel2.TabIndex = 7;
             // 
-            // cbChildrenControl
-            // 
-            this.cbChildrenControl.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.cbChildrenControl.Checked = true;
-            this.cbChildrenControl.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbChildrenControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbChildrenControl.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.cbChildrenControl.FlatAppearance.BorderSize = 5;
-            this.cbChildrenControl.FlatAppearance.CheckedBackColor = System.Drawing.Color.Black;
-            this.cbChildrenControl.Location = new System.Drawing.Point(0, 0);
-            this.cbChildrenControl.Margin = new System.Windows.Forms.Padding(0);
-            this.cbChildrenControl.Name = "cbChildrenControl";
-            this.cbChildrenControl.Size = new System.Drawing.Size(248, 50);
-            this.cbChildrenControl.TabIndex = 0;
-            this.cbChildrenControl.Text = "Учитывать посещаймость";
-            this.cbChildrenControl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.cbChildrenControl.UseVisualStyleBackColor = true;
-            this.cbChildrenControl.CheckedChanged += new System.EventHandler(this.cbChildrenControl_CheckedChanged);
-            // 
-            // txtAllChildren
-            // 
-            this.txtAllChildren.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtAllChildren.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtAllChildren.Location = new System.Drawing.Point(0, 50);
-            this.txtAllChildren.Margin = new System.Windows.Forms.Padding(0);
-            this.txtAllChildren.Name = "txtAllChildren";
-            this.txtAllChildren.ReadOnly = true;
-            this.txtAllChildren.Size = new System.Drawing.Size(248, 31);
-            this.txtAllChildren.TabIndex = 2;
-            this.txtAllChildren.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // btnMakeMenu
             // 
             this.btnMakeMenu.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnMakeMenu.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnMakeMenu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMakeMenu.Location = new System.Drawing.Point(0, 299);
             this.btnMakeMenu.Margin = new System.Windows.Forms.Padding(0);
             this.btnMakeMenu.Name = "btnMakeMenu";
@@ -385,7 +352,6 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dtMenu)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -408,10 +374,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn DishMenu;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.CheckBox cbChildrenControl;
         private System.Windows.Forms.Button btnMakeMenu;
-        private System.Windows.Forms.TextBox txtAllChildren;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
     }
 }
 

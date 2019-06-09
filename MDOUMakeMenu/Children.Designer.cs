@@ -621,7 +621,7 @@
             this.dtNFAG.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtNFAG_CellClick);
             this.dtNFAG.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtNFAG_CellDoubleClick);
             this.dtNFAG.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtNFAG_CellEndEdit);
-            this.dtNFAG.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dtNFAG_CellValidating);
+            this.dtNFAG.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dtNFAG_DataError);
             // 
             // IAGID
             // 

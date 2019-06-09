@@ -66,11 +66,6 @@ namespace MDOUMakeMenu
                         date.Query("INSERT INTO attendance (Date, GroupID, ActuallyChildrenAmount) VALUES ('" + attendanceLastDate.Date.ToString("yyyy-MM-dd") + "', " + i + ", " + 0 + ")");
                     }
                 }
-                //while (menuLastDate.Date < attendanceLastDate.Date)
-                //{
-                //    menuLastDate = menuLastDate.AddDays(1);
-                //    menu.Query("INSERT INTO Menu (Date) VALUES('" + menuLastDate.Date.ToString("yyyy-MM-dd") + "')");
-                //}
                 DataBase.Close();
             }
             else
@@ -87,7 +82,6 @@ namespace MDOUMakeMenu
             cmbDinnerType.DataSource = dinnerType.newTable("SELECT * FROM dinnertype");
 
             InvokeDate(DataView.SelectedItem);
-            InvokeTxtChildren(DataView.SelectedValue);
             InvokeDinnerType(cmbDinnerType.SelectedValue);
             InvokeDtMenu(DataView.SelectedValue, cmbDinnerType.SelectedValue);
             open = true;
@@ -143,12 +137,7 @@ namespace MDOUMakeMenu
                 InvokeDinnerType(cmbDinnerType.SelectedValue);
                 try
                 {
-                    dtMenu.DataSource = menu.newTable("SELECT dishs.ID, dishs.DishName " +
-                        "FROM dishs " +
-                        "INNER JOIN menu ON dishs.ID = menu.DishID " +
-                        "INNER JOIN dishs_for_dinnertype ON dishs.ID = dishs_for_dinnertype.DishID " +
-                        "WHERE dishs_for_dinnertype.DinnerTypeID = " + cmbDinnerType.SelectedValue + " " +
-                        "AND menu.Date = '" + Convert.ToDateTime(DataView.SelectedValue).ToString("yyyy-MM-dd") + "'");
+                    InvokeDtMenu(DataView.SelectedValue, cmbDinnerType.SelectedValue);
                 }
                 catch (Exception Ex)
                 {
@@ -171,7 +160,6 @@ namespace MDOUMakeMenu
             if (open)
             {
                 InvokeDate(DataView.SelectedItem);
-                InvokeTxtChildren(DataView.SelectedValue);
                 InvokeDtMenu(DataView.SelectedItem, cmbDinnerType.SelectedValue);
             }
         }
@@ -184,12 +172,10 @@ namespace MDOUMakeMenu
 
         private void InvokeDtMenu(object SelectedDate, object SelectedDT)
         {
-            dtMenu.DataSource = menu.newTable("SELECT dishs.ID, dishs.DishName FROM dishs " +
-            "INNER JOIN dishs_for_dinnertype ON dishs.ID = dishs_for_dinnertype.DishID " +
-            "INNER JOIN dinnerType ON dishs_for_dinnertype.DinnerTypeID = dinnerType.ID " +
-            "INNER JOIN menu ON menu.DishId = dishs.ID " +
-            "WHERE menu.date= '" + Convert.ToDateTime(SelectedDate).ToString("yyyy-MM-dd") + "' " +
-            "AND DinnerType.ID = " + SelectedDT + "");
+            dtMenu.DataSource = menu.newTable("SELECT Dishs.ID, Dishs.DishName FROM Dishs " +
+                "INNER JOIN menu ON Dishs.ID = menu.DishId " +
+                "WHERE date = '" + Convert.ToDateTime(SelectedDate).ToString("yyyy-MM-dd") + "' " +
+                "AND SelectedDiinerType = " + SelectedDT + "");
         }
 
         private void dtDish_MouseDown(object sender, MouseEventArgs e)
@@ -225,10 +211,18 @@ namespace MDOUMakeMenu
             {
                 try
                 {
-                    menu.DBTable.Rows.Add(row["ID"].ToString(), row["DishName"].ToString());
-                    menu.Query(
-                        "INSERT INTO menu (date, DishID) " +
-                        "VALUES ('" + Convert.ToDateTime(DataView.SelectedValue).ToString("yyyy-MM-dd") + "', " + row["ID"].ToString() + ")");
+                    object result = dish.Query("SELECT ID " +
+                        "FROM Menu " +
+                        "WHERE Date = " + Convert.ToDateTime(DataView.SelectedValue).ToString("yyyy-MM-dd") + " " +
+                        "AND SelectedDiinerType = " + cmbDinnerType.SelectedValue + " " +
+                        "AND DishId = " + row["ID"].ToString() + "");
+                    if (result == null)
+                    {
+                        menu.DBTable.Rows.Add(row["ID"].ToString(), row["DishName"].ToString());
+                        menu.Query(
+                            "INSERT INTO menu (date, SelectedDiinerType, DishID) " +
+                            "VALUES ('" + Convert.ToDateTime(DataView.SelectedValue).ToString("yyyy-MM-dd") + "', " + cmbDinnerType.SelectedValue + "," + row["ID"].ToString() + ")");
+                    }
                 }
                 catch (Exception Ex)
                 {
@@ -276,10 +270,10 @@ namespace MDOUMakeMenu
                 DataRow row = (DataRow)e.Data.GetData(typeof(DataRow));
                 try
                 {
-                    menu.Query(
-                    "DELETE FROM menu " +
-                    "WHERE date= '" + Convert.ToDateTime(DataView.SelectedValue).ToString("yyyy-MM-dd") + "' " +
-                    "AND DishID = " + row["ID"].ToString() + "");
+                    menu.Query("DELETE FROM menu " +
+                        "WHERE Date = '" + Convert.ToDateTime(DataView.SelectedValue).ToString("yyyy-MM-dd") + "' " +
+                        "AND SelectedDiinerType = " + cmbDinnerType.SelectedValue + " " +
+                        "AND dishID = "+ row["ID"].ToString());
                     menu.DBTable.Rows.Remove(row);
                 }
                 catch (Exception Ex)
@@ -291,19 +285,6 @@ namespace MDOUMakeMenu
         }
 
         //====== РАБОТА С НОРМАМИ ПИТАНИЯ ======
-        private void InvokeTxtChildren(object date)
-        {
-            if (DataBase.Connect())
-            {
-                Table children = new Table();
-                txtAllChildren.Text = children.Query(
-                    "SELECT SUM(ActuallyChildrenAmount) " +
-                    "FROM attendance " +
-                    "WHERE Date= '" + Convert.ToDateTime(date).ToString("yyyy-MM-dd") + "'").ToString();
-                DataBase.Close();
-            }
-        }
-
         private void cbChildrenControl_CheckedChanged(object sender, EventArgs e)
         {
 
@@ -317,28 +298,45 @@ namespace MDOUMakeMenu
                 //Создание листа
                 ExcelWorksheet workSheet = Excel.Workbook.Worksheets.Add("Отчет");
 
-                workSheet.Cells[1, 1].Value = Convert.ToDateTime(DataView.SelectedValue).ToString("D");
                 DataTable DTcmb = cmbDinnerType.DataSource as DataTable;
-                cmbDinnerType.SelectedIndex = 0;
-                int allRows = 1;
-                for (int dinnerType = 0; dinnerType < (cmbDinnerType.Items.Count); dinnerType++)
+                workSheet.Cells[1, 1, 2, 1].Merge = true;
+                workSheet.Cells[1, 1].Value = "Прием пищи";
+                workSheet.Cells[1, 2, 2, 2].Merge = true;
+                workSheet.Cells[1, 2].Value = "Наименование блюда";
+                workSheet.Cells[1, 3, 1, 5].Merge = true;
+                workSheet.Cells[1, 3].Value = "Пищевая ценность (г)";
+                workSheet.Cells[2, 3].Value = "Б";
+                workSheet.Cells[2, 4].Value = "Ж";
+                workSheet.Cells[2, 5].Value = "У";
+                workSheet.Cells[1, 6, 2, 6].Merge = true;
+                workSheet.Cells[1, 6].Value = "Энергетическая ценность (г)";
+                using (var entireSheetRange = workSheet.Cells[1, 1, 2, 6])
                 {
-                    workSheet.Cells[allRows + dinnerType + 1, 1].Value = DTcmb.Rows[dinnerType][1].ToString();
-                    allRows++;
-                    for (int row = 0; row < dtMenu.Rows.Count; row++)
-                    {
-                        workSheet.Cells[allRows + row + dinnerType, 2].Value = dtMenu.Rows[row].Cells[1].Value;
-                    }
-                    allRows = allRows + dtMenu.RowCount;
-                    if (cmbDinnerType.SelectedIndex != cmbDinnerType.Items.Count - 1)
-                        cmbDinnerType.SelectedIndex++;
+                    entireSheetRange.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    entireSheetRange.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 }
-
+                for (int d = DataView.SelectedIndex; d < 10; d++)
+                {
+                    cmbDinnerType.SelectedIndex = 0;
+                    DataRowView dateString = (DataRowView)DataView.Items[d];
+                    workSheet.Cells[workSheet.Dimension.End.Row + (d != 0 ? 2 : 1), 1].Value = Convert.ToDateTime(dateString["date"]).ToString("D");
+                    for (int dinnerType = 0; dinnerType < cmbDinnerType.Items.Count; dinnerType++)
+                    {
+                        workSheet.Cells[workSheet.Dimension.End.Row + 1, 1].Value = DTcmb.Rows[dinnerType][1].ToString();
+                        for (int row = 0; row < dtMenu.Rows.Count; row++)
+                        {
+                            workSheet.Cells[workSheet.Dimension.End.Row + (row != 0 ? 1 : 0), 2].Value = dtMenu.Rows[row].Cells[1].Value;
+                        }
+                        if (cmbDinnerType.SelectedIndex != cmbDinnerType.Items.Count - 1)
+                            cmbDinnerType.SelectedIndex++;
+                    }
+                    workSheet.Cells[workSheet.Dimension.End.Row + 1, 1].Value = "Итого за день";
+                }
                 //Форматирование Файла
                 workSheet.Cells.AutoFitColumns();
                 workSheet.Cells.Style.Font.Name = "Times New Roman";
                 workSheet.Cells.Style.Font.Size = 12;
-                using (var entireSheetRange = workSheet.Cells[1, 1, workSheet.Dimension.End.Row, 2])
+                using (var entireSheetRange = workSheet.Cells[1, 1, workSheet.Dimension.End.Row, 6])
                 {
                     entireSheetRange.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     entireSheetRange.Style.Border.Top.Style = ExcelBorderStyle.Thin;
@@ -353,6 +351,5 @@ namespace MDOUMakeMenu
 
             }
         }
-
     }
 }
