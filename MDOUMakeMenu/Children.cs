@@ -67,8 +67,11 @@ namespace MDOUMakeMenu
                     if (colRows == 0)
                         colRows = Convert.ToInt32(date.Query("SELECT count(*) FROM groups"));
                     LastDate = LastDate.AddDays(1);
-                    for (int i = 1; i <= colRows; i++)
-                        date.Query("INSERT INTO attendance (Date, GroupID, ActuallyChildrenAmount) VALUES ('" + LastDate.Date.ToString("yyyy-MM-dd") + "', " + i + ", " + 0 + ")");
+                    if (!(LastDate.DayOfWeek == DayOfWeek.Saturday) || !(LastDate.DayOfWeek == DayOfWeek.Sunday))
+                    {
+                        for (int i = 1; i <= colRows; i++)
+                            date.Query("INSERT INTO attendance (Date, GroupID, ActuallyChildrenAmount) VALUES ('" + LastDate.Date.ToString("yyyy-MM-dd") + "', " + i + ", " + 0 + ")");
+                    }
                 }
                 dataView.DataSource = date.newTable("SELECT date FROM attendance GROUP BY Date");
                 dataView.ValueMember = "date";
@@ -698,10 +701,19 @@ namespace MDOUMakeMenu
 
         private void btnCreateReport_Click(object sender, EventArgs e)
         {
+            if (dtpStartDate.Value.Date > dtpEndDate.Value.Date)
+            {
+                MessageBox.Show(
+                "Начальная дата не может быть больше конечной",
+                "Ошибка",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+                return;
+            }
             string rangeDate;
             if (dtpStartDate.Checked == true)
             {
-                int index = dataView.FindString(dtpStartDate.Value.ToString("D"));
+                int index = dataView.FindString(dtpStartDate.Value.Date.ToString("D"));
                 if (index != -1)
                 {
                     dataView.SelectedIndex = index;
@@ -710,7 +722,7 @@ namespace MDOUMakeMenu
                 else
                 {
                     MessageBox.Show(
-                        "Такой даты не сущевствует в списке",
+                        "Такой начальной даты не сущевствует в списке",
                         "Ошибка",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
@@ -720,81 +732,94 @@ namespace MDOUMakeMenu
             else
             {
                 dataView.SelectedIndex = 0;
-                DataRowView dateString = (DataRowView)dataView.SelectedItem;
-                DateTime shortDate = DateTime.Parse(dateString["Date"].ToString());
+                DateTime shortDate = dtpStartDate.Value.Date;
                 rangeDate = " от " + shortDate.ToString("D");
             }
-            panel1.Enabled = false;
-            dataView.Enabled = false;
-            splitContainer2.Enabled = false;
-            btnReport.Enabled = false;
-            btnAgeGroup.Enabled = false;
-            btnCreateReport.Enabled = false;
-            dtpStartDate.Enabled = false;
-            dtpEndDate.Enabled = false;
-
-            //Создание файла
-            using (ExcelPackage Excel = new ExcelPackage())
+            DateTime lastDate;
+            if (dtpEndDate.Checked == true)
             {
-                //Создание листа
-                ExcelWorksheet workSheet = Excel.Workbook.Worksheets.Add("Отчет");
-
-                int allRows = 1;
-                for (int d = dataView.SelectedIndex; d <= dataView.Items.Count - 1; d++)
+                int index = dataView.FindString(dtpEndDate.Value.Date.ToString("D"));
+                if (index != -1)
                 {
-                    DataRowView dateString = (DataRowView)dataView.Items[d];
-                    DateTime curDate = DateTime.Parse(dateString["Date"].ToString());
+                    lastDate = dtpEndDate.Value.Date;
+                }
+                else
+                {
+                    MessageBox.Show(
+                        "Такой конечной даты не сущевствует в списке",
+                        "Ошибка",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    return;
+                }
+                panel1.Enabled = false;
+                dataView.Enabled = false;
+                splitContainer2.Enabled = false;
+                btnReport.Enabled = false;
+                btnAgeGroup.Enabled = false;
+                btnCreateReport.Enabled = false;
+                dtpStartDate.Enabled = false;
+                dtpEndDate.Enabled = false;
 
-                    //Шапка
-                    workSheet.Cells[allRows, 1].Value = curDate.ToString("D");
-                    workSheet.Cells[allRows, 1].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-                    workSheet.Cells[allRows + 1, 1].Value = "Название группы";
-                    workSheet.Cells[allRows + 1, 1].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-                    workSheet.Cells[allRows + 1, 2].Value = "Детей всего";
-                    workSheet.Cells[allRows + 1, 2].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-                    workSheet.Cells[allRows + 1, 3].Value = "Детей было";
-                    workSheet.Cells[allRows + 1, 3].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-                    allRows++;
+                //Создание файла
+                using (ExcelPackage Excel = new ExcelPackage())
+                {
+                    //Создание листа
+                    ExcelWorksheet workSheet = Excel.Workbook.Worksheets.Add("Отчет");
 
-                    for (int i = 1; i < dtAttendance.RowCount - 1; i++)
+                    int allRows = 1;
+                    for (int d = dataView.SelectedIndex; d <= dataView.Items.Count - 1; d++)
                     {
-                        for (int j = 2; j <= dtAttendance.ColumnCount - 1; j++)
+                        DataRowView dateString = (DataRowView)dataView.Items[d];
+                        DateTime curDate = DateTime.Parse(dateString["Date"].ToString());
+
+                        //Шапка
+                        workSheet.Cells[allRows, 1].Value = curDate.ToString("D");
+                        workSheet.Cells[allRows, 1].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        workSheet.Cells[allRows + 1, 1].Value = "Название группы";
+                        workSheet.Cells[allRows + 1, 1].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        workSheet.Cells[allRows + 1, 2].Value = "Детей всего";
+                        workSheet.Cells[allRows + 1, 2].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        workSheet.Cells[allRows + 1, 3].Value = "Детей было";
+                        workSheet.Cells[allRows + 1, 3].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        allRows++;
+
+                        for (int i = 1; i < dtAttendance.RowCount - 1; i++)
                         {
-                            workSheet.Cells[allRows + i, j - 1].Value = dtAttendance.Rows[i - 1].Cells[j].Value;
-                            workSheet.Cells[allRows + i, j - 1].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                            for (int j = 2; j <= dtAttendance.ColumnCount - 1; j++)
+                            {
+                                workSheet.Cells[allRows + i, j - 1].Value = dtAttendance.Rows[i - 1].Cells[j].Value;
+                                workSheet.Cells[allRows + i, j - 1].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                            }
                         }
-                    }
-                    if (dtpEndDate.Checked == true)
-                    {
-                        DateTime lastDate = dtpEndDate.Value.Date;
                         if (lastDate == curDate)
                         {
-                            rangeDate = rangeDate + " до " + lastDate.ToString("D");
+                            rangeDate = rangeDate + " по " + lastDate.ToString("D");
                             break;
                         }
+                        allRows = allRows + dtAttendance.RowCount + 1;
+                        if (dataView.SelectedIndex != dataView.Items.Count - 1)
+                            dataView.SelectedIndex++;
                     }
-                    allRows = allRows + dtAttendance.RowCount + 1;
-                    if (dataView.SelectedIndex != dataView.Items.Count - 1)
-                        dataView.SelectedIndex++;
+
+                    //Форматирование Файла
+                    workSheet.Cells.AutoFitColumns();
+                    workSheet.Cells.Style.Font.Name = "Times New Roman";
+                    workSheet.Cells.Style.Font.Size = 12;
+
+                    //Сохранение Excel
+                    System.IO.FileInfo fi = new System.IO.FileInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Отчет о посещаймости" + rangeDate + ".xlsx");
+                    Excel.SaveAs(fi);
                 }
-
-                //Форматирование Файла
-                workSheet.Cells.AutoFitColumns();
-                workSheet.Cells.Style.Font.Name = "Times New Roman";
-                workSheet.Cells.Style.Font.Size = 12;
-
-                //Сохранение Excel
-                System.IO.FileInfo fi = new System.IO.FileInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Отчет о посещаймости" + rangeDate + ".xlsx");
-                Excel.SaveAs(fi);
+                panel1.Enabled = true;
+                dataView.Enabled = true;
+                splitContainer2.Enabled = true;
+                btnReport.Enabled = true;
+                btnAgeGroup.Enabled = true;
+                btnCreateReport.Enabled = true;
+                dtpStartDate.Enabled = true;
+                dtpEndDate.Enabled = true;
             }
-            panel1.Enabled = true;
-            dataView.Enabled = true;
-            splitContainer2.Enabled = true;
-            btnReport.Enabled = true;
-            btnAgeGroup.Enabled = true;
-            btnCreateReport.Enabled = true;
-            dtpStartDate.Enabled = true;
-            dtpEndDate.Enabled = true;
         }
     }
 }

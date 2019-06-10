@@ -61,9 +61,12 @@ namespace MDOUMakeMenu
                     if (colRows == 0)
                         colRows = Convert.ToInt32(date.Query("SELECT count(*) FROM groups"));
                     attendanceLastDate = attendanceLastDate.AddDays(1);
-                    for (int i = 1; i <= colRows; i++)
+                    if (!(attendanceLastDate.DayOfWeek == DayOfWeek.Saturday) || !(attendanceLastDate.DayOfWeek == DayOfWeek.Sunday))
                     {
-                        date.Query("INSERT INTO attendance (Date, GroupID, ActuallyChildrenAmount) VALUES ('" + attendanceLastDate.Date.ToString("yyyy-MM-dd") + "', " + i + ", " + 0 + ")");
+                        for (int i = 1; i <= colRows; i++)
+                        {
+                            date.Query("INSERT INTO attendance (Date, GroupID, ActuallyChildrenAmount) VALUES ('" + attendanceLastDate.Date.ToString("yyyy-MM-dd") + "', " + i + ", " + 0 + ")");
+                        }
                     }
                 }
                 DataBase.Close();
@@ -160,7 +163,7 @@ namespace MDOUMakeMenu
             if (open)
             {
                 InvokeDate(DataView.SelectedItem);
-                InvokeDtMenu(DataView.SelectedItem, cmbDinnerType.SelectedValue);
+                InvokeDtMenu(DataView.SelectedValue, cmbDinnerType.SelectedValue);
             }
         }
 
@@ -273,7 +276,7 @@ namespace MDOUMakeMenu
                     menu.Query("DELETE FROM menu " +
                         "WHERE Date = '" + Convert.ToDateTime(DataView.SelectedValue).ToString("yyyy-MM-dd") + "' " +
                         "AND SelectedDiinerType = " + cmbDinnerType.SelectedValue + " " +
-                        "AND dishID = "+ row["ID"].ToString());
+                        "AND dishID = " + row["ID"].ToString());
                     menu.DBTable.Rows.Remove(row);
                 }
                 catch (Exception Ex)
@@ -285,11 +288,6 @@ namespace MDOUMakeMenu
         }
 
         //====== РАБОТА С НОРМАМИ ПИТАНИЯ ======
-        private void cbChildrenControl_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnMakeMenu_Click(object sender, EventArgs e)
         {
             //Создание файла
@@ -303,6 +301,7 @@ namespace MDOUMakeMenu
                 workSheet.Cells[1, 1].Value = "Прием пищи";
                 workSheet.Cells[1, 2, 2, 2].Merge = true;
                 workSheet.Cells[1, 2].Value = "Наименование блюда";
+                workSheet.Cells[1, 2].Style.WrapText = true;
                 workSheet.Cells[1, 3, 1, 5].Merge = true;
                 workSheet.Cells[1, 3].Value = "Пищевая ценность (г)";
                 workSheet.Cells[2, 3].Value = "Б";
@@ -310,29 +309,99 @@ namespace MDOUMakeMenu
                 workSheet.Cells[2, 5].Value = "У";
                 workSheet.Cells[1, 6, 2, 6].Merge = true;
                 workSheet.Cells[1, 6].Value = "Энергетическая ценность (г)";
+                workSheet.Cells[1, 6].Style.WrapText = true;
                 using (var entireSheetRange = workSheet.Cells[1, 1, 2, 6])
                 {
                     entireSheetRange.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                     entireSheetRange.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 }
-                for (int d = DataView.SelectedIndex; d < 10; d++)
+                int[] Adreses = new int[10];
+                int i = 0;
+                int selectedIndex = DataView.SelectedIndex;
+                for (int d = DataView.SelectedIndex; d < selectedIndex + 10; d++)
                 {
+                    if ((selectedIndex + 10) > DataView.Items.Count)
+                    {
+                        MessageBox.Show("Меню должно быть создано не менее чем на 10 дней",
+                            "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
                     cmbDinnerType.SelectedIndex = 0;
                     DataRowView dateString = (DataRowView)DataView.Items[d];
+                    int startAdress = 1;
+                    int endAdress = 1;
                     workSheet.Cells[workSheet.Dimension.End.Row + (d != 0 ? 2 : 1), 1].Value = Convert.ToDateTime(dateString["date"]).ToString("D");
+                    startAdress = workSheet.Dimension.End.Row + 1;
                     for (int dinnerType = 0; dinnerType < cmbDinnerType.Items.Count; dinnerType++)
                     {
                         workSheet.Cells[workSheet.Dimension.End.Row + 1, 1].Value = DTcmb.Rows[dinnerType][1].ToString();
                         for (int row = 0; row < dtMenu.Rows.Count; row++)
                         {
                             workSheet.Cells[workSheet.Dimension.End.Row + (row != 0 ? 1 : 0), 2].Value = dtMenu.Rows[row].Cells[1].Value;
+                            if (DataBase.Connect())
+                            {
+                                workSheet.Cells[workSheet.Dimension.End.Row/* + (row != 0 ? 1 : 0)*/, 3].Value = dish.Query("SELECT SUM(`Protein,g`) FROM ingredients_composition " +
+                                                                                                                        "INNER JOIN ingredients ON ingredients_composition.ingredientID = ingredients.ID " +
+                                                                                                                        "INNER JOIN composition ON ingredients.ID = composition.IngredientID " +
+                                                                                                                        "WHERE composition.DishID = " + dtMenu.Rows[row].Cells[0].Value + "");
+                                workSheet.Cells[workSheet.Dimension.End.Row/* + (row != 0 ? 1 : 0)*/, 4].Value = dish.Query("SELECT SUM(`Fat,g`) FROM ingredients_composition " +
+                                                                                                                        "INNER JOIN ingredients ON ingredients_composition.ingredientID = ingredients.ID " +
+                                                                                                                        "INNER JOIN composition ON ingredients.ID = composition.IngredientID " +
+                                                                                                                        "WHERE composition.DishID = " + dtMenu.Rows[row].Cells[0].Value + "");
+
+                                workSheet.Cells[workSheet.Dimension.End.Row/* + (row != 0 ? 1 : 0)*/, 5].Value = dish.Query("SELECT SUM(`Carbohydrates, g`) FROM ingredients_composition " +
+                                                                                                                        "INNER JOIN ingredients ON ingredients_composition.ingredientID = ingredients.ID " +
+                                                                                                                        "INNER JOIN composition ON ingredients.ID = composition.IngredientID " +
+                                                                                                                        "WHERE composition.DishID = " + dtMenu.Rows[row].Cells[0].Value + "");
+
+                                workSheet.Cells[workSheet.Dimension.End.Row/* + (row != 0 ? 1 : 0)*/, 6].Value = dish.Query("SELECT SUM(`Energy(kkal)`) FROM ingredients_composition " +
+                                                                                                                        "INNER JOIN ingredients ON ingredients_composition.ingredientID = ingredients.ID " +
+                                                                                                                        "INNER JOIN composition ON ingredients.ID = composition.IngredientID " +
+                                                                                                                        "WHERE composition.DishID = " + dtMenu.Rows[row].Cells[0].Value + "");
+                                DataBase.Close();
+                            }
+                            else
+                            {
+                                MessageBox.Show(
+                                        "Проверте подключение к базе данных",
+                                        "Ошибка Подключения",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Error);
+                                return;
+                            }
                         }
+                        endAdress = workSheet.Dimension.End.Row;
                         if (cmbDinnerType.SelectedIndex != cmbDinnerType.Items.Count - 1)
                             cmbDinnerType.SelectedIndex++;
                     }
                     workSheet.Cells[workSheet.Dimension.End.Row + 1, 1].Value = "Итого за день";
+                    workSheet.Cells[workSheet.Dimension.End.Row, 3].Formula = "SUM(C" + startAdress + ":C" + endAdress + ")";
+                    workSheet.Cells[workSheet.Dimension.End.Row, 4].Formula = "SUM(D" + startAdress + ":D" + endAdress + ")";
+                    workSheet.Cells[workSheet.Dimension.End.Row, 5].Formula = "SUM(E" + startAdress + ":E" + endAdress + ")";
+                    workSheet.Cells[workSheet.Dimension.End.Row, 6].Formula = "SUM(F" + startAdress + ":F" + endAdress + ")";
+                    Adreses[i] = workSheet.Dimension.End.Row;
+                    i++;
+                    startAdress = 1;
+                    if (DataView.SelectedIndex != DataView.Items.Count - 1)
+                        DataView.SelectedIndex++;
                 }
+                workSheet.Cells[workSheet.Dimension.End.Row + 1, 1].Value = "Итог за весь день";
+                workSheet.Cells[workSheet.Dimension.End.Row, 3].Formula = "SUM(C" + Adreses[0] + ",C" + Adreses[1] + ",C" + Adreses[2] + ",C" + Adreses[3] + ",C" + Adreses[4] + ",C" + Adreses[5] + ",C" + Adreses[6] + ",C" + Adreses[7] + ",C" + Adreses[8] + ",C" + Adreses[9] + ")";
+                workSheet.Cells[workSheet.Dimension.End.Row, 4].Formula = "SUM(D" + Adreses[0] + ",D" + Adreses[1] + ",D" + Adreses[2] + ",D" + Adreses[3] + ",D" + Adreses[4] + ",D" + Adreses[5] + ",D" + Adreses[6] + ",D" + Adreses[7] + ",D" + Adreses[8] + ",D" + Adreses[9] + ")";
+                workSheet.Cells[workSheet.Dimension.End.Row, 5].Formula = "SUM(E" + Adreses[0] + ",E" + Adreses[1] + ",E" + Adreses[2] + ",E" + Adreses[3] + ",E" + Adreses[4] + ",E" + Adreses[5] + ",E" + Adreses[6] + ",E" + Adreses[7] + ",E" + Adreses[8] + ",E" + Adreses[9] + ")";
+                workSheet.Cells[workSheet.Dimension.End.Row, 6].Formula = "SUM(F" + Adreses[0] + ",F" + Adreses[1] + ",F" + Adreses[2] + ",F" + Adreses[3] + ",F" + Adreses[4] + ",F" + Adreses[5] + ",F" + Adreses[6] + ",F" + Adreses[7] + ",F" + Adreses[8] + ",F" + Adreses[9] + ")";
+                workSheet.Cells[workSheet.Dimension.End.Row + 1, 1].Value = "Среднее значение за день";
+                workSheet.Cells[workSheet.Dimension.End.Row, 1].Style.WrapText = true;
+                workSheet.Cells[workSheet.Dimension.End.Row, 3].Formula = "AVERAGE(C" + Adreses[0] + ",C" + Adreses[1] + ",C" + Adreses[2] + ",C" + Adreses[3] + ",C" + Adreses[4] + ",C" + Adreses[5] + ",C" + Adreses[6] + ",C" + Adreses[7] + ",C" + Adreses[8] + ",C" + Adreses[9] + ")";
+                workSheet.Cells[workSheet.Dimension.End.Row, 4].Formula = "AVERAGE(D" + Adreses[0] + ",D" + Adreses[1] + ",D" + Adreses[2] + ",D" + Adreses[3] + ",D" + Adreses[4] + ",D" + Adreses[5] + ",D" + Adreses[6] + ",D" + Adreses[7] + ",D" + Adreses[8] + ",D" + Adreses[9] + ")";
+                workSheet.Cells[workSheet.Dimension.End.Row, 5].Formula = "AVERAGE(E" + Adreses[0] + ",E" + Adreses[1] + ",E" + Adreses[2] + ",E" + Adreses[3] + ",E" + Adreses[4] + ",E" + Adreses[5] + ",E" + Adreses[6] + ",E" + Adreses[7] + ",E" + Adreses[8] + ",E" + Adreses[9] + ")";
+                workSheet.Cells[workSheet.Dimension.End.Row, 6].Formula = "AVERAGE(F" + Adreses[0] + ",F" + Adreses[1] + ",F" + Adreses[2] + ",F" + Adreses[3] + ",F" + Adreses[4] + ",F" + Adreses[5] + ",F" + Adreses[6] + ",F" + Adreses[7] + ",F" + Adreses[8] + ",F" + Adreses[9] + ")";
+                workSheet.Cells[workSheet.Dimension.End.Row + 1, 1].Value = "Содержание белков, жиров, углеводов в % от калорийности";
+                workSheet.Cells[workSheet.Dimension.End.Row, 2].Style.Numberformat.Format = "#%";
+                workSheet.Cells[workSheet.Dimension.End.Row, 2].Formula = "=((C" + (workSheet.Dimension.End.Row - 2) + "+D" + (workSheet.Dimension.End.Row - 2) + "+E" + (workSheet.Dimension.End.Row - 2) + ")/F" + (workSheet.Dimension.End.Row - 2) + ")";
+                workSheet.Cells[workSheet.Dimension.End.Row, 1].Style.WrapText = true;
                 //Форматирование Файла
+                workSheet.Workbook.CalcMode = ExcelCalcMode.Automatic;
                 workSheet.Cells.AutoFitColumns();
                 workSheet.Cells.Style.Font.Name = "Times New Roman";
                 workSheet.Cells.Style.Font.Size = 12;
@@ -348,7 +417,24 @@ namespace MDOUMakeMenu
                 //Сохранение Excel
                 System.IO.FileInfo fi = new System.IO.FileInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Меню.xlsx");
                 Excel.SaveAs(fi);
+            }
+        }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (DataBase.Connect())
+            {
+                DateTime LastDate = Convert.ToDateTime(dish.Query("SELECT date FROM attendance GROUP BY date ORDER BY date DESC"));
+                DateTime result = Convert.ToDateTime(dish.Query("SELECT date FROM attendance GROUP BY date"));
+                for (; result < LastDate;)
+                {
+                    if (result.DayOfWeek == DayOfWeek.Saturday || result.DayOfWeek == DayOfWeek.Sunday)
+                    {
+                        dish.Query("DELETE FROM attendance WHERE date = '" + result.ToString("yyyy-MM-dd") + "'");
+                    }
+                    result = result.AddDays(1);
+                }
+                DataBase.Close();
             }
         }
     }
