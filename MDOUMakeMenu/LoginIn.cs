@@ -50,7 +50,7 @@ namespace MDOUMakeMenu
                             linkIngredients.Enabled = true;
                             linkChildren.Enabled = false;
                             btnSetup.Visible = false;
-                            lblHello.Text = "Добро пожаловать Человек-меню";
+                            lblHello.Text = "Добро пожаловать Медсестра";
                             break;
                     }
                     lblLogin.Enabled = false;

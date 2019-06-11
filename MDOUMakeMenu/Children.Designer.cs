@@ -38,6 +38,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Children));
             this.panel1 = new System.Windows.Forms.Panel();
             this.linkMenu = new System.Windows.Forms.LinkLabel();
@@ -207,9 +208,9 @@
             this.dtAttendance.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.dtAttendance.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.SteelBlue;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
@@ -222,13 +223,14 @@
             this.TotalChildren,
             this.ActuallyChildren});
             this.dtAttendance.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dtAttendance.EnableHeadersVisualStyles = false;
             this.dtAttendance.GridColor = System.Drawing.Color.DarkGray;
             this.dtAttendance.Location = new System.Drawing.Point(198, 0);
             this.dtAttendance.Margin = new System.Windows.Forms.Padding(0);
             this.dtAttendance.MultiSelect = false;
             this.dtAttendance.Name = "dtAttendance";
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.SteelBlue;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
@@ -284,6 +286,14 @@
             this.dtChildren.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dtChildren.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.dtChildren.BackgroundColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.SteelBlue;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dtChildren.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dtChildren.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtChildren.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ChildrenID,
@@ -293,18 +303,19 @@
             this.FatherName});
             this.dtChildren.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtChildren.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dtChildren.EnableHeadersVisualStyles = false;
             this.dtChildren.Location = new System.Drawing.Point(0, 0);
             this.dtChildren.Margin = new System.Windows.Forms.Padding(0);
             this.dtChildren.MultiSelect = false;
             this.dtChildren.Name = "dtChildren";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dtChildren.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dtChildren.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dtChildren.RowHeadersVisible = false;
             this.dtChildren.RowHeadersWidth = 5;
             this.dtChildren.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -590,15 +601,15 @@
             this.dtNFAG.AllowUserToDeleteRows = false;
             this.dtNFAG.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dtNFAG.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.FormatProvider = new System.Globalization.CultureInfo("en-US");
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dtNFAG.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.SteelBlue;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.FormatProvider = new System.Globalization.CultureInfo("en-US");
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dtNFAG.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.dtNFAG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtNFAG.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.IAGID,
@@ -610,6 +621,7 @@
             this.Carbohydrates});
             this.dtNFAG.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtNFAG.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dtNFAG.EnableHeadersVisualStyles = false;
             this.dtNFAG.Location = new System.Drawing.Point(0, 0);
             this.dtNFAG.Margin = new System.Windows.Forms.Padding(0);
             this.dtNFAG.MultiSelect = false;
@@ -633,60 +645,60 @@
             // Energy
             // 
             this.Energy.DataPropertyName = "Energy(kkal)";
-            dataGridViewCellStyle5.Format = "N2";
-            dataGridViewCellStyle5.FormatProvider = new System.Globalization.CultureInfo("en-US");
-            dataGridViewCellStyle5.NullValue = null;
-            this.Energy.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle6.Format = "N2";
+            dataGridViewCellStyle6.FormatProvider = new System.Globalization.CultureInfo("en-US");
+            dataGridViewCellStyle6.NullValue = null;
+            this.Energy.DefaultCellStyle = dataGridViewCellStyle6;
             this.Energy.HeaderText = "Энергия(ккал.)";
             this.Energy.Name = "Energy";
             // 
             // Protein
             // 
             this.Protein.DataPropertyName = "Protein,g";
-            dataGridViewCellStyle6.Format = "N2";
-            dataGridViewCellStyle6.FormatProvider = new System.Globalization.CultureInfo("en-US");
-            dataGridViewCellStyle6.NullValue = null;
-            this.Protein.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle7.Format = "N2";
+            dataGridViewCellStyle7.FormatProvider = new System.Globalization.CultureInfo("en-US");
+            dataGridViewCellStyle7.NullValue = null;
+            this.Protein.DefaultCellStyle = dataGridViewCellStyle7;
             this.Protein.HeaderText = "Белок, г";
             this.Protein.Name = "Protein";
             // 
             // animalProtein
             // 
             this.animalProtein.DataPropertyName = "animalProtein(%)";
-            dataGridViewCellStyle7.Format = "%";
-            dataGridViewCellStyle7.FormatProvider = new System.Globalization.CultureInfo("en-US");
-            dataGridViewCellStyle7.NullValue = null;
-            this.animalProtein.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle8.Format = "%";
+            dataGridViewCellStyle8.FormatProvider = new System.Globalization.CultureInfo("en-US");
+            dataGridViewCellStyle8.NullValue = null;
+            this.animalProtein.DefaultCellStyle = dataGridViewCellStyle8;
             this.animalProtein.HeaderText = "Животный Белок в % от обычного";
             this.animalProtein.Name = "animalProtein";
             // 
             // BodyMass
             // 
             this.BodyMass.DataPropertyName = "g/kg_BodyMass";
-            dataGridViewCellStyle8.Format = "N2";
-            dataGridViewCellStyle8.FormatProvider = new System.Globalization.CultureInfo("en-US");
-            dataGridViewCellStyle8.NullValue = null;
-            this.BodyMass.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle9.Format = "N2";
+            dataGridViewCellStyle9.FormatProvider = new System.Globalization.CultureInfo("en-US");
+            dataGridViewCellStyle9.NullValue = null;
+            this.BodyMass.DefaultCellStyle = dataGridViewCellStyle9;
             this.BodyMass.HeaderText = "Г/Кг массы тела";
             this.BodyMass.Name = "BodyMass";
             // 
             // Fat
             // 
             this.Fat.DataPropertyName = "Fat,g";
-            dataGridViewCellStyle9.Format = "N2";
-            dataGridViewCellStyle9.FormatProvider = new System.Globalization.CultureInfo("en-US");
-            dataGridViewCellStyle9.NullValue = null;
-            this.Fat.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle10.Format = "N2";
+            dataGridViewCellStyle10.FormatProvider = new System.Globalization.CultureInfo("en-US");
+            dataGridViewCellStyle10.NullValue = null;
+            this.Fat.DefaultCellStyle = dataGridViewCellStyle10;
             this.Fat.HeaderText = "Жир, г";
             this.Fat.Name = "Fat";
             // 
             // Carbohydrates
             // 
             this.Carbohydrates.DataPropertyName = "Carbohydrates, g";
-            dataGridViewCellStyle10.Format = "N2";
-            dataGridViewCellStyle10.FormatProvider = new System.Globalization.CultureInfo("en-US");
-            dataGridViewCellStyle10.NullValue = null;
-            this.Carbohydrates.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle11.Format = "N2";
+            dataGridViewCellStyle11.FormatProvider = new System.Globalization.CultureInfo("en-US");
+            dataGridViewCellStyle11.NullValue = null;
+            this.Carbohydrates.DefaultCellStyle = dataGridViewCellStyle11;
             this.Carbohydrates.HeaderText = "Углеводы, г";
             this.Carbohydrates.Name = "Carbohydrates";
             // 

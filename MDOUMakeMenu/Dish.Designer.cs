@@ -452,6 +452,7 @@
             this.dtIngredientsComposition.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtIngredientsComposition_CellClick);
             this.dtIngredientsComposition.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtIngredientsComposition_CellDoubleClick);
             this.dtIngredientsComposition.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtIngredientsComposition_CellEndEdit);
+            this.dtIngredientsComposition.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dtIngredientsComposition_DataError);
             // 
             // IID
             // 
